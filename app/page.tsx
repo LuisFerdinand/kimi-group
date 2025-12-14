@@ -27,7 +27,7 @@ export default function Home() {
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              <span className="text-foreground">Welcome to</span>
+              <span className="text-neutral-400">Welcome to</span>
               <br />
               <span className="bg-linear-to-r from-gold-300 via-gold-400 to-gold-500 bg-clip-text text-transparent">
                 KINY GROUP

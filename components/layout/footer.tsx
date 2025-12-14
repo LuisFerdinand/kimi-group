@@ -11,12 +11,13 @@ export function Footer() {
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gold-600/5 rounded-full blur-3xl" />
       
-      <div className="container relative py-12 md:py-16">
+      {/* Container with max-width */}
+      <div className="container relative mx-auto max-w-300 px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3 group">
-              <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-lg shadow-gold-500/20 ring-2 ring-gold-500/20 group-hover:ring-gold-500/40 transition-all shrink-0">
+              <div className="relative w-12 h-12">
                 <Image
                   src="/logo.ico"
                   alt="KINY GROUP Logo"
@@ -25,7 +26,7 @@ export function Footer() {
                 />
               </div>
               <span className="text-xl font-bold bg-linear-to-r from-gold-300 to-gold-500 bg-clip-text text-transparent">
-                KINY GROUP
+                KINY <br />GROUP
               </span>
             </div>
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
