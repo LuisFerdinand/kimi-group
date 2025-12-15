@@ -7,7 +7,7 @@ export default function AboutPage() {
     <div className="container mx-auto px-4 py-12 md:py-24">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gold-400">About KIMI GROUP</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gold-400">About KINY GROUP</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Our journey, vision, and commitment to excellence
           </p>
