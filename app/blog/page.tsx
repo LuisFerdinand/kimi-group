@@ -52,7 +52,9 @@ export default function BlogPage() {
     <div className="container mx-auto px-4 py-12 md:py-24">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gold-400">Blog</h1>
+          <h1 className="text-5xl md:text-7xl font-black mb-6 bg-linear-to-r from-(--color-gold-200) via-(--color-gold-400) to-(--color-gold-200) bg-clip-text text-transparent animate-linear">
+            Blog
+          </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Insights, news, and updates from KIMI GROUP and our brands
           </p>
