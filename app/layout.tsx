@@ -82,9 +82,11 @@ export default function RootLayout({
               </div>
             </div>
 
+            {/* Header - Positioned absolutely over content */}
             <Header />
             
-            <main className="flex-1 relative">
+            {/* Main content - No top padding initially, content goes under header */}
+            <main className="flex-1 relative -mt-16">  
               {children}
             </main>
             

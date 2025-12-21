@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Moon, Sun } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 
@@ -19,17 +19,31 @@ const navLinks = [
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-xl supports-backdrop-filter:bg-background/80">
+    <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled 
+          ? "border-b bg-background/95 backdrop-blur-xl supports-backdrop-filter:bg-background/80 shadow-sm" 
+          : "bg-transparent"
+      }`}>
       {/* Subtle linear overlay */}
-      <div className="absolute inset-0 bg-linear-to-r from-gold-500/5 via-transparent to-gold-500/5 pointer-events-none" />
+      {/* <div className="absolute inset-0 bg-linear-to-r from-gold-500/5 via-transparent to-gold-500/5 pointer-events-none" /> */}
       
       {/* Container with max-width */}
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -127,7 +141,7 @@ export function Header() {
         </div>
       </div>
       
-      {/* Mobile Menu - Now Absolute */}
+      {/* Mobile Menu - Now Absolute with solid background */}
       {isMenuOpen && (
         <div className="absolute top-full left-0 right-0 md:hidden border-t bg-background/95 backdrop-blur-xl shadow-lg">
           <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

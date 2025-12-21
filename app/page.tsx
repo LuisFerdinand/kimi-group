@@ -8,7 +8,8 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section with Parallax Background */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      {/* Hero Section with Parallax Background */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Parallax Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-fixed"
@@ -24,15 +25,15 @@ export default function Home() {
         <div className="container relative mx-auto px-4 md:px-6 z-10">
           <div className="max-w-4xl mx-auto text-center">
             {/* Premium Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-gold-500)]/10 border border-[var(--color-gold-500)]/20 backdrop-blur-sm mb-8">
-              <Sparkles className="h-4 w-4 text-[var(--color-gold-400)]" />
-              <span className="text-sm font-medium text-[var(--color-gold-300)]">Premium Business Solutions</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 backdrop-blur-sm mb-8">
+              <Sparkles className="h-4 w-4 text-(--color-gold-400)" />
+              <span className="text-sm font-medium text-(--color-gold-300)">Premium Business Solutions</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
               <span className="text-white/70">Welcome to</span>
               <br />
-              <span className="bg-linear-to-r from-[var(--color-gold-300)] via-[var(--color-gold-500)] to-[var(--color-gold-300)] bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-(--color-gold-300) via-(--color-gold-500) to-(--color-gold-300) bg-clip-text text-transparent">
                 KINY GROUP
               </span>
             </h1>
@@ -42,13 +43,13 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button asChild size="lg" className="group bg-linear-to-r from-[var(--color-gold-500)] to-[var(--color-gold-600)] hover:from-[var(--color-gold-600)] hover:to-[var(--color-gold-700)] text-white font-semibold px-8 h-14 shadow-lg shadow-[var(--color-gold-500)]/20">
+              <Button asChild size="lg" className="group bg-linear-to-r from-(--color-gold-500) to-(--color-gold-600) hover:from-(--color-gold-600) hover:to-(--color-gold-700) text-white font-semibold px-8 h-14 shadow-lg shadow-(--color-gold-500)/20">
                 <Link href="/brand">
                   Explore Our Brands 
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" asChild className="h-14 px-8 border-[var(--color-gold-500)]/30 hover:bg-[var(--color-gold-500)]/10 hover:border-[var(--color-gold-500)]/50 text-white">
+              <Button variant="outline" size="lg" asChild className="h-14 px-8">
                 <Link href="/about">Discover More</Link>
               </Button>
             </div>
@@ -56,15 +57,15 @@ export default function Home() {
             {/* Stats Bar */}
             <div className="grid grid-cols-3 gap-8 mt-20 max-w-3xl mx-auto">
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-[var(--color-gold-400)] mb-2">10+</div>
+                <div className="text-3xl md:text-4xl font-bold text-(--color-gold-400) mb-2">10+</div>
                 <div className="text-sm text-white/70">Years Experience</div>
               </div>
-              <div className="text-center border-x border-[var(--color-gold-500)]/20">
-                <div className="text-3xl md:text-4xl font-bold text-[var(--color-gold-400)] mb-2">500+</div>
+              <div className="text-center border-x border-gold-500/20">
+                <div className="text-3xl md:text-4xl font-bold text-(--color-gold-400) mb-2">500+</div>
                 <div className="text-sm text-white/70">Happy Clients</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-[var(--color-gold-400)] mb-2">15+</div>
+                <div className="text-3xl md:text-4xl font-bold text-(--color-gold-400) mb-2">15+</div>
                 <div className="text-sm text-white/70">Brands</div>
               </div>
             </div>

@@ -9,16 +9,21 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
         destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+          "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // New premium variants using your gold and navy colors
+        gold: "bg-gold-600 text-navy-900 hover:bg-gold-500 shadow-md dark:bg-gold-500 dark:hover:bg-gold-400 dark:text-navy-900",
+        "gold-outline": "border border-gold-600 text-gold-600 hover:bg-gold-50 dark:border-gold-400 dark:text-gold-400 dark:hover:bg-gold-900/20",
+        navy: "bg-navy-700 text-gold-200 hover:bg-navy-600 shadow-md dark:bg-navy-600 dark:hover:bg-navy-500",
+        "navy-outline": "border border-navy-700 text-navy-700 hover:bg-navy-50 dark:border-navy-400 dark:text-navy-400 dark:hover:bg-navy-900/20",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
