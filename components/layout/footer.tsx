@@ -1,4 +1,3 @@
-// Path: components/layout/footer.tsx
 import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
@@ -16,21 +15,18 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3 group">
-              <div className="relative w-12 h-12">
+            <div className="flex items-center group">
+              <div className="relative w-32 h-12">
                 <Image
-                  src="/logo.ico"
+                  src="/kiny-logo/gold.png"
                   alt="KINY GROUP Logo"
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
-              <span className="text-xl font-bold bg-linear-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">
-                KINY <br />GROUP
-              </span>
             </div>
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
-              Transforming industries through innovation, excellence, and unwavering commitment to quality across our diverse portfolio.
+              Mentransformasikan industri melalui inovasi, keunggulan, dan komitmen tak kenal lelah terhadap kualitas di seluruh portofolio kami yang beragam.
             </p>
             <div className="flex space-x-3">
               <Link 
@@ -59,24 +55,24 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-5">
-            <h4 className="text-sm font-semibold text-primary uppercase tracking-wider">Quick Links</h4>
+            <h4 className="text-sm font-semibold text-primary uppercase tracking-wider">Tautan Cepat</h4>
             <ul className="space-y-3 text-sm">
               <li>
                 <Link href="/" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 mr-3 group-hover:bg-primary transition-colors" />
-                  Home
+                  Beranda
                 </Link>
               </li>
               <li>
                 <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 mr-3 group-hover:bg-primary transition-colors" />
-                  About Us
+                  Tentang Kami
                 </Link>
               </li>
               <li>
                 <Link href="/brand" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 mr-3 group-hover:bg-primary transition-colors" />
-                  Our Brands
+                  Merek Kami
                 </Link>
               </li>
               <li>
@@ -88,7 +84,7 @@ export function Footer() {
               <li>
                 <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 mr-3 group-hover:bg-primary transition-colors" />
-                  Contact
+                  Kontak
                 </Link>
               </li>
             </ul>
@@ -96,30 +92,30 @@ export function Footer() {
 
           {/* Our Brands */}
           <div className="space-y-5">
-            <h4 className="text-sm font-semibold text-primary uppercase tracking-wider">Our Brands</h4>
+            <h4 className="text-sm font-semibold text-primary uppercase tracking-wider">Merek Kami</h4>
             <ul className="space-y-3 text-sm">
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 mr-3 group-hover:bg-primary transition-colors" />
-                  Premium Solutions
+                  Solusi Premium
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 mr-3 group-hover:bg-primary transition-colors" />
-                  Elite Services
+                  Layanan Elite
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 mr-3 group-hover:bg-primary transition-colors" />
-                  Global Ventures
+                  Ventur Global
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-primary transition-colors inline-flex items-center group">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50 mr-3 group-hover:bg-primary transition-colors" />
-                  Innovation Hub
+                  Pusat Inovasi
                 </Link>
               </li>
             </ul>
@@ -127,25 +123,25 @@ export function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-5">
-            <h4 className="text-sm font-semibold text-primary uppercase tracking-wider">Contact Us</h4>
+            <h4 className="text-sm font-semibold text-primary uppercase tracking-wider">Kontak Kami</h4>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start space-x-3 group">
                 <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
                   <MapPin className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-muted-foreground pt-1.5">123 Business Street, City, Country</span>
+                <span className="text-muted-foreground pt-1.5">Jl. Tebet Timur Dalam II No.38B, Tebet, Jakarta Selatan 12820</span>
               </li>
               <li className="flex items-start space-x-3 group">
                 <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-muted-foreground pt-1.5">+1 (555) 123-4567</span>
+                <span className="text-muted-foreground pt-1.5">+6221 837877 35 / 36</span>
               </li>
               <li className="flex items-start space-x-3 group">
                 <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
                   <Mail className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-muted-foreground pt-1.5">info@kinygroup.com</span>
+                <span className="text-muted-foreground pt-1.5">info@kcifoundation.org</span>
               </li>
             </ul>
           </div>
@@ -155,17 +151,17 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              &copy; {new Date().getFullYear()} KINY GROUP. All rights reserved.
+              &copy; {new Date().getFullYear()} KINY GROUP. Hak cipta dilindungi undang-undang.
             </p>
             <div className="flex gap-6 text-sm">
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                Privacy Policy
+                Kebijakan Privasi
               </Link>
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                Terms of Service
+                Syarat dan Ketentuan
               </Link>
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                Cookie Policy
+                Kebijakan Cookie
               </Link>
             </div>
           </div>

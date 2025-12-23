@@ -50,19 +50,16 @@ export function Header() {
         <div className="relative flex h-16 items-center">
           {/* Desktop Navigation */}
           <div className="mr-4 hidden md:flex">
-            <Link href="/" className="mr-8 flex items-center space-x-3 group">
-              <div className="relative w-10 h-10">
+            <Link href="/" className="mr-8 flex items-center group">
+              <div className="relative w-24 h-12">
                 <Image
-                  src="/logo.ico"
+                  src="/kiny-logo/gold.png"
                   alt="KINY GROUP Logo"
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   priority
                 />
               </div>
-              <span className="font-bold text-lg leading-tight bg-linear-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent group-hover:from-gold-300 group-hover:to-gold-500 transition-all">
-                KINY <br /> GROUP
-              </span>
             </Link>
             <nav className="flex items-center space-x-8 text-sm font-medium">
               {navLinks.map((link) => (
@@ -101,19 +98,16 @@ export function Header() {
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
             {/* Mobile Logo */}
             <div className="w-full flex-1 md:w-auto md:flex-none">
-              <Link href="/" className="flex items-center space-x-2 md:hidden group">
-                <div className="relative w-8 h-8">
+              <Link href="/" className="flex items-center md:hidden group">
+                <div className="relative w-20 h-12">
                   <Image
-                    src="/logo.ico"
+                    src="/kiny-logo/gold.png"
                     alt="KINY GROUP Logo"
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     priority
                   />
                 </div>
-                <span className="font-bold bg-linear-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent leading-tight">
-                  KINY <br />GROUP
-                </span>
               </Link>
             </div>
             

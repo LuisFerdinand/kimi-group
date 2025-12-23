@@ -1,4 +1,4 @@
-// app/brand/[id]/page.tsx
+// app/division/[id]/page.tsx
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,37 +8,37 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
-const brandsData = {
-  "1": {
-    name: "Tech Innovations",
-    tagline: "Future-Ready Technology",
-    description: "Tech Innovations is at the forefront of digital transformation, leveraging cutting-edge AI, machine learning, and cloud technologies to revolutionize how businesses operate. Our team of expert engineers and data scientists work tirelessly to create solutions that not only meet today's challenges but anticipate tomorrow's opportunities.",
-    fullDescription: "Founded on the principle that technology should empower, not complicate, we've built a reputation for delivering elegant solutions to complex problems. From Fortune 500 companies to innovative startups, our clients trust us to turn their digital vision into reality.",
-    coverage: "Global",
-    delivery: "Cloud-Based & On-Site",
+const divisionsData = {
+  "kiny-cultura": {
+    name: "Kiny Cultura Indonesia",
+    tagline: "Cross-Cultural Understanding",
+    description: "Promoting cross-cultural understanding through folk dance competitions, immersion schools, and leadership programs for children from elementary to junior high school.",
+    fullDescription: "Kiny Cultura Indonesia is dedicated to fostering global citizenship through cultural exchange and education. Our programs provide children with unique opportunities to experience diverse cultures, develop leadership skills, and gain international perspectives that will shape their future.",
+    coverage: "150+ Countries",
+    delivery: "In-Person & Virtual Programs",
     services: [
-      { name: "AI & Machine Learning", description: "Advanced AI models and predictive analytics tailored to your business needs" },
-      { name: "Cloud Infrastructure", description: "Scalable, secure cloud architecture and migration services" },
-      { name: "Custom Software Development", description: "Bespoke applications built with cutting-edge technology stacks" },
-      { name: "Cybersecurity Solutions", description: "Comprehensive security frameworks to protect your digital assets" },
+      { name: "School Immersion Program", description: "Cultural exchange programs for students to experience different educational systems" },
+      { name: "Cross Culture Program", description: "Interactive workshops celebrating diversity and global citizenship" },
+      { name: "International Dance Competition", description: "Showcasing traditional and contemporary dance forms from around the world" },
+      { name: "Leadership Program", description: "Developing young leaders with global perspectives and cultural awareness" },
     ],
     achievements: [
-      "Deployed AI solutions for 300+ global enterprises",
-      "99.99% uptime across all cloud infrastructure",
-      "ISO 27001 certified security standards",
-      "Winner of Tech Innovation Award 2023",
+      "Certificates recognized in 150 countries from CID UNESCO",
+      "Partnerships with 50+ schools across Indonesia",
+      "Successfully engaged 1500+ students in cultural programs",
+      "Collaborative programs with government and UNESCO",
     ],
     stats: [
-      { label: "Active Clients", value: "500+" },
-      { label: "Projects Delivered", value: "1,200+" },
-      { label: "Team Members", value: "150+" },
-      { label: "Countries Served", value: "45+" },
+      { label: "Countries Recognition", value: "150+" },
+      { label: "Partner Schools", value: "50+" },
+      { label: "Students Engaged", value: "1500+" },
+      { label: "Festivals Worldwide", value: "100+" },
     ],
     team: [
-      { name: "Dr. Sarah Chen", position: "Chief Technology Officer" },
-      { name: "Marcus Rodriguez", position: "Head of AI Research" },
-      { name: "Aisha Patel", position: "VP of Cloud Solutions" },
-      { name: "James Kim", position: "Lead Security Architect" },
+      { name: "Dr. Anisa Rahman", position: "Director of Cultural Programs" },
+      { name: "Budi Santoso", position: "Head of Educational Partnerships" },
+      { name: "Sarah Wijaya", position: "International Relations Coordinator" },
+      { name: "Ahmad Fadli", position: "Program Development Manager" },
     ],
     theme: {
       primary: "from-[var(--color-gold-500)] to-[var(--color-gold-400)]",
@@ -51,36 +51,36 @@ const brandsData = {
       gradient: "bg-gradient-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-400)]/20"
     }
   },
-  "2": {
-    name: "Green Earth Logistics",
-    tagline: "Sustainable Supply Chain",
-    description: "Green Earth Logistics is pioneering the future of sustainable transportation and supply chain management. We've reimagined logistics from the ground up, creating systems that deliver exceptional service while dramatically reducing environmental impact through our carbon-neutral fleet and innovative packaging solutions.",
-    fullDescription: "Every package we deliver is a statement about the future we're building. Our electric and hybrid fleet, coupled with AI-optimized routing, ensures your goods arrive on time while protecting the planet for future generations.",
-    coverage: "International",
-    delivery: "Eco-Fleet & Smart Routing",
+  "kiny-education": {
+    name: "Kiny Education & Training",
+    tagline: "Professional Development",
+    description: "Providing development programs for university students and executives in collaboration with leading universities, offering internationally recognized certifications.",
+    fullDescription: "Kiny Education & Training bridges the gap between academic knowledge and industry requirements. Our comprehensive programs are designed in collaboration with top universities worldwide, ensuring that participants gain both theoretical understanding and practical skills that are immediately applicable in their professional careers.",
+    coverage: "Global Network",
+    delivery: "In-Person, Online & Blended Learning",
     services: [
-      { name: "Carbon-Neutral Shipping", description: "100% offset emissions with renewable energy credits" },
-      { name: "Sustainable Packaging", description: "Biodegradable and recycled materials for all shipments" },
-      { name: "Smart Logistics Platform", description: "AI-powered route optimization reducing fuel consumption" },
-      { name: "Green Warehousing", description: "Solar-powered facilities with zero-waste operations" },
+      { name: "Professional Development Courses", description: "Specialized courses in administration, finance, policy, and more" },
+      { name: "Workshops and Seminars", description: "Interactive sessions on governance issues and technological advancements" },
+      { name: "Certifications and Diplomas", description: "Accredited programs providing recognized credentials" },
+      { name: "Executive Training", description: "Tailored programs for organizational leadership and management" },
     ],
     achievements: [
-      "Reduced carbon emissions by 85% since 2020",
-      "Delivered 5 million packages with zero carbon footprint",
-      "First logistics company with B Corp certification",
-      "Environmental Excellence Award 2023",
+      "Partnerships with 30+ leading universities globally",
+      "5000+ professionals trained and certified",
+      "Custom programs for 100+ corporate clients",
+      "98% satisfaction rate from program participants",
     ],
     stats: [
-      { label: "Packages Delivered", value: "5M+" },
-      { label: "Carbon Offset (tons)", value: "50K+" },
-      { label: "Electric Vehicles", value: "500+" },
-      { label: "Countries", value: "30+" },
+      { label: "University Partners", value: "30+" },
+      { label: "Programs Offered", value: "50+" },
+      { label: "Professionals Trained", value: "5000+" },
+      { label: "Certifications", value: "25+" },
     ],
     team: [
-      { name: "Emma Greenfield", position: "CEO & Founder" },
-      { name: "Lars Bergström", position: "VP of Operations" },
-      { name: "Kenji Tanaka", position: "Head of Sustainability" },
-      { name: "Sofia Martinez", position: "Chief Logistics Officer" },
+      { name: "Prof. Dr. Siti Nurhaliza", position: "Academic Director" },
+      { name: "Michael Chen", position: "Head of Corporate Training" },
+      { name: "Dr. Rizki Ahmad", position: "Program Development Lead" },
+      { name: "Lisa Permata", position: "International Partnerships Manager" },
     ],
     theme: {
       primary: "from-[var(--color-gold-600)] to-[var(--color-gold-500)]",
@@ -93,36 +93,36 @@ const brandsData = {
       gradient: "bg-gradient-to-br from-[var(--color-gold-600)]/20 to-[var(--color-gold-500)]/20"
     }
   },
-  "3": {
-    name: "Royal Finance Group",
-    tagline: "Wealth Management Excellence",
-    description: "Royal Finance Group offers sophisticated financial services for high-net-worth individuals and institutions. Our heritage of excellence spans decades, combining time-tested wealth preservation strategies with cutting-edge fintech solutions to grow and protect your assets across generations.",
-    fullDescription: "With a client-centric approach and deep market expertise, we provide personalized financial strategies that align with your unique goals, risk tolerance, and legacy aspirations. Our exclusive private banking services ensure discretion, expertise, and unparalleled service.",
-    coverage: "Major Financial Hubs",
-    delivery: "Private Banking & Digital",
+  "kiny-tours": {
+    name: "Kiny Tours & Travel",
+    tagline: "Personalized Travel Experiences",
+    description: "Offering personalized private tour experiences that enrich travelers' understanding of diverse cultures across 7 continents.",
+    fullDescription: "Kiny Tours & Travel transforms ordinary trips into extraordinary journeys of discovery. Our personalized approach ensures that each travel experience is tailored to the individual's interests, providing not just sightseeing but deep cultural immersion and meaningful connections with local communities.",
+    coverage: "167 Countries",
+    delivery: "Private Tours & Custom Itineraries",
     services: [
-      { name: "Private Wealth Management", description: "Bespoke investment strategies for ultra-high-net-worth clients" },
-      { name: "Investment Banking", description: "Corporate finance, M&A advisory, and capital markets expertise" },
-      { name: "Trust & Estate Planning", description: "Multi-generational wealth transfer and tax optimization" },
-      { name: "Alternative Investments", description: "Exclusive access to private equity, hedge funds, and real assets" },
+      { name: "MICE Services", description: "Meetings, Incentives, Conferences, and Exhibitions planning" },
+      { name: "Tailormade Private Tours", description: "Personalized itineraries designed around your interests" },
+      { name: "Hotel & Flight Bookings", description: "Premium accommodation and transportation arrangements" },
+      { name: "Cultural Immersion Experiences", description: "Authentic local experiences guided by certified experts" },
     ],
     achievements: [
-      "$50 billion in assets under management",
-      "Serving 2,000+ high-net-worth families",
-      "25+ years of wealth management excellence",
-      "Top-rated private banking services",
+      "150+ English-speaking drivers across 167 countries",
+      "Network spanning 7 continents with restaurants, hotels, and venues",
+      "Partnerships with 30+ schools and establishments in Jakarta",
+      "Exclusive cooperation with Conseil International de la Danse",
     ],
     stats: [
-      { label: "Assets Under Management", value: "$50B+" },
-      { label: "Client Families", value: "2,000+" },
-      { label: "Years of Excellence", value: "25+" },
-      { label: "Global Offices", value: "15" },
+      { label: "Countries Covered", value: "167" },
+      { label: "English-Speaking Guides", value: "150+" },
+      { label: "Partner Establishments", value: "30+" },
+      { label: "Continents Served", value: "7" },
     ],
     team: [
-      { name: "Victoria Sterling", position: "Managing Partner" },
-      { name: "Alexander Rothschild", position: "Chief Investment Officer" },
-      { name: "Priya Sharma", position: "Head of Private Banking" },
-      { name: "Thomas Ashford", position: "Director of Estate Planning" },
+      { name: "Andi Pratama", position: "CEO & Founder" },
+      { name: "Diana Kusuma", position: "Head of International Operations" },
+      { name: "Raj Patel", position: "Director of Custom Tours" },
+      { name: "Maria Santos", position: "Client Relations Manager" },
     ],
     theme: {
       primary: "from-[var(--color-gold-700)] to-[var(--color-gold-600)]",
@@ -135,36 +135,36 @@ const brandsData = {
       gradient: "bg-gradient-to-br from-[var(--color-gold-700)]/20 to-[var(--color-gold-600)]/20"
     }
   },
-  "4": {
-    name: "Vitality Healthcare",
-    tagline: "Caring for Life",
-    description: "Vitality Healthcare is redefining modern medicine by combining compassionate care with advanced medical technology. Our integrated network of specialists, state-of-the-art facilities, and innovative telemedicine platform ensures that quality healthcare is accessible, personalized, and effective.",
-    fullDescription: "From preventive care to specialized treatments, we take a holistic approach to health and wellness. Our patient-first philosophy means every decision is made with your wellbeing at the center, supported by the latest medical research and technology.",
-    coverage: "Regional Network",
-    delivery: "Multi-Channel Care",
+  "kinergy-project": {
+    name: "Kinergy Project",
+    tagline: "Dream Beyond Limit",
+    description: "Delivering seamless event planning and management services that celebrate creativity and collaboration with bold execution and cultural resonance.",
+    fullDescription: "Kinergy Project is the creative powerhouse that transforms imagination into action. We specialize in creating high-impact experiences that connect communities, brands, and ideas through bold execution and cultural resonance. From international events to global branding campaigns, we make dreams a reality.",
+    coverage: "Nationwide & International",
+    delivery: "Full-Service Event Management",
     services: [
-      { name: "Telemedicine Platform", description: "24/7 virtual consultations with board-certified physicians" },
-      { name: "Specialized Medical Care", description: "Centers of excellence in cardiology, oncology, and orthopedics" },
-      { name: "Wellness Programs", description: "Preventive care, nutrition counseling, and fitness programs" },
-      { name: "Emergency Services", description: "Rapid response emergency care with advanced trauma facilities" },
+      { name: "MICE Events", description: "Comprehensive management of Meetings, Incentives, Conferences, and Exhibitions" },
+      { name: "International Events", description: "Cross-cultural events that celebrate diversity and global connections" },
+      { name: "Global Branding", description: "Creative campaigns that elevate brand presence across markets" },
+      { name: "Creative Collaborations", description: "Partnerships that bring innovative ideas to life" },
     ],
     achievements: [
-      "Treated over 1 million patients annually",
-      "98% patient satisfaction rating",
-      "JCI-accredited facilities",
-      "Healthcare Innovation Award 2023",
+      "200+ events organized with environmental sustainability practices",
+      "Successfully managed events with 200+ volunteers per event",
+      "Synergized with 6000+ UMKM (micro, small, and medium enterprises)",
+      "Implemented eco-friendly practices and waste management at all events",
     ],
     stats: [
-      { label: "Patients Served", value: "1M+" },
-      { label: "Medical Specialists", value: "500+" },
-      { label: "Healthcare Facilities", value: "25" },
-      { label: "Telemedicine Consultations", value: "100K+" },
+      { label: "Events Organized", value: "200+" },
+      { label: "Volunteers per Event", value: "200+" },
+      { label: "UMKM Partners", value: "6000+" },
+      { label: "Countries Reached", value: "25+" },
     ],
     team: [
-      { name: "Dr. Michael Chen", position: "Chief Medical Officer" },
-      { name: "Dr. Rachel Adams", position: "Head of Telemedicine" },
-      { name: "Nurse Director Lisa Wong", position: "VP of Patient Services" },
-      { name: "Dr. Omar Hassan", position: "Director of Specialized Care" },
+      { name: "Rizky Hakim", position: "Creative Director" },
+      { name: "Nina Widodo", position: "Head of Event Operations" },
+      { name: "David Tanaka", position: "Brand Strategy Lead" },
+      { name: "Siti Aminah", position: "Sustainability Coordinator" },
     ],
     theme: {
       primary: "from-[var(--color-gold-400)] to-[var(--color-gold-300)]",
@@ -177,36 +177,36 @@ const brandsData = {
       gradient: "bg-gradient-to-br from-[var(--color-gold-400)]/20 to-[var(--color-gold-300)]/20"
     }
   },
-  "5": {
-    name: "Luxe Properties",
-    tagline: "Defining Premium Living",
-    description: "Luxe Properties represents the pinnacle of luxury real estate development and property management. We create architectural masterpieces in the world's most prestigious locations, offering discerning clients properties that are not just homes, but legacies crafted with impeccable attention to detail and uncompromising quality.",
-    fullDescription: "Each Luxe property is a testament to exquisite design, innovative engineering, and sustainable luxury. From penthouses with panoramic city views to oceanfront estates, we curate living experiences that exceed the highest expectations.",
-    coverage: "Metropolitan Areas",
-    delivery: "Full-Service Concierge",
+  "kiny-soul": {
+    name: "Kiny & Soul",
+    tagline: "Spiritual Journeys",
+    description: "Providing comfortable, flexible, and private services for Umrah and spiritual journeys with personalized itineraries that honor your spiritual path.",
+    fullDescription: "Kiny & Soul understands that spiritual journeys are deeply personal and should not be constrained by rigid schedules. Our private Umrah services are designed around your spiritual readiness, not fixed tour dates. We believe that 'JADWALNYA ALLAH, BUKAN TRAVEL AGENT' - your journey begins when your heart is called.",
+    coverage: "Sacred Destinations",
+    delivery: "Private Spiritual Journeys",
     services: [
-      { name: "Luxury Development", description: "Exclusive residential and commercial properties in prime locations" },
-      { name: "Property Management", description: "White-glove service for property owners and residents" },
-      { name: "Investment Advisory", description: "Real estate investment strategies for high-return portfolios" },
-      { name: "Interior Design", description: "Bespoke interior design services from world-renowned designers" },
+      { name: "Private Umrah Trips", description: "Individually tailored journeys not bound by fixed group departures" },
+      { name: "Flexible Departure Dates", description: "Travel when you're spiritually ready, not on a rigid schedule" },
+      { name: "Personalized Itineraries", description: "Custom spiritual journeys that honor your unique path" },
+      { name: "Premium Assistance", description: "Comprehensive support from pre-departure to destination" },
     ],
     achievements: [
-      "$5 billion in luxury properties developed",
-      "50+ award-winning developments",
-      "Managed 200+ premium properties",
-      "Best Luxury Developer 2023",
+      "500+ personalized spiritual journeys completed",
+      "98% client satisfaction rate",
+      "Recognized for exceptional spiritual guidance services",
+      "Pioneered flexible departure model for spiritual travel",
     ],
     stats: [
-      { label: "Properties Developed", value: "100+" },
-      { label: "Total Value", value: "$5B+" },
-      { label: "Premium Units", value: "200+" },
-      { label: "Cities", value: "12" },
+      { label: "Journeys Completed", value: "500+" },
+      { label: "Sacred Destinations", value: "15+" },
+      { label: "Spiritual Guides", value: "50+" },
+      { label: "Client Satisfaction", value: "98%" },
     ],
     team: [
-      { name: "Isabella Romano", position: "CEO & Master Developer" },
-      { name: "David Thornton", position: "Chief Architect" },
-      { name: "Yasmin Al-Farsi", position: "VP of Property Management" },
-      { name: "Laurent Dubois", position: "Head of Design" },
+      { name: "Ustadz Ahmad Yani", position: "Spiritual Director" },
+      { name: "Fatimah Abdullah", position: "Head of Pilgrim Services" },
+      { name: "Ibrahim Hassan", position: "Destination Specialist" },
+      { name: "Aisha Rahman", position: "Client Care Coordinator" },
     ],
     theme: {
       primary: "from-[var(--color-gold-300)] to-[var(--color-gold-200)]",
@@ -219,36 +219,36 @@ const brandsData = {
       gradient: "bg-gradient-to-br from-[var(--color-gold-300)]/20 to-[var(--color-gold-200)]/20"
     }
   },
-  "6": {
-    name: "Edu Excellence",
-    tagline: "Learning Without Limits",
-    description: "Edu Excellence is transforming education through innovative learning technology and personalized educational experiences. Our comprehensive platform combines AI-driven adaptive learning, expert instructors, and engaging content to make world-class education accessible to learners of all ages and backgrounds.",
-    fullDescription: "We believe education is the key to unlocking human potential. Our mission is to democratize learning, providing tools and resources that empower individuals to achieve their goals, whether advancing their careers, learning new skills, or pursuing lifelong passions.",
-    coverage: "Worldwide Online",
-    delivery: "Digital Learning Platform",
+  "kiny-xplore": {
+    name: "Kiny Xplore",
+    tagline: "International Sports Development",
+    description: "A division dedicated to the advancement of sports on an international scale, addressing both international competitions and skill development training programs.",
+    fullDescription: "Kiny Xplore is committed to elevating sports performance and creating opportunities for athletes to compete on the global stage. We facilitate international competitions, provide world-class training programs, and create networking opportunities that connect athletes with coaches, teams, and sports organizations worldwide.",
+    coverage: "International",
+    delivery: "Training & Competition Management",
     services: [
-      { name: "E-Learning Platform", description: "AI-powered personalized learning paths across 1000+ courses" },
-      { name: "Corporate Training", description: "Custom enterprise learning solutions and skill development" },
-      { name: "Certification Programs", description: "Industry-recognized certifications in technology, business, and more" },
-      { name: "Live Virtual Classrooms", description: "Interactive sessions with expert instructors worldwide" },
+      { name: "International Competitions", description: "Facilitating participation in global sports events" },
+      { name: "Skill Enhancement Training", description: "Specialized programs to improve athletic performance" },
+      { name: "Sports Workshops", description: "Interactive sessions with expert coaches and athletes" },
+      { name: "Cross-Cultural Sports Exchange", description: "Programs that connect athletes across borders" },
     ],
     achievements: [
-      "5 million+ active learners globally",
-      "95% course completion rate",
-      "Partnerships with 500+ universities",
-      "EdTech Innovation Award 2023",
+      "Facilitated 50+ international competitions",
+      "Partnerships with 50+ sports clubs worldwide",
+      "Trained 1000+ athletes for international events",
+      "Organized workshops with world-class coaches",
     ],
     stats: [
-      { label: "Active Learners", value: "5M+" },
-      { label: "Courses Available", value: "1,000+" },
-      { label: "University Partners", value: "500+" },
-      { label: "Countries Reached", value: "150+" },
+      { label: "Competitions", value: "50+" },
+      { label: "Partner Clubs", value: "50+" },
+      { label: "Athletes Trained", value: "1000+" },
+      { label: "Countries Reached", value: "30+" },
     ],
     team: [
-      { name: "Prof. David Kumar", position: "Chief Academic Officer" },
-      { name: "Elena Petrova", position: "VP of Product Innovation" },
-      { name: "Marcus Thompson", position: "Head of Corporate Training" },
-      { name: "Yuki Nakamura", position: "Director of Content" },
+      { name: "Ricky Subagja", position: "Director of Sports Development" },
+      { name: "Maria Sharapova", position: "Head of International Relations" },
+      { name: "John Smith", position: "Training Program Coordinator" },
+      { name: "Siti Nurjanah", position: "Athlete Development Manager" },
     ],
     theme: {
       primary: "from-[var(--color-gold-200)] to-[var(--color-gold-100)]",
@@ -260,63 +260,21 @@ const brandsData = {
       hover: "hover:bg-[var(--color-gold-200)]/10",
       gradient: "bg-gradient-to-br from-[var(--color-gold-200)]/20 to-[var(--color-gold-100)]/20"
     }
-  },
-  "7": {
-    name: "Gourmet Ventures",
-    tagline: "Culinary Excellence",
-    description: "Gourmet Ventures brings together the finest culinary experiences under one distinguished brand. From Michelin-starred restaurants to innovative catering services, we celebrate the art of gastronomy with exceptional ingredients, masterful preparation, and unforgettable dining experiences that delight all the senses.",
-    fullDescription: "Our portfolio of restaurants and hospitality services represents a passion for perfection. Each venue tells a unique story through food, ambiance, and service, creating memories that linger long after the last course is served.",
-    coverage: "Major Cities",
-    delivery: "Dine-In & Premium Catering",
-    services: [
-      { name: "Fine Dining Restaurants", description: "Award-winning establishments featuring world-renowned chefs" },
-      { name: "Corporate Catering", description: "Bespoke culinary experiences for events and functions" },
-      { name: "Hospitality Management", description: "Full-service management for hotels and venues" },
-      { name: "Culinary Experiences", description: "Private chef services and cooking classes with master chefs" },
-    ],
-    achievements: [
-      "5 Michelin stars across our restaurants",
-      "Served 2 million+ guests annually",
-      "Winner of Best Restaurant Group 2023",
-      "30+ years of culinary excellence",
-    ],
-    stats: [
-      { label: "Restaurant Locations", value: "25" },
-      { label: "Michelin Stars", value: "5" },
-      { label: "Annual Guests", value: "2M+" },
-      { label: "Master Chefs", value: "50+" },
-    ],
-    team: [
-      { name: "Chef Pierre Laurent", position: "Executive Culinary Director" },
-      { name: "Maria Gonzalez", position: "VP of Operations" },
-      { name: "Hiroshi Tanaka", position: "Head of Catering Services" },
-      { name: "Sophie Beaumont", position: "Director of Hospitality" },
-    ],
-    theme: {
-      primary: "from-[var(--color-gold-100)] to-[var(--color-gold-50)]",
-      bg: "bg-[var(--color-navy-900)]/30",
-      bgSolid: "bg-[var(--color-navy-800)]/50",
-      border: "border-[var(--color-gold-100)]/30",
-      text: "text-[var(--color-gold-50)]",
-      accent: "bg-[var(--color-gold-100)]",
-      hover: "hover:bg-[var(--color-gold-100)]/10",
-      gradient: "bg-gradient-to-br from-[var(--color-gold-100)]/20 to-[var(--color-gold-50)]/20"
-    }
   }
 };
 
-export default function BrandDetailPage() {
+export default function DivisionDetailPage() {
   const params = useParams();
-  const brand = brandsData[params.id as keyof typeof brandsData];
+  const division = divisionsData[params.id as keyof typeof divisionsData];
 
-  if (!brand) {
+  if (!division) {
     return (
       <div className="container mx-auto px-4 py-12 md:py-24">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">Brand Not Found</h1>
-          <p className="text-lg mb-8">The brand you&apos;re looking for doesn&apos;t exist.</p>
+          <h1 className="text-4xl font-bold mb-4">Division Not Found</h1>
+          <p className="text-lg mb-8">The division you&apos;re looking for doesn&apos;t exist.</p>
           <Button asChild>
-            <Link href="/brand">Back to All Brands</Link>
+            <Link href="/brand">Back to All Divisions</Link>
           </Button>
         </div>
       </div>
@@ -324,18 +282,18 @@ export default function BrandDetailPage() {
   }
 
   return (
-    <div className={`min-h-screen ${brand.theme.bg}`}>
-      {/* Hero Section with Brand Colors */}
-      <div className={`relative overflow-hidden ${brand.theme.gradient} border-b ${brand.theme.border}`}>
+    <div className={`min-h-screen ${division.theme.bg}`}>
+      {/* Hero Section with Division Colors */}
+      <div className={`relative overflow-hidden ${division.theme.gradient} border-b ${division.theme.border}`}>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.1),transparent)]"></div>
         </div>
         
         <div className="container mx-auto px-4 py-16 relative z-10">
-          <Button variant="ghost" asChild className={`mb-8 ${brand.theme.hover}`}>
+          <Button variant="ghost" asChild className={`mb-8 ${division.theme.hover}`}>
             <Link href="/brand" className="flex items-center">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to All Brands
+              Back to All Divisions
             </Link>
           </Button>
 
@@ -343,25 +301,25 @@ export default function BrandDetailPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left: Logo & Info */}
               <div>
-                <div className={`relative w-48 h-48 mx-auto lg:mx-0 rounded-2xl ${brand.theme.bgSolid} backdrop-blur-sm p-8 mb-8`}>
+                <div className={`relative w-48 h-48 mx-auto lg:mx-0 rounded-2xl ${division.theme.bgSolid} backdrop-blur-sm p-8 mb-8`}>
                   <Image 
-                    src={`/brandLogo/brandLogo${params.id}.png`}
-                    alt={brand.name}
+                    src={`/brandLogo/${params.id}.png`}
+                    alt={division.name}
                     fill
                     className="object-contain p-4"
                   />
                 </div>
               </div>
 
-              {/* Right: Brand Info */}
+              {/* Right: Division Info */}
               <div>
-                <p className={`text-sm font-semibold ${brand.theme.text} mb-2`}>{brand.tagline}</p>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6">{brand.name}</h1>
+                <p className={`text-sm font-semibold ${division.theme.text} mb-2`}>{division.tagline}</p>
+                <h1 className="text-4xl md:text-5xl font-bold mb-6">{division.name}</h1>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  {brand.description}
+                  {division.description}
                 </p>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  {brand.fullDescription}
+                  {division.fullDescription}
                 </p>
               </div>
             </div>
@@ -373,10 +331,10 @@ export default function BrandDetailPage() {
       <div className="container mx-auto px-4 -mt-8 relative z-20 mb-12">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {brand.stats.map((stat, index) => (
-              <Card key={index} className={`${brand.theme.border} ${brand.theme.bgSolid} backdrop-blur-sm text-center`}>
+            {division.stats.map((stat, index) => (
+              <Card key={index} className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm text-center`}>
                 <CardContent className="pt-6">
-                  <div className={`text-3xl font-bold ${brand.theme.text} mb-1`}>{stat.value}</div>
+                  <div className={`text-3xl font-bold ${division.theme.text} mb-1`}>{stat.value}</div>
                   <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </CardContent>
               </Card>
@@ -392,34 +350,34 @@ export default function BrandDetailPage() {
             {/* Main Content - 2 columns */}
             <div className="lg:col-span-2 space-y-8">
               {/* Coverage & Delivery */}
-              <Card className={`${brand.theme.border} ${brand.theme.bgSolid} backdrop-blur-sm`}>
+              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <MapPin className={brand.theme.text} />
+                    <MapPin className={division.theme.text} />
                     Service Coverage
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className={`${brand.theme.hover} rounded-lg p-4 border ${brand.theme.border}`}>
+                    <div className={`${division.theme.hover} rounded-lg p-4 border ${division.theme.border}`}>
                       <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-10 h-10 rounded-full ${brand.theme.bg} flex items-center justify-center`}>
-                          <MapPin className={`h-5 w-5 ${brand.theme.text}`} />
+                        <div className={`w-10 h-10 rounded-full ${division.theme.bg} flex items-center justify-center`}>
+                          <MapPin className={`h-5 w-5 ${division.theme.text}`} />
                         </div>
                         <div>
                           <p className="text-sm text-muted-foreground">Geographic Coverage</p>
-                          <p className="font-semibold">{brand.coverage}</p>
+                          <p className="font-semibold">{division.coverage}</p>
                         </div>
                       </div>
                     </div>
-                    <div className={`${brand.theme.hover} rounded-lg p-4 border ${brand.theme.border}`}>
+                    <div className={`${division.theme.hover} rounded-lg p-4 border ${division.theme.border}`}>
                       <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-10 h-10 rounded-full ${brand.theme.bg} flex items-center justify-center`}>
-                          <Truck className={`h-5 w-5 ${brand.theme.text}`} />
+                        <div className={`w-10 h-10 rounded-full ${division.theme.bg} flex items-center justify-center`}>
+                          <Truck className={`h-5 w-5 ${division.theme.text}`} />
                         </div>
                         <div>
                           <p className="text-sm text-muted-foreground">Service Delivery</p>
-                          <p className="font-semibold">{brand.delivery}</p>
+                          <p className="font-semibold">{division.delivery}</p>
                         </div>
                       </div>
                     </div>
@@ -428,22 +386,22 @@ export default function BrandDetailPage() {
               </Card>
 
               {/* Services */}
-              <Card className={`${brand.theme.border} ${brand.theme.bgSolid} backdrop-blur-sm`}>
+              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Star className={brand.theme.text} />
+                    <Star className={division.theme.text} />
                     Our Services
                   </CardTitle>
                   <CardDescription>Comprehensive solutions tailored to your needs</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 gap-4">
-                    {brand.services.map((service, index) => (
+                    {division.services.map((service, index) => (
                       <div 
                         key={index} 
-                        className={`${brand.theme.hover} rounded-lg p-4 border ${brand.theme.border} transition-all duration-300`}
+                        className={`${division.theme.hover} rounded-lg p-4 border ${division.theme.border} transition-all duration-300`}
                       >
-                        <h4 className={`font-semibold mb-2 ${brand.theme.text}`}>{service.name}</h4>
+                        <h4 className={`font-semibold mb-2 ${division.theme.text}`}>{service.name}</h4>
                         <p className="text-sm text-muted-foreground">{service.description}</p>
                       </div>
                     ))}
@@ -452,19 +410,19 @@ export default function BrandDetailPage() {
               </Card>
 
               {/* Achievements */}
-              <Card className={`${brand.theme.border} ${brand.theme.bgSolid} backdrop-blur-sm`}>
+              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Award className={brand.theme.text} />
+                    <Award className={division.theme.text} />
                     Key Achievements
                   </CardTitle>
                   <CardDescription>Milestones that define our excellence</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {brand.achievements.map((achievement, index) => (
+                    {division.achievements.map((achievement, index) => (
                       <div key={index} className="flex items-start gap-3">
-                        <CheckCircle className={`h-5 w-5 mt-0.5 ${brand.theme.text} shrink-0`} />
+                        <CheckCircle className={`h-5 w-5 mt-0.5 ${division.theme.text} shrink-0`} />
                         <p className="text-sm">{achievement}</p>
                       </div>
                     ))}
@@ -476,20 +434,20 @@ export default function BrandDetailPage() {
             {/* Sidebar - 1 column */}
             <div className="space-y-8">
               {/* Leadership Team */}
-              <Card className={`${brand.theme.border} ${brand.theme.bgSolid} backdrop-blur-sm`}>
+              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Users className={brand.theme.text} />
+                    <Users className={division.theme.text} />
                     Leadership Team
                   </CardTitle>
                   <CardDescription>Meet the minds behind our success</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {brand.team.map((member, index) => (
-                      <div key={index} className={`flex items-center gap-3 p-3 rounded-lg ${brand.theme.hover} border ${brand.theme.border}`}>
-                        <div className={`w-12 h-12 rounded-full ${brand.theme.bg} flex items-center justify-center shrink-0`}>
-                          <span className={`${brand.theme.text} font-bold text-lg`}>
+                    {division.team.map((member, index) => (
+                      <div key={index} className={`flex items-center gap-3 p-3 rounded-lg ${division.theme.hover} border ${division.theme.border}`}>
+                        <div className={`w-12 h-12 rounded-full ${division.theme.bg} flex items-center justify-center shrink-0`}>
+                          <span className={`${division.theme.text} font-bold text-lg`}>
                             {member.name.split(' ').map(n => n[0]).join('')}
                           </span>
                         </div>
@@ -504,10 +462,10 @@ export default function BrandDetailPage() {
               </Card>
 
               {/* Contact Card */}
-              <Card className={`${brand.theme.border} ${brand.theme.gradient} backdrop-blur-sm`}>
+              <Card className={`${division.theme.border} ${division.theme.gradient} backdrop-blur-sm`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Globe className={brand.theme.text} />
+                    <Globe className={division.theme.text} />
                     Get in Touch
                   </CardTitle>
                   <CardDescription>Let&apos;s discuss how we can help you</CardDescription>
@@ -516,43 +474,47 @@ export default function BrandDetailPage() {
                   <div>
                     <p className="font-medium mb-1 text-sm">Email</p>
                     <p className="text-sm text-muted-foreground">
-                      contact@{brand.name.toLowerCase().replace(/\s+/g, '')}.com
+                      info@{division.name.toLowerCase().replace(/\s+/g, '')}.kinygroup.org
                     </p>
                   </div>
                   <div>
                     <p className="font-medium mb-1 text-sm">Phone</p>
-                    <p className="text-sm text-muted-foreground">+1 (555) {1000 + parseInt(params.id as string) * 111}-{String(parseInt(params.id as string) * 1234).slice(0, 4)}</p>
+                    <p className="text-sm text-muted-foreground">+62 21 83787735</p>
                   </div>
-                  <Button className={`w-full bg-linear-to-r ${brand.theme.primary} text-white border-0 hover:opacity-90`}>
+                  <div>
+                    <p className="font-medium mb-1 text-sm">Address</p>
+                    <p className="text-sm text-muted-foreground">Jl. Tebet Timur Dalam II No.38B, Tebet, Jakarta Selatan 12820</p>
+                  </div>
+                  <Button className={`w-full bg-linear-to-r ${division.theme.primary} text-white border-0 hover:opacity-90`}>
                     Schedule Consultation
                   </Button>
                 </CardContent>
               </Card>
 
               {/* Quick Stats */}
-              <Card className={`${brand.theme.border} ${brand.theme.bgSolid} backdrop-blur-sm`}>
+              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className={brand.theme.text} />
+                    <TrendingUp className={division.theme.text} />
                     Quick Facts
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <div className={`flex justify-between items-center p-3 rounded-lg ${brand.theme.hover}`}>
+                  <div className={`flex justify-between items-center p-3 rounded-lg ${division.theme.hover}`}>
                     <span className="text-sm">Industry Rating</span>
                     <div className="flex gap-1">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`h-4 w-4 ${brand.theme.text} fill-current`} />
+                        <Star key={i} className={`h-4 w-4 ${division.theme.text} fill-current`} />
                       ))}
                     </div>
                   </div>
-                  <div className={`flex justify-between items-center p-3 rounded-lg ${brand.theme.hover}`}>
+                  <div className={`flex justify-between items-center p-3 rounded-lg ${division.theme.hover}`}>
                     <span className="text-sm">Response Time</span>
-                    <span className={`font-semibold ${brand.theme.text}`}>24hrs</span>
+                    <span className={`font-semibold ${division.theme.text}`}>24hrs</span>
                   </div>
-                  <div className={`flex justify-between items-center p-3 rounded-lg ${brand.theme.hover}`}>
+                  <div className={`flex justify-between items-center p-3 rounded-lg ${division.theme.hover}`}>
                     <span className="text-sm">Client Retention</span>
-                    <span className={`font-semibold ${brand.theme.text}`}>95%+</span>
+                    <span className={`font-semibold ${division.theme.text}`}>95%+</span>
                   </div>
                 </CardContent>
               </Card>

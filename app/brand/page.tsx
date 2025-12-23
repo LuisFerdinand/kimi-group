@@ -4,83 +4,128 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import PageHeader from "@/components/pages/PageHeader";
 
 export default function BrandPage() {
   const sliderRef = useRef(null);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const brands = [
     {
-      id: "1",
-      name: "Tech Innovations",
-      tagline: "Future-Ready Technology",
-      description: "Cutting-edge AI and software solutions transforming digital experiences.",
-      backgroundImage: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=2070&q=80",
-      logo: "/brandLogo/brandLogo1.png",
+      id: "kiny-cultura",
+      name: "Kiny Cultura Indonesia",
+      tagline: "Cross-Cultural Understanding",
+      description: "Promoting cross-cultural understanding through folk dance competitions, immersion schools, and leadership programs for children from elementary to junior high school.",
+      backgroundImage: "https://images.unsplash.com/photo-1515184689810-b8b7187c6975?w=2070&q=80",
+      logo: "/brandLogo/kinyCultura.png",
       color: "var(--color-gold-500)",
-      stats: { label1: 'Products', value1: '50+', label2: 'Countries', value2: '25+', label3: 'Users', value3: '2M+', label4: 'Revenue', value4: '$800M' }
+      stats: { 
+        label1: 'Countries', 
+        value1: '150+', 
+        label2: 'Schools', 
+        value2: '50+', 
+        label3: 'Students', 
+        value3: '1500+', 
+        label4: 'Festivals', 
+        value4: '100+' 
+      }
     },
     {
-      id: "2",
-      name: "Green Earth Logistics",
-      tagline: "Sustainable Supply Chain",
-      description: "Eco-friendly logistics solutions with carbon-neutral delivery systems.",
-      backgroundImage: "https://images.unsplash.com/photo-1448630360428-a6516a377dcd?w=2070&q=80",
-      logo: "/brandLogo/brandLogo2.png",
+      id: "kiny-education",
+      name: "Kiny Education & Training",
+      tagline: "Professional Development",
+      description: "Providing development programs for university students and executives in collaboration with leading universities, offering internationally recognized certifications.",
+      backgroundImage: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=2070&q=80",
+      logo: "/brandLogo/kinyEducation.png",
       color: "var(--color-gold-600)",
-      stats: { label1: 'Vehicles', value1: '5K+', label2: 'Countries', value2: '40+', label3: 'Deliveries', value3: '10M+', label4: 'Revenue', value4: '$1.2B' }
+      stats: { 
+        label1: 'Programs', 
+        value1: '50+', 
+        label2: 'Universities', 
+        value2: '30+', 
+        label3: 'Certifications', 
+        value3: '25+', 
+        label4: 'Participants', 
+        value4: '2000+' 
+      }
     },
     {
-      id: "3",
-      name: "Royal Finance Group",
-      tagline: "Wealth Management Excellence",
-      description: "Premium financial services for sophisticated investors and enterprises.",
-      backgroundImage: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=2070&q=80",
-      logo: "/brandLogo/brandLogo3.png",
+      id: "kiny-tours",
+      name: "Kiny Tours & Travel",
+      tagline: "Personalized Travel Experiences",
+      description: "Offering personalized private tour experiences that enrich travelers' understanding of diverse cultures across 7 continents.",
+      backgroundImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=2070&q=80",
+      logo: "/brandLogo/kinyTours.png",
       color: "var(--color-gold-700)",
-      stats: { label1: 'Assets', value1: '$50B', label2: 'Countries', value2: '30+', label3: 'Clients', value3: '100K+', label4: 'Revenue', value4: '$2.5B' }
+      stats: { 
+        label1: 'Countries', 
+        value1: '167', 
+        label2: 'Drivers', 
+        value2: '150+', 
+        label3: 'Guides', 
+        value3: '80+', 
+        label4: 'Partners', 
+        value4: '30+' 
+      }
     },
     {
-      id: "4",
-      name: "Vitality Healthcare",
-      tagline: "Caring for Life",
-      description: "Comprehensive healthcare services with advanced medical technology.",
-      backgroundImage: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=2070&q=80",
-      logo: "/brandLogo/brandLogo4.png",
+      id: "kinergy-project",
+      name: "Kinergy Project",
+      tagline: "Dream Beyond Limit",
+      description: "Delivering seamless event planning and management services that celebrate creativity and collaboration with bold execution and cultural resonance.",
+      backgroundImage: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=2070&q=80",
+      logo: "/brandLogo/kinergy.png",
       color: "var(--color-gold-400)",
-      stats: { label1: 'Hospitals', value1: '200+', label2: 'Countries', value2: '15+', label3: 'Patients', value3: '5M+', label4: 'Revenue', value4: '$3.2B' }
+      stats: { 
+        label1: 'Events', 
+        value1: '200+', 
+        label2: 'Countries', 
+        value2: '25+', 
+        label3: 'Clients', 
+        value3: '100+', 
+        label4: 'Volunteers', 
+        value4: '200+' 
+      }
     },
     {
-      id: "5",
-      name: "Luxe Properties",
-      tagline: "Defining Premium Living",
-      description: "High-end real estate development and property management services.",
-      backgroundImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=2070&q=80",
-      logo: "/brandLogo/brandLogo5.png",
+      id: "kiny-soul",
+      name: "Kiny & Soul",
+      tagline: "Spiritual Journeys",
+      description: "Providing comfortable, flexible, and private services for Umrah and spiritual journeys with personalized itineraries that honor your spiritual path.",
+      backgroundImage: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=2070&q=80",
+      logo: "/brandLogo/kinySoul.png",
       color: "var(--color-gold-300)",
-      stats: { label1: 'Properties', value1: '1K+', label2: 'Countries', value2: '20+', label3: 'Tenants', value3: '50K+', label4: 'Revenue', value4: '$1.8B' }
+      stats: { 
+        label1: 'Journeys', 
+        value1: '500+', 
+        label2: 'Destinations', 
+        value2: '15+', 
+        label3: 'Pilgrims', 
+        value3: '2000+', 
+        label4: 'Guides', 
+        value4: '50+' 
+      }
     },
     {
-      id: "6",
-      name: "Edu Excellence",
-      tagline: "Learning Without Limits",
-      description: "Innovative education technology and learning management platforms.",
-      backgroundImage: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=2070&q=80",
-      logo: "/brandLogo/brandLogo6.png",
+      id: "kiny-xplore",
+      name: "Kiny Xplore",
+      tagline: "International Sports Development",
+      description: "A division dedicated to the advancement of sports on an international scale, addressing both international competitions and skill development training programs.",
+      backgroundImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=2070&q=80",
+      logo: "/brandLogo/kinyXplore.png",
       color: "var(--color-gold-200)",
-      stats: { label1: 'Courses', value1: '10K+', label2: 'Countries', value2: '60+', label3: 'Students', value3: '8M+', label4: 'Revenue', value4: '$900M' }
-    },
-    {
-      id: "7",
-      name: "Gourmet Ventures",
-      tagline: "Culinary Excellence",
-      description: "Premium food services, restaurants, and hospitality management.",
-      backgroundImage: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=2070&q=80",
-      logo: "/brandLogo/brandLogo7.png",
-      color: "var(--color-gold-100)",
-      stats: { label1: 'Locations', value1: '500+', label2: 'Countries', value2: '35+', label3: 'Guests', value3: '20M+', label4: 'Revenue', value4: '$1.5B' }
-    },
+      stats: { 
+        label1: 'Competitions', 
+        value1: '50+', 
+        label2: 'Clubs', 
+        value2: '50+', 
+        label3: 'Athletes', 
+        value3: '1000+', 
+        label4: 'Countries', 
+        value4: '30+' 
+      }
+    }
   ];
 
   const handleNext = () => {
@@ -179,35 +224,28 @@ export default function BrandPage() {
       />
 
       <div className="container mx-auto px-4 py-12 md:py-24 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-20">
-            <h1 className="text-5xl md:text-7xl font-black mb-6 bg-linear-to-r from-(--color-gold-200) via-[var(--color-gold-400)] to-[var(--color-gold-200)] bg-clip-text text-transparent animate-linear">
-              Our Brands
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Seven exceptional brands, one commitment to <span className="font-semibold" style={{ color: 'var(--color-gold-400)' }}>excellence</span>
-            </p>
-          </div>
+        <div className="max-w-6xl mx-auto">
+          <PageHeader 
+            title="KINY GROUP DIVISIONS"
+            description="Six exceptional divisions, one commitment to excellence"
+            emphasizedWord="excellence"
+          />
 
           {/* Brand Slider */}
-          <div className="relative mx-auto max-w-7xl h-125 sm:h-150 lg:h-175 mb-16">
+          <div className="relative mx-auto max-w-5xl h-125 sm:h-150 lg:h-175 mb-16">
             <div ref={sliderRef} className="relative w-full h-full perspective-1000">
               {brands.map((brand, index) => {
                 const isActive = index === activeIndex;
                 const styles = getPositionStyles(index);
                 
                 return (
-                  <Link 
+                  <div 
                     key={brand.id}
-                    href={`/brand/${brand.id}`}
                     className="absolute w-[260px] h-[380px] sm:w-[320px] sm:h-[460px] lg:w-[400px] lg:h-[550px] rounded-3xl overflow-hidden shadow-2xl transition-all duration-700 ease-out cursor-pointer hover:scale-105"
                     style={styles}
-                    onClick={(e) => {
+                    onClick={() => {
                       if (!isAnimating) {
                         setActiveIndex(index);
-                      } else {
-                        e.preventDefault();
                       }
                     }}
                   >
@@ -253,10 +291,15 @@ export default function BrandPage() {
                         <p className="text-sm sm:text-base leading-relaxed line-clamp-3" style={{ color: 'var(--foreground)', opacity: 0.8 }}>
                           {brand.description}
                         </p>
-                        <div className="group inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-linear-to-r from-[var(--primary)] to-[var(--color-gold-400)] font-bold transition-all duration-300 hover:shadow-lg hover:scale-105 text-sm sm:text-base" style={{ color: 'var(--primary-foreground)' }}>
-                          Explore Brand
+                        <Link
+                          href={`/brand/${brand.id}`}
+                          className="group inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-linear-to-r from-[var(--primary)] to-[var(--color-gold-400)] font-bold transition-all duration-300 hover:shadow-lg hover:scale-105 text-sm sm:text-base"
+                          style={{ color: 'var(--primary-foreground)' }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Explore Division
                           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </div>
+                        </Link>
                       </div>
                     </div>
 
@@ -269,7 +312,7 @@ export default function BrandPage() {
                         className="object-cover rounded-lg"
                       />
                     </div>
-                  </Link>
+                  </div>
                 );
               })}
             </div>

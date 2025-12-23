@@ -7,8 +7,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex flex-col">
-      {/* Hero Section with Parallax Background */}
-      {/* Hero Section with Parallax Background */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Parallax Background Image */}
         <div 
@@ -24,14 +22,8 @@ export default function Home() {
         
         <div className="container relative mx-auto px-4 md:px-6 z-10">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Premium Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 backdrop-blur-sm mb-8">
-              <Sparkles className="h-4 w-4 text-(--color-gold-400)" />
-              <span className="text-sm font-medium text-(--color-gold-300)">Premium Business Solutions</span>
-            </div>
-            
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              <span className="text-white/70">Welcome to</span>
+              <span className="text-white/70">Selamat Datang di</span>
               <br />
               <span className="bg-linear-to-r from-(--color-gold-300) via-(--color-gold-500) to-(--color-gold-300) bg-clip-text text-transparent">
                 KINY GROUP
@@ -39,18 +31,18 @@ export default function Home() {
             </h1>
             
             <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Transforming industries through innovation, excellence, and unwavering commitment to quality across our diverse portfolio of brands.
+              Menerjemahkan industri melalui inovasi, keunggulan, dan komitmen tak kenal lelah untuk kualitas di seluruh portofolio merek yang beragam kami.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button asChild size="lg" className="group bg-linear-to-r from-(--color-gold-500) to-(--color-gold-600) hover:from-(--color-gold-600) hover:to-(--color-gold-700) text-white font-semibold px-8 h-14 shadow-lg shadow-(--color-gold-500)/20">
                 <Link href="/brand">
-                  Explore Our Brands 
+                  Eksplorasi Merek Kami
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" asChild className="h-14 px-8">
-                <Link href="/about">Discover More</Link>
+                <Link href="/about">Lebih Banyak</Link>
               </Button>
             </div>
             
@@ -58,15 +50,15 @@ export default function Home() {
             <div className="grid grid-cols-3 gap-8 mt-20 max-w-3xl mx-auto">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-(--color-gold-400) mb-2">10+</div>
-                <div className="text-sm text-white/70">Years Experience</div>
+                <div className="text-sm text-white/70">Tahun Pengalaman</div>
               </div>
               <div className="text-center border-x border-gold-500/20">
                 <div className="text-3xl md:text-4xl font-bold text-(--color-gold-400) mb-2">500+</div>
-                <div className="text-sm text-white/70">Happy Clients</div>
+                <div className="text-sm text-white/70">Klien Puas</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-(--color-gold-400) mb-2">15+</div>
-                <div className="text-sm text-white/70">Brands</div>
+                <div className="text-sm text-white/70">Merek</div>
               </div>
             </div>
           </div>
@@ -82,14 +74,14 @@ export default function Home() {
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-gold-500)]/10 border border-[var(--color-gold-500)]/20 mb-6">
               <Award className="h-4 w-4 text-[var(--color-gold-400)]" />
-              <span className="text-sm font-medium text-[var(--color-gold-300)]">Why Choose Us</span>
+              <span className="text-sm font-medium text-[var(--color-gold-300)]">Mengapa Memilih Kami</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-              Excellence in Every
-              <span className="text-[var(--color-gold-500)]"> Aspect</span>
+              Keunggulan di Setiap
+              <span className="text-[var(--color-gold-500)]"> Aspek</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We combine innovation, expertise, and dedication to deliver unparalleled value to our clients and partners.
+              Kami menggabungkan inovasi, keahlian, dan dedikasi untuk memberikan nilai luar biasa kepada klien dan mitra kami.
             </p>
           </div>
           
@@ -101,9 +93,9 @@ export default function Home() {
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <CheckCircle className="h-7 w-7 text-[var(--color-gold-500)]" />
                 </div>
-                <CardTitle className="text-2xl mb-3">Premium Quality</CardTitle>
+                <CardTitle className="text-2xl mb-3">Kualitas Premium</CardTitle>
                 <CardDescription className="text-base leading-relaxed">
-                  Uncompromising standards in every service we deliver, ensuring excellence and satisfaction at every touchpoint.
+                  Standar tanpa kompromi di setiap layanan yang kami berikan, memastikan keunggulan dan kepuasan di setiap titik kontak.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -115,9 +107,9 @@ export default function Home() {
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <TrendingUp className="h-7 w-7 text-[var(--color-gold-500)]" />
                 </div>
-                <CardTitle className="text-2xl mb-3">Innovation First</CardTitle>
+                <CardTitle className="text-2xl mb-3">Inovasi Utama</CardTitle>
                 <CardDescription className="text-base leading-relaxed">
-                  Pioneering solutions that push boundaries and set new industry standards through continuous innovation.
+                  Solusi perintis yang mendorong batas dan menetapkan standar industri baru melalui inovasi berkelanjutan.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -129,9 +121,9 @@ export default function Home() {
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Users className="h-7 w-7 text-[var(--color-gold-500)]" />
                 </div>
-                <CardTitle className="text-2xl mb-3">Expert Team</CardTitle>
+                <CardTitle className="text-2xl mb-3">Tim Ahli</CardTitle>
                 <CardDescription className="text-base leading-relaxed">
-                  Industry veterans with decades of combined experience, dedicated to your success and growth.
+                  Veteran industri dengan puluhan tahun pengalaman gabungan, berdedikasi untuk kesuksesan dan pertumbuhan Anda.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -143,9 +135,9 @@ export default function Home() {
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Globe className="h-7 w-7 text-[var(--color-gold-500)]" />
                 </div>
-                <CardTitle className="text-2xl mb-3">Global Reach</CardTitle>
+                <CardTitle className="text-2xl mb-3">Jangkauan Global</CardTitle>
                 <CardDescription className="text-base leading-relaxed">
-                  International presence with local expertise, serving clients across multiple continents and markets.
+                  Kehadiran internasional dengan keahlian lokal, melayani klien di beberapa benua dan pasar.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -157,9 +149,9 @@ export default function Home() {
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Shield className="h-7 w-7 text-[var(--color-gold-500)]" />
                 </div>
-                <CardTitle className="text-2xl mb-3">Trust & Security</CardTitle>
+                <CardTitle className="text-2xl mb-3">Kepercayaan & Keamanan</CardTitle>
                 <CardDescription className="text-base leading-relaxed">
-                  Robust security measures and transparent practices that build lasting trust with every partnership.
+                  Tindakan keamanan yang kuat dan praktik transparan yang membangun kepercayaan jangka panjang dengan setiap kemitraan.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -171,9 +163,9 @@ export default function Home() {
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Sparkles className="h-7 w-7 text-[var(--color-gold-500)]" />
                 </div>
-                <CardTitle className="text-2xl mb-3">Premium Support</CardTitle>
+                <CardTitle className="text-2xl mb-3">Dukungan Premium</CardTitle>
                 <CardDescription className="text-base leading-relaxed">
-                  24/7 dedicated support team ready to assist you with personalized solutions and expert guidance.
+                  Tim dukungan 24/7 yang siap membantu Anda dengan solusi personal dan panduan ahli.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -183,7 +175,6 @@ export default function Home() {
 
       {/* CTA Section with Enhanced Design */}
       <section className="relative py-24 md:py-32 overflow-hidden bg-background">
-        {/* Background with Linear */}
         <div className="absolute inset-0 bg-linear-to-br from-[var(--color-gold-500)]/10 via-[var(--color-gold-500)]/5 to-background" />
         <div className="absolute inset-0 bg-[radial-linear(circle_at_center,rgba(184,134,11,0.15),transparent_70%)]" />
         
@@ -196,27 +187,26 @@ export default function Home() {
               <CardHeader className="relative text-center p-12 md:p-16">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-gold-500)]/10 border border-[var(--color-gold-500)]/20 mb-8 mx-auto">
                   <ArrowRight className="h-4 w-4 text-[var(--color-gold-400)]" />
-                  <span className="text-sm font-medium text-[var(--color-gold-300)]">Get Started Today</span>
+                  <span className="text-sm font-medium text-[var(--color-gold-300)]">Mulai Hari Ini</span>
                 </div>
                 
                 <CardTitle className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-                  Ready to Transform Your
-                  <span className="text-[var(--color-gold-500)]"> Business?</span>
+                  Siap Mentransformasi Bisnis Anda?
                 </CardTitle>
                 
                 <CardDescription className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-                  Join hundreds of successful clients who trust KINY GROUP to deliver exceptional results. Let&apos;s create something extraordinary together.
+                  Bergabunglah dengan ratusan klien sukses yang mempercayai KINY GROUP untuk memberikan hasil luar biasa. Mari kita ciptakan sesuatu luar biasa bersama.
                 </CardDescription>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button asChild size="lg" className="group bg-linear-to-r from-[var(--color-gold-500)] to-[var(--color-gold-600)] hover:from-[var(--color-gold-600)] hover:to-[var(--color-gold-700)] text-white font-semibold px-8 h-14 shadow-lg shadow-[var(--color-gold-500)]/20">
                     <Link href="/contact">
-                      Start Your Journey
+                      Mulai Perjalanan Anda
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" asChild className="h-14 px-8 border-[var(--color-gold-500)]/30 hover:bg-[var(--color-gold-500)]/10 hover:border-[var(--color-gold-500)]/50">
-                    <Link href="/brand">View Our Portfolio</Link>
+                    <Link href="/brand">Lihat Portofolio Kami</Link>
                   </Button>
                 </div>
               </CardHeader>
