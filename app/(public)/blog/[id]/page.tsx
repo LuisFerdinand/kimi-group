@@ -1,4 +1,4 @@
-// Path: app/blog/[id]/page.tsx
+// Path: app/(public)/blog/[id]/page.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, User, MessageCircle, Heart, Share2, ArrowLeft } from "lucide-react";

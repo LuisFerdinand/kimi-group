@@ -1,3 +1,4 @@
+// app/(public)/about/page.tsx
 "use client";
 
 import PageHeader from "@/components/pages/PageHeader";

@@ -8,6 +8,8 @@ import ScrollToTop from "@/components/scroll-to-top";
 import { ThemeProvider } from "./providers";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from "next/image";
+import { NextAuthProvider } from "@/components/providers/session-provider";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,6 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+         <NextAuthProvider>
         <ThemeProvider
         >
           <div className="relative min-h-screen flex flex-col">
@@ -83,19 +86,20 @@ export default function RootLayout({
             </div>
 
             {/* Header - Positioned absolutely over content */}
-            <Header />
+            {/* <Header /> */}
             
             {/* Main content - No top padding initially, content goes under header */}
             <main className="flex-1 relative -mt-16">  
               {children}
             </main>
             
-            <Footer />
+            {/* <Footer /> */}
           </div>
 
           {/* Scroll to Top Button */}
           <ScrollToTop />
         </ThemeProvider>
+         </NextAuthProvider>
       </body>
     </html>
   );

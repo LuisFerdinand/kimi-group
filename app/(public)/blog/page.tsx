@@ -1,3 +1,4 @@
+// app/(public)/blog/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -27,7 +28,7 @@ interface BlogPost {
 }
 
 export default function BlogPage() {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<string[]>([]);

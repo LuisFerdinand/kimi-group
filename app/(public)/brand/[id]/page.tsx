@@ -1,4 +1,4 @@
-// app/division/[id]/page.tsx
+// app/(public)/brand/[id]/page.tsx
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
