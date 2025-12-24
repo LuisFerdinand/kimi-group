@@ -1,17 +1,37 @@
 // lib/auth.ts
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { userRoles } from "@/lib/db/schema";
+import { userRoles, users } from "@/lib/db/schema";
+import { db } from "@/lib/db"; // Import db from your database connection file
+import { eq } from "drizzle-orm";
+import type { User } from "@/lib/db/schema"; // Import the User type
 
 export async function getSession() {
   return await getServerSession(authOptions);
 }
 
-export async function getCurrentUser() {
+// Modified getCurrentUser to fetch the complete user from the database
+export async function getCurrentUser(): Promise<User | null> {
   const session = await getSession();
-  return session?.user;
+  
+  if (!session?.user?.id) {
+    return null;
+  }
+  
+  // Convert the string ID from the session to a number for the database query
+  const userId = parseInt(session.user.id, 10);
+  
+  if (isNaN(userId)) {
+    return null;
+  }
+  
+  // Fetch the complete user from the database
+  const [user] = await db.select().from(users).where(eq(users.id, userId));
+  
+  return user || null;
 }
 
+// The rest of your functions remain the same
 export async function isAdmin() {
   const session = await getSession();
   return session?.user?.role === userRoles.ADMIN;
@@ -33,15 +53,15 @@ export async function isContributor() {
   );
 }
 
-export async function requireAuth() {
-  const session = await getSession();
-  if (!session?.user) {
+export async function requireAuth(): Promise<User> {
+  const user = await getCurrentUser();
+  if (!user) {
     throw new Error("Unauthorized: Authentication required");
   }
-  return session.user;
+  return user;
 }
 
-export async function requireAdmin() {
+export async function requireAdmin(): Promise<User> {
   const user = await requireAuth();
   if (user.role !== userRoles.ADMIN) {
     throw new Error("Unauthorized: Admin access required");
@@ -49,7 +69,7 @@ export async function requireAdmin() {
   return user;
 }
 
-export async function requireEditor() {
+export async function requireEditor(): Promise<User> {
   const user = await requireAuth();
   if (user.role !== userRoles.EDITOR && user.role !== userRoles.ADMIN) {
     throw new Error("Unauthorized: Editor access required");
@@ -57,7 +77,7 @@ export async function requireEditor() {
   return user;
 }
 
-export async function requireContributor() {
+export async function requireContributor(): Promise<User> {
   const user = await requireAuth();
   if (
     user.role !== userRoles.CONTRIBUTOR &&
