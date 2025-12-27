@@ -2,9 +2,9 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { userRoles, users } from "@/lib/db/schema";
-import { db } from "@/lib/db"; // Import db from your database connection file
+import { db } from "@/lib/db";
 import { eq } from "drizzle-orm";
-import type { User } from "@/lib/db/schema"; // Import the User type
+import type { User } from "@/lib/db/schema";
 
 export async function getSession() {
   return await getServerSession(authOptions);
@@ -89,6 +89,15 @@ export async function requireContributor(): Promise<User> {
   return user;
 }
 
+// Add this missing function
+export async function requireAdminOrEditor(): Promise<User> {
+  const user = await requireAuth();
+  if (user.role !== userRoles.ADMIN && user.role !== userRoles.EDITOR) {
+    throw new Error("Unauthorized: Admin or Editor access required");
+  }
+  return user;
+}
+
 // Helper to check if user has any of the specified roles
 export async function hasRole(roles: string[]) {
   const session = await getSession();
@@ -112,3 +121,5 @@ export async function hasMinimumRole(minimumRole: string) {
   return roleHierarchy[role as keyof typeof roleHierarchy] >= 
          roleHierarchy[minimumRole as keyof typeof roleHierarchy];
 }
+
+export { authOptions };

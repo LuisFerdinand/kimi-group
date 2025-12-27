@@ -25,22 +25,52 @@ CREATE TABLE "blog_post_categories" (
 	CONSTRAINT "blog_post_categories_post_id_category_id_pk" PRIMARY KEY("post_id","category_id")
 );
 --> statement-breakpoint
+CREATE TABLE "blog_post_likes" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"post_id" integer NOT NULL,
+	"user_id" integer NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "blog_post_likes_post_id_user_id_unique" UNIQUE("post_id","user_id")
+);
+--> statement-breakpoint
+CREATE TABLE "blog_post_views" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"post_id" integer NOT NULL,
+	"user_id" integer,
+	"ip_address" varchar(45),
+	"user_agent" text,
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "blog_posts" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"title" varchar(500) NOT NULL,
 	"slug" varchar(500) NOT NULL,
 	"excerpt" text,
 	"content" text NOT NULL,
+	"featured_image" varchar(500),
 	"featured" boolean DEFAULT false,
 	"author_id" integer NOT NULL,
 	"category" varchar(100),
 	"read_time" integer DEFAULT 5,
+	"views" integer DEFAULT 0,
 	"likes" integer DEFAULT 0,
 	"comments_count" integer DEFAULT 0,
 	"published_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "blog_posts_slug_unique" UNIQUE("slug")
+);
+--> statement-breakpoint
+CREATE TABLE "brand_division_images" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"brand_division_id" integer NOT NULL,
+	"image_url" varchar(500) NOT NULL,
+	"caption" text,
+	"alt_text" varchar(255),
+	"order" integer DEFAULT 0,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "brand_divisions" (
@@ -73,9 +103,14 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-ALTER TABLE "blog_comments" ADD CONSTRAINT "blog_comments_post_id_blog_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."blog_posts"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "blog_comments" ADD CONSTRAINT "blog_comments_post_id_blog_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."blog_posts"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "blog_comments" ADD CONSTRAINT "blog_comments_author_id_users_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "blog_post_categories" ADD CONSTRAINT "blog_post_categories_post_id_blog_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."blog_posts"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "blog_post_categories" ADD CONSTRAINT "blog_post_categories_category_id_blog_categories_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."blog_categories"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "blog_post_categories" ADD CONSTRAINT "blog_post_categories_post_id_blog_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."blog_posts"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "blog_post_categories" ADD CONSTRAINT "blog_post_categories_category_id_blog_categories_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."blog_categories"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "blog_post_likes" ADD CONSTRAINT "blog_post_likes_post_id_blog_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."blog_posts"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "blog_post_likes" ADD CONSTRAINT "blog_post_likes_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "blog_post_views" ADD CONSTRAINT "blog_post_views_post_id_blog_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."blog_posts"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "blog_post_views" ADD CONSTRAINT "blog_post_views_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "blog_posts" ADD CONSTRAINT "blog_posts_author_id_users_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "brand_division_images" ADD CONSTRAINT "brand_division_images_brand_division_id_brand_divisions_id_fk" FOREIGN KEY ("brand_division_id") REFERENCES "public"."brand_divisions"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "brand_divisions" ADD CONSTRAINT "brand_divisions_author_id_users_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;

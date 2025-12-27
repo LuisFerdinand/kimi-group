@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, 
@@ -91,11 +92,15 @@ export function Sidebar({ user }: SidebarProps) {
       <div className="flex flex-col h-full">
         {/* Logo */}
         <div className="flex items-center h-16 px-6 border-b border-border">
-          <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">CP</span>
+          <Link href="/dashboard" className="flex items-center">
+            <div className="relative w-36 h-14">
+              <Image
+                src="/kiny-logo/gold.png"
+                alt="Company Logo"
+                fill
+                className="object-contain"
+              />
             </div>
-            <span className="font-semibold text-foreground text-lg">Company</span>
           </Link>
         </div>
 
@@ -116,7 +121,9 @@ export function Sidebar({ user }: SidebarProps) {
                 }`}
               >
                 <item.icon className={`w-5 h-5 transition-colors ${
-                  isActive ? 'text-gold-500' : 'group-hover:text-gold-500'
+                  isActive 
+                    ? 'text-accent-foreground' 
+                    : 'text-muted-foreground group-hover:text-accent-foreground'
                 }`} />
                 <span>{item.label}</span>
               </Link>
@@ -127,7 +134,7 @@ export function Sidebar({ user }: SidebarProps) {
         {/* User section */}
         <div className="p-4 border-t border-border">
           <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-muted">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center shrink-0">
               <span className="text-white font-semibold text-sm">
                 {getInitials(user.name, user.email)}
               </span>

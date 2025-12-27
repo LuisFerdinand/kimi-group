@@ -1,16 +1,14 @@
 // scripts/reset.ts
 
-// 1. Import dotenv
 import dotenv from 'dotenv';
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { migrate } from "drizzle-orm/neon-http/migrator";
-import { tables } from "@/lib/db/schema";
 
-// 2. Load environment variables
+// Load environment variables
 dotenv.config({ path: '.env.local' });
 
-// 3. Now this will work
+// Initialize Neon and Drizzle
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql);
 
@@ -18,15 +16,29 @@ async function resetDatabase() {
   console.log("🔴 Resetting database...");
 
   try {
-    // ... rest of the function is the same
-    const tableNames = Object.keys(tables);
-    const dropQueries = tableNames.map((name) => `DROP TABLE IF EXISTS "${name}" CASCADE;`);
+    console.log("Finding all tables to drop...");
 
-    console.log("Dropping existing tables...");
-    for (const query of dropQueries) {
-      await sql`${query}`;
+    // Query to get all table names in the 'public' schema
+    const foundTables = await sql`
+      SELECT table_name
+      FROM information_schema.tables
+      WHERE table_schema = 'public'
+        AND table_type = 'BASE TABLE'
+    `;
+
+    if (foundTables.length === 0) {
+      console.log("No tables found to drop.");
+    } else {
+      console.log(`Found ${foundTables.length} tables. Dropping them now...`);
+      
+      // Drop each table individually with CASCADE
+      for (const table of foundTables) {
+        const tableName = table.table_name;
+        await sql`DROP TABLE IF EXISTS ${sql.unsafe(tableName)} CASCADE`;
+      }
+      
+      console.log(`✅ Successfully dropped ${foundTables.length} tables.`);
     }
-    console.log("✅ Tables dropped successfully.");
 
     console.log("Running migrations to recreate tables...");
     await migrate(db, { migrationsFolder: "./drizzle" });

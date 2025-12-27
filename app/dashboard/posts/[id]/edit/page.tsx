@@ -5,22 +5,26 @@ import { PostForm } from "@/components/dashboard/post-form";
 import { db } from "@/lib/db";
 import { blogPosts } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { BlogPost } from "@/lib/db/schema";
 
-export default async function EditPostPage({ params }: { params: { id: string } }) {
+// Update the function signature to properly handle params
+export default async function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
+  // Await the params object before accessing its properties
+  const { id } = await params;
   const user = await requireContributor();
-  const postId = parseInt(params.id);
+  const postId = parseInt(id);
 
   if (isNaN(postId)) {
     redirect("/dashboard/posts");
   }
 
   // Fetch the post
-  const [post] = await db
+  const [dbPost] = await db
     .select()
     .from(blogPosts)
     .where(eq(blogPosts.id, postId));
 
-  if (!post) {
+  if (!dbPost) {
     notFound();
   }
 
@@ -28,10 +32,30 @@ export default async function EditPostPage({ params }: { params: { id: string } 
   // Contributors can only edit their own posts
   if (
     user.role === "contributor" && 
-    post.authorId !== user.id
+    dbPost.authorId !== user.id
   ) {
     redirect("/dashboard/posts");
   }
+
+  // Ensure the post has all required properties according to the schema
+  const post: BlogPost = {
+    id: dbPost.id,
+    title: dbPost.title,
+    slug: dbPost.slug,
+    excerpt: dbPost.excerpt || null,
+    content: dbPost.content,
+    featuredImage: dbPost.featuredImage || null,
+    featured: dbPost.featured || false,
+    createdAt: dbPost.createdAt,
+    updatedAt: dbPost.updatedAt,
+    authorId: dbPost.authorId,
+    publishedAt: dbPost.publishedAt || null,
+    category: dbPost.category || null,
+    readTime: dbPost.readTime || 5,
+    views: dbPost.views || 0,
+    likes: dbPost.likes || 0,
+    commentsCount: dbPost.commentsCount || 0,
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
