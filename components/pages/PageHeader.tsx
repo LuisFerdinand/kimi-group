@@ -48,7 +48,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   return (
     <div className={`text-center mb-20 ${className}`}>
       <h1 
-        className="text-5xl md:text-7xl font-black mb-6 bg-linear-to-r from-[var(--color-gold-200)] via-[var(--color-gold-400)] to-[var(--color-gold-200)] bg-clip-text text-transparent animate-linear"
+        className="text-5xl md:text-7xl font-black mb-6 bg-linear-to-r from-(--color-gold-200) via-(--color-gold-400) to-(--color-gold-200) bg-clip-text text-transparent animate-linear"
         style={{
           background: `linear-gradient(to right, ${gradientFrom}, ${gradientVia}, ${gradientTo})`,
           WebkitBackgroundClip: 'text',
