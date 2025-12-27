@@ -1,16 +1,17 @@
 // app/dashboard/divisions/page.tsx
-import { redirect } from "next/navigation";
 import { requireEditor } from "@/lib/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Trash2, Eye, Star, Calendar, User } from "lucide-react";
+import { Plus, Edit, Eye, Star, Calendar, User, CompassIcon } from "lucide-react";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { brandDivisions, users } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { formatDistanceToNow } from "date-fns";
 import { DeleteDivisionButton } from "@/components/dashboard/delete-division-button";
+import Image from "next/image";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 
 export default async function DivisionsPage() {
   const user = await requireEditor();
@@ -40,12 +41,11 @@ export default async function DivisionsPage() {
     <div className="mx-auto space-y-8">
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Brand Divisions</h1>
-          <p className="text-muted-foreground mt-2">
-            Manage your brand divisions and services
-          </p>
-        </div>
+        <DashboardHeader 
+          title="Brand Divisions"
+          description="Manage your brand divisions and services"
+          icon={CompassIcon}
+        />
         <Link href="/dashboard/divisions/new">
           <Button size="lg" className="w-full md:w-auto">
             <Plus className="w-4 h-4 mr-2" />
@@ -136,11 +136,13 @@ export default async function DivisionsPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     {division.logo ? (
-                      <div className="h-12 w-12 rounded-lg overflow-hidden border bg-muted flex-shrink-0">
-                        <img
+                      <div className="h-12 w-12 rounded-lg overflow-hidden border bg-muted shrink-0">
+                        <Image
                           src={division.logo}
                           alt={division.name}
                           className="h-full w-full object-cover"
+                          width={48}
+                          height={48}
                         />
                       </div>
                     ) : (
@@ -185,7 +187,7 @@ export default async function DivisionsPage() {
                 <div className="flex items-center gap-4 text-xs text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <User className="w-3 h-3" />
-                    <span className="truncate max-w-[100px]">
+                    <span className="truncate max-w-25">
                       {division.authorName || division.authorEmail?.split("@")[0]}
                     </span>
                   </div>

@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { 
   Plus, 
   Edit, 
-  Trash2, 
   Eye, 
   Heart, 
   MessageCircle, 
@@ -15,15 +14,17 @@ import {
   Search,
   Filter,
   Calendar,
-  User
+  User,
+  FileText
 } from "lucide-react";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { blogPosts, users } from "@/lib/db/schema";
-import { eq, desc, sql } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import DeletePostButton from "@/components/dashboard/posts/DeletePostButton";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 
 export default async function PostsPage() {
   const user = await requireContributor();
@@ -68,24 +69,19 @@ export default async function PostsPage() {
   }), { views: 0, likes: 0, comments: 0, published: 0, drafts: 0 });
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Blog Posts</h1>
-          <p className="text-muted-foreground">Manage and monitor your blog content</p>
-        </div>
-        <Link href="/dashboard/posts/new">
-          <Button className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700">
-            <Plus className="w-4 h-4" />
-            New Post
-          </Button>
-        </Link>
+        <DashboardHeader   
+          title="Posts Management"
+          description="Create, edit and manage your blog posts"
+          icon={FileText}
+        />
       </div>
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-        <Card className="border-0 shadow-md bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
+        <Card className="border-0 shadow-md bg-linear-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -101,7 +97,7 @@ export default async function PostsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900">
+        <Card className="border-0 shadow-md bg-linear-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -117,7 +113,7 @@ export default async function PostsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900">
+        <Card className="border-0 shadow-md bg-linear-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -133,7 +129,7 @@ export default async function PostsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900">
+        <Card className="border-0 shadow-md bg-linear-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -149,7 +145,7 @@ export default async function PostsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-950 dark:to-yellow-900">
+        <Card className="border-0 shadow-md bg-linear-to-br from-yellow-50 to-yellow-100 dark:from-yellow-950 dark:to-yellow-900">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -235,7 +231,7 @@ export default async function PostsPage() {
                     <tr key={post.id} className="hover:bg-muted/30 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-4">
-                          <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                          <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-muted shrink-0">
                             {post.featuredImage ? (
                               <Image
                                 src={post.featuredImage}
@@ -244,7 +240,7 @@ export default async function PostsPage() {
                                 className="object-cover"
                               />
                             ) : (
-                              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-yellow-400 to-yellow-600">
+                              <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-yellow-400 to-yellow-600">
                                 <TrendingUp className="h-6 w-6 text-white" />
                               </div>
                             )}
@@ -287,7 +283,7 @@ export default async function PostsPage() {
                               className="rounded-full"
                             />
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center">
+                            <div className="w-8 h-8 rounded-full bg-linear-to-br from-yellow-400 to-yellow-600 flex items-center justify-center">
                               <User className="h-4 w-4 text-white" />
                             </div>
                           )}

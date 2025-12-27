@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // lib/api/users.ts
 import { db } from "@/lib/db";
-import { users } from "@/lib/db/schema";
+import { users, type User } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth";
 import bcrypt from "bcryptjs";
 
+// Get all users
 export async function getUsers() {
   return await db.select({
     id: users.id,
@@ -12,40 +13,50 @@ export async function getUsers() {
     email: users.email,
     role: users.role,
     createdAt: users.createdAt,
-  }).from(users);
+  }).from(users).orderBy(users.createdAt);
 }
 
+// Get a single user by ID
 export async function getUser(id: number) {
   const [user] = await db.select().from(users).where(eq(users.id, id));
   return user;
 }
 
+// Create a new user
 export async function createUser(data: {
   name?: string;
   email: string;
   password: string;
   role: string;
 }) {
-  const currentUser = await getCurrentUser();
-  if (!currentUser) {
-    throw new Error("Authentication required");
+  // Check if email already exists
+  const [existingUser] = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.email, data.email));
+
+  if (existingUser) {
+    throw new Error("A user with this email already exists");
   }
 
-  // Only admins can create users
-  if (currentUser.role !== "admin") {
-    throw new Error("Permission denied");
+  // Validate password
+  if (!data.password || data.password.length < 6) {
+    throw new Error("Password must be at least 6 characters long");
   }
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(data.password, 10);
 
+  // Insert new user
   const [newUser] = await db
     .insert(users)
     .values({
-      name: data.name,
+      name: data.name || null,
       email: data.email,
       password: hashedPassword,
       role: data.role,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     })
     .returning({
       id: users.id,
@@ -58,6 +69,7 @@ export async function createUser(data: {
   return newUser;
 }
 
+// Update an existing user
 export async function updateUser(
   id: number,
   data: {
@@ -67,33 +79,57 @@ export async function updateUser(
     role?: string;
   }
 ) {
-  const currentUser = await getCurrentUser();
-  if (!currentUser) {
-    throw new Error("Authentication required");
+  // Check if user exists
+  const [existingUser] = await db.select().from(users).where(eq(users.id, id));
+  
+  if (!existingUser) {
+    throw new Error("User not found");
   }
 
-  // Only admins can update other users
-  if (currentUser.role !== "admin" && currentUser.id !== id) {
-    throw new Error("Permission denied");
+  // Check if email is being changed and if it's already in use
+  if (data.email && data.email !== existingUser.email) {
+    const [emailExists] = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, data.email));
+
+    if (emailExists) {
+      throw new Error("This email is already in use by another user");
+    }
   }
 
   // Prepare update data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updateData: any = {
-    ...data,
+  const updateData: {
+    name?: string | null;
+    email?: string;
+    password?: string;
+    role?: string;
+    updatedAt: Date;
+  } = {
     updatedAt: new Date(),
   };
 
+  if (data.name !== undefined) {
+    updateData.name = data.name || null;
+  }
+  
+  if (data.email) {
+    updateData.email = data.email;
+  }
+  
+  if (data.role) {
+    updateData.role = data.role;
+  }
+
   // Hash the password if provided
   if (data.password) {
+    if (data.password.length < 6) {
+      throw new Error("Password must be at least 6 characters long");
+    }
     updateData.password = await bcrypt.hash(data.password, 10);
   }
 
-  // Users can't change their own role
-  if (currentUser.id === id) {
-    delete updateData.role;
-  }
-
+  // Update user
   const [updatedUser] = await db
     .update(users)
     .set(updateData)
@@ -104,27 +140,23 @@ export async function updateUser(
       email: users.email,
       role: users.role,
       createdAt: users.createdAt,
+      updatedAt: users.updatedAt,
     });
 
   return updatedUser;
 }
 
+// Delete a user
 export async function deleteUser(id: number) {
-  const currentUser = await getCurrentUser();
-  if (!currentUser) {
-    throw new Error("Authentication required");
+  // Check if user exists
+  const [existingUser] = await db.select().from(users).where(eq(users.id, id));
+  
+  if (!existingUser) {
+    throw new Error("User not found");
   }
 
-  // Only admins can delete users
-  if (currentUser.role !== "admin") {
-    throw new Error("Permission denied");
-  }
-
-  // Users can't delete themselves
-  if (currentUser.id === id) {
-    throw new Error("Cannot delete your own account");
-  }
-
+  // Delete the user
   await db.delete(users).where(eq(users.id, id));
+  
   return { success: true };
 }

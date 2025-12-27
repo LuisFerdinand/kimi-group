@@ -15,7 +15,7 @@ import Link from "next/link";
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams.get("callbackUrl");
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,8 +37,28 @@ export default function LoginPage() {
 
       if (result?.error) {
         setError("Invalid email or password");
-      } else {
-        router.push(callbackUrl);
+        setIsLoading(false);
+        return;
+      }
+
+      // Fetch session to get user role
+      const response = await fetch("/api/auth/session");
+      const session = await response.json();
+
+      if (session?.user) {
+        // If there's a callback URL, use it
+        if (callbackUrl) {
+          router.push(callbackUrl);
+        } else {
+          // Route based on user role
+          const userRole = session.user.role;
+          
+          if (userRole === "admin" || userRole === "editor" || userRole === "contributor") {
+            router.push("/dashboard");
+          } else {
+            router.push("/"); // Homepage for regular users/readers
+          }
+        }
         router.refresh();
       }
     } catch (error) {
@@ -55,7 +75,7 @@ export default function LoginPage() {
         <Card className="border-navy-200 dark:border-navy-700 shadow-lg">
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-center mb-2">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center">
                 <LogIn className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -126,7 +146,7 @@ export default function LoginPage() {
             <CardFooter className="flex flex-col space-y-4">
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white"
+                className="w-full bg-linear-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white"
                 disabled={isLoading}
               >
                 {isLoading ? (
