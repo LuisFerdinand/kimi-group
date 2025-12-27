@@ -5,21 +5,22 @@ import { requireAuth } from "@/lib/auth";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth();
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params; // Await the params Promise
+    const divisionId = parseInt(id);
+    if (isNaN(divisionId)) {
       return NextResponse.json({ error: "Invalid division ID" }, { status: 400 });
     }
 
-    const division = await getDivision(id);
+    const division = await getDivision(divisionId);
     if (!division) {
       return NextResponse.json({ error: "Division not found" }, { status: 404 });
     }
 
-    const updatedDivision = await updateDivision(id, {
+    const updatedDivision = await updateDivision(divisionId, {
       featured: !division.featured
     });
 

@@ -1,7 +1,7 @@
 // app/(public)/login/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 import Link from "next/link";
 
-export default function LoginPage() {
+// Create a separate component that uses useSearchParams
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
@@ -189,5 +190,24 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+// Main component that wraps the LoginForm in Suspense
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center p-4 pt-24">
+        <div className="w-full max-w-md">
+          <Card className="border-navy-200 dark:border-navy-700 shadow-lg">
+            <CardContent className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-gold-600" />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

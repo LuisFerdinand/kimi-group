@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // app/api/users/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getUser, updateUser, deleteUser } from "@/lib/api/users";
@@ -5,15 +6,16 @@ import { requireAuth } from "@/lib/auth";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params; // Await the params Promise
+    const userId = parseInt(id);
+    if (isNaN(userId)) {
       return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
     }
 
-    const user = await getUser(id);
+    const user = await getUser(userId);
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
@@ -30,17 +32,18 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth();
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params; // Await the params Promise
+    const userId = parseInt(id);
+    if (isNaN(userId)) {
       return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
     }
 
     const data = await request.json();
-    const updatedUser = await updateUser(id, data);
+    const updatedUser = await updateUser(userId, data);
     return NextResponse.json(updatedUser);
   } catch (error) {
     console.error("Error updating user:", error);
@@ -53,16 +56,17 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth();
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params; // Await the params Promise
+    const userId = parseInt(id);
+    if (isNaN(userId)) {
       return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
     }
 
-    await deleteUser(id);
+    await deleteUser(userId);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting user:", error);

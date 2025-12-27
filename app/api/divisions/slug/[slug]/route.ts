@@ -4,10 +4,11 @@ import { getDivisionBySlug } from "@/lib/api/divisions";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const division = await getDivisionBySlug(params.slug);
+    const { slug } = await params; // Await the params Promise
+    const division = await getDivisionBySlug(slug);
     
     if (!division) {
       return NextResponse.json({ error: "Division not found" }, { status: 404 });

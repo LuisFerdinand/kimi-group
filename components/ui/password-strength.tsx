@@ -82,9 +82,9 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
             className="flex items-center gap-2 text-sm"
           >
             {req.met ? (
-              <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
+              <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0" />
             ) : (
-              <XCircle className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+              <XCircle className="h-4 w-4 text-muted-foreground shrink-0" />
             )}
             <span className={req.met ? "text-foreground" : "text-muted-foreground"}>
               {req.label}

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // app/(public)/brand/page.tsx
 "use client";
 
@@ -58,7 +59,7 @@ export default function BrandPage() {
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.target.touches[0].clientX);
+    setTouchEnd(e.touches[0].clientX);
   };
 
   const onTouchEnd = () => {
@@ -172,8 +173,8 @@ export default function BrandPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden relative">
-      {/* Enhanced background with animated gradients */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/5 to-background" />
+      {/* Enhanced background with animated linears */}
+      <div className="absolute inset-0 bg-linear-to-br from-background via-muted/5 to-background" />
       
       {/* Animated decorative orbs */}
       <div 
@@ -185,7 +186,7 @@ export default function BrandPage() {
         style={{ backgroundColor: currentBrand.color || "#3b82f6", opacity: 0.06 }}
       />
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse-slower"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 rounded-full blur-3xl animate-pulse-slower"
         style={{ backgroundColor: currentBrand.color || "#3b82f6", opacity: 0.04 }}
       />
 
@@ -199,7 +200,7 @@ export default function BrandPage() {
 
           {/* Brand Slider with touch support */}
           <div 
-            className="relative mx-auto max-w-6xl h-[450px] sm:h-[550px] lg:h-[650px] mb-20"
+            className="relative mx-auto max-w-6xl h-112.5 sm:h-137.5 lg:h-162.5 mb-20"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
@@ -213,7 +214,7 @@ export default function BrandPage() {
                 return (
                   <div 
                     key={brand.id}
-                    className="absolute w-[280px] h-[400px] sm:w-[340px] sm:h-[480px] lg:w-[420px] lg:h-[580px] rounded-3xl overflow-hidden shadow-2xl transition-all duration-700 ease-out cursor-pointer"
+                    className="absolute w-70 h-100 sm:w-85 sm:h-120 lg:w-105 lg:h-145 rounded-3xl overflow-hidden shadow-2xl transition-all duration-700 ease-out cursor-pointer"
                     style={{
                       ...styles,
                       transform: isHovered && !isActive ? `${styles.transform} scale(1.05)` : styles.transform,
@@ -244,9 +245,9 @@ export default function BrandPage() {
                       }}
                     />
                     
-                    {/* Gradient overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/50" />
+                    {/* Linear overlays */}
+                    <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-br from-transparent via-transparent to-black/50" />
                     
                     {/* Active border glow */}
                     {isActive && (
@@ -286,7 +287,7 @@ export default function BrandPage() {
                         {/* CTA Button */}
                         <Link
                           href={`/brand/${brand.id}`}
-                          className={`group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-gradient-to-r ${brand.theme?.primary || 'from-blue-500 to-blue-600'} font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base text-white shadow-xl`}
+                          className={`group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-linear-to-r ${brand.theme?.primary || 'from-blue-500 to-blue-600'} font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105 text-sm sm:text-base text-white shadow-xl`}
                           onClick={(e) => e.stopPropagation()}
                         >
                           Explore Division
@@ -340,7 +341,7 @@ export default function BrandPage() {
                     onClick={() => !isAnimating && setActiveIndex(index)}
                     className={`transition-all duration-500 rounded-full ${
                       index === activeIndex
-                        ? `w-8 sm:w-10 h-2 sm:h-2.5 bg-gradient-to-r ${currentBrand.theme?.primary || 'from-blue-500 to-blue-600'} shadow-lg`
+                        ? `w-8 sm:w-10 h-2 sm:h-2.5 bg-linear-to-r ${currentBrand.theme?.primary || 'from-blue-500 to-blue-600'} shadow-lg`
                         : 'w-2 sm:w-2.5 h-2 sm:h-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60 hover:scale-125'
                     }`}
                     style={index === activeIndex ? { boxShadow: `0 0 15px ${currentBrand.color || "#3b82f6"}80` } : {}}
@@ -372,7 +373,7 @@ export default function BrandPage() {
             ].map((stat, index) => (
               <div 
                 key={index}
-                className={`group relative p-6 sm:p-8 rounded-2xl bg-gradient-to-br ${currentBrand.theme?.gradient || 'from-blue-500 to-blue-600'} backdrop-blur-xl border transition-all duration-700 hover:scale-105 hover:shadow-2xl overflow-hidden`}
+                className={`group relative p-6 sm:p-8 rounded-2xl bg-linear-to-br ${currentBrand.theme?.linear || 'from-blue-500 to-blue-600'} backdrop-blur-xl border transition-all duration-700 hover:scale-105 hover:shadow-2xl overflow-hidden`}
                 style={{ 
                   borderColor: `${currentBrand.color || "#3b82f6"}20`,
                   boxShadow: `0 4px 20px ${currentBrand.color || "#3b82f6"}10`,
@@ -385,7 +386,7 @@ export default function BrandPage() {
                 />
                 
                 <div className="relative z-10">
-                  <div className={`text-3xl sm:text-4xl lg:text-5xl font-black bg-gradient-to-r ${currentBrand.theme?.primary || 'from-blue-500 to-blue-600'} bg-clip-text text-transparent mb-3 transition-all duration-700 group-hover:scale-110`}>
+                  <div className={`text-3xl sm:text-4xl lg:text-5xl font-black bg-linear-to-r ${currentBrand.theme?.primary || 'from-blue-500 to-blue-600'} bg-clip-text text-transparent mb-3 transition-all duration-700 group-hover:scale-110`}>
                     {stat.value}
                   </div>
                   <div className="text-xs sm:text-sm font-bold uppercase tracking-[0.15em] text-muted-foreground transition-all duration-700">
