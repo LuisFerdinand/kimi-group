@@ -3,7 +3,7 @@
 
 import PageHeader from "@/components/pages/PageHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Target, Users, Award, Sparkles, Globe, Heart, Lightbulb, Handshake } from "lucide-react";
+import { CheckCircle, Target, Users, Award, Sparkles, Globe, Heart, Lightbulb, Handshake, Eye, Compass } from "lucide-react";
 import Image from "next/image";
 
 export default function AboutPage() {
@@ -58,45 +58,6 @@ export default function AboutPage() {
     },
   ];
 
-  // const divisions = [
-  //   {
-  //     name: "Kiny Cultura Indonesia",
-  //     description: "Mempromosikan pemahaman lintas budaya melalui kompetisi folk dance, sekolah imersi, dan program kepemimpinan.",
-  //     icon: <Globe className="h-8 w-8" />,
-  //     color: "from-[var(--color-gold-500)] to-[var(--color-gold-400)]"
-  //   },
-  //   {
-  //     name: "Kiny Education & Training",
-  //     description: "Menyediakan program pengembangan untuk mahasiswa dan eksekutif dengan sertifikasi internasional.",
-  //     icon: <Lightbulb className="h-8 w-8" />,
-  //     color: "from-[var(--color-gold-600)] to-[var(--color-gold-500)]"
-  //   },
-  //   {
-  //     name: "Kiny Tours & Travel",
-  //     description: "Menawarkan pengalaman tur privat yang dipersonalisasi untuk memperkaya pemahaman wisatawan tentang budaya yang beragam.",
-  //     icon: <Target className="h-8 w-8" />,
-  //     color: "from-[var(--color-gold-700)] to-[var(--color-gold-600)]"
-  //   },
-  //   {
-  //     name: "Kinergy Project",
-  //     description: "Menyediakan layanan perencanaan dan manajemen acara yang merayakan kreativitas dan kolaborasi.",
-  //     icon: <Sparkles className="h-8 w-8" />,
-  //     color: "from-[var(--color-gold-400)] to-[var(--color-gold-300)]"
-  //   },
-  //   {
-  //     name: "Kiny & Soul",
-  //     description: "Menyediakan layanan yang nyaman, fleksibel, dan privat untuk perjalanan Umrah dan spiritual.",
-  //     icon: <Heart className="h-8 w-8" />,
-  //     color: "from-[var(--color-gold-300)] to-[var(--color-gold-200)]"
-  //   },
-  //   {
-  //     name: "Kiny Xplore",
-  //     description: "Divisi yang didedikasikan untuk kemajuan olahraga skala internasional.",
-  //     icon: <Award className="h-8 w-8" />,
-  //     color: "from-[var(--color-gold-200)] to-[var(--color-gold-100)]"
-  //   }
-  // ];
-
   const foundations = [
     {
       name: "Generasi Peduli Bumi",
@@ -120,7 +81,6 @@ export default function AboutPage() {
     "Bekerja dengan passion dan komitmen untuk memuaskan pelanggan"
   ];
 
-  // Client logos - replace with actual client logos
   const clientLogos = [
     { name: "UNESCO", logo: "/clientLogos/unesco.png" },
     { name: "Conseil International de la Danse", logo: "/clientLogos/cid.png" },
@@ -141,61 +101,86 @@ export default function AboutPage() {
           emphasizedWord="Komitmen"
         />
 
-        {/* Vision & Mission Section */}
-        <Card className="border-gold-500/20 bg-card/50 backdrop-blur-sm mb-16">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold mb-4">Visi & Misi Kami</CardTitle>
-            <div className="gap-8 mt-8">
-              <div>
-                <h3 className="text-xl font-semibold mb-3 text-[var(--color-gold-500)]">Visi</h3>
-                <CardDescription className="text-base">
+        {/* Enhanced Vision & Mission Section */}
+        <div className="mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Vision Card */}
+            <Card className="border-gold-500/20 hover:border-gold-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/10 group">
+              <CardHeader>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-primary-foreground shadow-lg">
+                    <Eye className="h-7 w-7" />
+                  </div>
+                  <CardTitle className="text-2xl">Visi Kami</CardTitle>
+                </div>
+                <CardDescription className="text-base leading-relaxed">
                   To enrich lives through transformative educational programs and cultural initiatives, empowering the next generation of diverse leaders.
                 </CardDescription>
-              </div>
-              <div className="mt-6">
-                <h3 className="text-xl font-semibold mb-3 text-[var(--color-gold-500)]">Misi</h3>
-                <CardDescription className="text-base">
-                  &quot;Kiny Group is dedicated to enhancing global connections through our multifaceted services&quot;
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
+              </CardHeader>
+              <CardContent>
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground italic">
+                    Memperkaya kehidupan melalui program pendidikan transformasional dan inisiatif budaya, memberdayakan generasi pemimpin yang beragam.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* Our Divisions Section */}
-        {/* <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold bg-linear-to-r from-(--color-gold-400) via-(--color-gold-500) to-(--color-gold-600) bg-clip-text text-transparent">
-              Divisi Kami
-            </h2>
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-              Enam divisi luar biasa, satu komitmen untuk keunggulan
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {divisions.map((division, index) => (
-              <Card key={index} className="border-[var(--color-gold-500)]/20 bg-[var(--card)]/50 backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-gold-500)]/10 hover:-translate-y-1">
-                <CardHeader className="text-center pb-3">
-                  <div className={`mx-auto w-16 h-16 rounded-full bg-linear-to-r ${division.color} flex items-center justify-center text-white mb-4`}>
-                    {division.icon}
+            {/* Mission Card */}
+            <Card className="border-gold-500/20 hover:border-gold-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/10 group">
+              <CardHeader>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold-500 to-gold-700 flex items-center justify-center text-primary-foreground shadow-lg">
+                    <Compass className="h-7 w-7" />
                   </div>
-                  <CardTitle className="text-xl">{division.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-center">
-                    {division.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
+                  <CardTitle className="text-2xl">Misi Kami</CardTitle>
+                </div>
+                <CardDescription className="text-base leading-relaxed">
+                  Kiny Group is dedicated to enhancing global connections through our multifaceted services in education, cultural exchange, and community development.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground italic">
+                    Meningkatkan koneksi global melalui layanan multifaset dalam pendidikan, pertukaran budaya, dan pengembangan komunitas.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </div> */}
+
+          {/* Core Values */}
+          <Card className="mt-6 border-gold-500/20">
+            <CardHeader className="text-center">
+              <CardTitle className="text-xl">Nilai-Nilai Inti Kami</CardTitle>
+              <CardDescription>Prinsip yang memandu setiap langkah kami</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="flex flex-col items-center text-center p-4 rounded-lg border border-border hover:border-gold-500/30 transition-colors">
+                  <Globe className="h-8 w-8 text-gold-500 mb-3" />
+                  <h4 className="font-semibold mb-2">Global Excellence</h4>
+                  <p className="text-sm text-muted-foreground">Standar internasional dalam setiap layanan</p>
+                </div>
+                <div className="flex flex-col items-center text-center p-4 rounded-lg border border-border hover:border-gold-500/30 transition-colors">
+                  <Heart className="h-8 w-8 text-gold-500 mb-3" />
+                  <h4 className="font-semibold mb-2">Passion & Care</h4>
+                  <p className="text-sm text-muted-foreground">Dedikasi penuh untuk kepuasan klien</p>
+                </div>
+                <div className="flex flex-col items-center text-center p-4 rounded-lg border border-border hover:border-gold-500/30 transition-colors">
+                  <Lightbulb className="h-8 w-8 text-gold-500 mb-3" />
+                  <h4 className="font-semibold mb-2">Innovation</h4>
+                  <p className="text-sm text-muted-foreground">Terus berinovasi untuk masa depan</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Enhanced Journey Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold bg-linear-to-r from-(--color-gold-400) via-(--color-gold-500) to-(--color-gold-600) bg-clip-text text-transparent">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
               Perjalanan Kami
             </h2>
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
@@ -205,9 +190,8 @@ export default function AboutPage() {
 
           {/* Desktop Timeline */}
           <div className="hidden md:block relative">
-            {/* Animated linear line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-linear-to-b from-[var(--color-gold-400)] via-[var(--color-gold-500)] to-[var(--color-gold-600)] opacity-30">
-              <div className="absolute inset-0 bg-linear-to-b from-[var(--color-gold-400)] via-[var(--color-gold-500)] to-transparent animate-pulse"></div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-gold-400 via-gold-500 to-gold-600 opacity-30">
+              <div className="absolute inset-0 bg-gradient-to-b from-gold-400 via-gold-500 to-transparent animate-pulse"></div>
             </div>
             
             <div className="space-y-16">
@@ -219,28 +203,25 @@ export default function AboutPage() {
                     animation: `fadeInUp 0.6s ease-out ${index * 0.2}s both`
                   }}
                 >
-                  {/* Content side */}
                   <div className="w-1/2 px-8">
-                    <Card className="border-[var(--color-gold-500)]/20 bg-[var(--card)]/80 backdrop-blur-sm overflow-hidden hover:border-[var(--color-gold-500)]/50 transition-all duration-500 hover:shadow-lg hover:shadow-[var(--color-gold-500)]/20 hover:-translate-y-2">
-                      {/* Image with overlay */}
+                    <Card className="border-gold-500/20 hover:border-gold-500/50 transition-all duration-500 hover:shadow-lg hover:shadow-gold-500/20 hover:-translate-y-2 overflow-hidden">
                       <div className="relative h-48 overflow-hidden">
-                        <div className="absolute inset-0 bg-linear-to-t from-[var(--card)] via-[var(--card)]/50 to-transparent z-10"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent z-10"></div>
                         <Image 
                           src={item.image} 
                           alt={item.title}
                           fill
                           className="object-cover transition-transform duration-700"
                         />
-                        {/* Floating year badge */}
                         <div className="absolute top-4 right-4 z-20">
-                          <div className="bg-[var(--color-gold-500)] text-[var(--color-navy-900)] px-4 py-2 rounded-full font-bold text-lg shadow-lg">
+                          <div className="bg-gold-500 text-primary-foreground px-4 py-2 rounded-full font-bold text-lg shadow-lg">
                             {item.year}
                           </div>
                         </div>
                       </div>
                       
                       <CardHeader className="space-y-3">
-                        <CardTitle className="text-xl group-hover:text-[var(--color-gold-400)] transition-colors duration-300">
+                        <CardTitle className="text-xl group-hover:text-gold-400 transition-colors duration-300">
                           {item.title}
                         </CardTitle>
                         <CardDescription className="text-base leading-relaxed">
@@ -250,16 +231,14 @@ export default function AboutPage() {
                     </Card>
                   </div>
 
-                  {/* Center dot with pulse animation */}
                   <div className="w-0 flex justify-center relative z-20">
                     <div className="relative">
-                      <div className="w-4 h-4 rounded-full bg-[var(--color-gold-500)] shadow-lg shadow-[var(--color-gold-500)]/50 group-hover:scale-150 transition-transform duration-500"></div>
-                      <div className="absolute inset-0 w-4 h-4 rounded-full bg-[var(--color-gold-400)] animate-ping opacity-75"></div>
-                      <div className="absolute inset-0 w-8 h-8 -m-2 rounded-full border-2 border-[var(--color-gold-400)]/30 group-hover:border-[var(--color-gold-400)]/60 transition-colors duration-500"></div>
+                      <div className="w-4 h-4 rounded-full bg-gold-500 shadow-lg shadow-gold-500/50 group-hover:scale-150 transition-transform duration-500"></div>
+                      <div className="absolute inset-0 w-4 h-4 rounded-full bg-gold-400 animate-ping opacity-75"></div>
+                      <div className="absolute inset-0 w-8 h-8 -m-2 rounded-full border-2 border-gold-400/30 group-hover:border-gold-400/60 transition-colors duration-500"></div>
                     </div>
                   </div>
 
-                  {/* Empty space for layout */}
                   <div className="w-1/2"></div>
                 </div>
               ))}
@@ -268,8 +247,7 @@ export default function AboutPage() {
 
           {/* Mobile Timeline */}
           <div className="md:hidden relative">
-            {/* Vertical line */}
-            <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-linear-to-b from-[var(--color-gold-400)] via-[var(--color-gold-500)] to-[var(--color-gold-600)] opacity-30"></div>
+            <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gold-400 via-gold-500 to-gold-600 opacity-30"></div>
             
             <div className="space-y-8 pl-12 pr-4">
               {journeyItems.map((item, index) => (
@@ -280,23 +258,20 @@ export default function AboutPage() {
                     animation: `fadeInLeft 0.6s ease-out ${index * 0.15}s both`
                   }}
                 >
-                  {/* Timeline dot */}
                   <div className="absolute -left-7.5 top-6">
                     <div className="relative">
-                      <div className="w-3 h-3 rounded-full bg-[var(--color-gold-500)] shadow-md shadow-[var(--color-gold-500)]/50 group-hover:scale-150 transition-transform duration-300"></div>
-                      <div className="absolute inset-0 w-3 h-3 rounded-full bg-[var(--color-gold-400)] animate-ping opacity-75"></div>
+                      <div className="w-3 h-3 rounded-full bg-gold-500 shadow-md shadow-gold-500/50 group-hover:scale-150 transition-transform duration-300"></div>
+                      <div className="absolute inset-0 w-3 h-3 rounded-full bg-gold-400 animate-ping opacity-75"></div>
                     </div>
                   </div>
 
-                  <Card className="border-[var(--color-gold-500)]/20 bg-[var(--card)]/80 backdrop-blur-sm overflow-hidden hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-md hover:shadow-[var(--color-gold-500)]/10">
-                    {/* Year badge */}
-                    <div className="absolute top-4 right-4 z-10 bg-[var(--color-gold-500)] text-[var(--color-navy-900)] px-3 py-1 rounded-full font-bold text-sm shadow-md">
+                  <Card className="border-gold-500/20 hover:border-gold-500/50 transition-all duration-300 hover:shadow-md hover:shadow-gold-500/10 overflow-hidden">
+                    <div className="absolute top-4 right-4 z-10 bg-gold-500 text-primary-foreground px-3 py-1 rounded-full font-bold text-sm shadow-md">
                       {item.year}
                     </div>
 
-                    {/* Image */}
                     <div className="relative h-40 overflow-hidden">
-                      <div className="absolute inset-0 bg-linear-to-t from-[var(--card)] via-[var(--card)]/30 to-transparent z-10"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent z-10"></div>
                       <Image 
                         src={item.image} 
                         alt={item.title}
@@ -306,7 +281,7 @@ export default function AboutPage() {
                     </div>
                     
                     <CardHeader className="space-y-2">
-                      <CardTitle className="text-lg group-hover:text-[var(--color-gold-400)] transition-colors duration-300">
+                      <CardTitle className="text-lg group-hover:text-gold-400 transition-colors duration-300">
                         {item.title}
                       </CardTitle>
                       <CardDescription className="text-sm leading-relaxed">
@@ -323,52 +298,20 @@ export default function AboutPage() {
         {/* Key Strengths & Achievements Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold bg-linear-to-r from-(--color-gold-400) via-(--color-gold-500) to-(--color-gold-600) bg-clip-text text-transparent">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
               Keunggulan & Prestasi Kami
             </h2>
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+              Pencapaian yang membanggakan dalam perjalanan kami
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {achievements.map((achievement, index) => (
-              <div key={index} className="flex items-start gap-3 p-4 rounded-lg border-[var(--color-gold-500)]/20 bg-[var(--card)]/50 backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300">
-                <CheckCircle className="h-6 w-6 text-[var(--color-gold-500)] shrink-0 mt-0.5" />
+              <div key={index} className="flex items-start gap-3 p-4 rounded-lg border border-gold-500/20 hover:border-gold-500/50 transition-all duration-300 hover:shadow-md hover:shadow-gold-500/10">
+                <CheckCircle className="h-6 w-6 text-gold-500 shrink-0 mt-0.5" />
                 <p className="text-sm">{achievement}</p>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Our Foundations Section */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold bg-linear-to-r from-(--color-gold-400) via-(--color-gold-500) to-(--color-gold-600) bg-clip-text text-transparent">
-              Yayasan Kami
-            </h2>
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-              Berkomitmen pada keberlanjutan lingkungan dan pemberdayaan UMKM
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {foundations.map((foundation, index) => (
-              <Card key={index} className="border-[var(--color-gold-500)]/20 bg-[var(--card)]/50 backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[var(--color-gold-500)]/10">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-linear-to-r from-[var(--color-gold-500)] to-[var(--color-gold-400)] flex items-center justify-center text-white">
-                      <Handshake className="h-6 w-6" />
-                    </div>
-                    {foundation.name}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base mb-4">
-                    {foundation.description}
-                  </CardDescription>
-                  <div className="text-sm font-semibold text-[var(--color-gold-500)]">
-                    {foundation.stats}
-                  </div>
-                </CardContent>
-              </Card>
             ))}
           </div>
         </div>
@@ -376,18 +319,18 @@ export default function AboutPage() {
         {/* Our Clients Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold bg-linear-to-r from-[var(--color-gold-400)] via-[var(--color-gold-500)] to-[var(--color-gold-600)] bg-clip-text text-transparent">
-              Klien Kami
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+              Klien & Mitra Kami
             </h2>
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
               Kami bangga telah bermitra dengan organisasi-organisasi terkemuka dari berbagai sektor
             </p>
           </div>
 
-          <Card className="border-[var(--color-gold-500)]/20 bg-[var(--card)]/50 backdrop-blur-sm p-8">
+          <Card className="border-gold-500/20 p-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {clientLogos.map((client, index) => (
-                <div key={index} className="flex flex-col items-center justify-center p-4 rounded-lg hover:bg-[var(--color-gold-500)]/5 transition-all duration-300 group">
+                <div key={index} className="flex flex-col items-center justify-center p-4 rounded-lg hover:bg-accent/50 transition-all duration-300 group">
                   <div className="relative w-24 h-24 mb-4">
                     <Image 
                       src={client.logo} 
@@ -396,40 +339,11 @@ export default function AboutPage() {
                       className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
                     />
                   </div>
-                  <span className="text-sm font-medium text-muted-foreground group-hover:text-[var(--color-gold-400)] transition-colors">
+                  <span className="text-sm font-medium text-muted-foreground group-hover:text-gold-400 transition-colors">
                     {client.name}
                   </span>
                 </div>
               ))}
-            </div>
-          </Card>
-        </div>
-
-        {/* Contact Section */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold bg-linear-to-r from-(--color-gold-400) via-(--color-gold-500) to-(--color-gold-600) bg-clip-text text-transparent">
-              Hubungi Kami
-            </h2>
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-              CONNECTING MINDS, FOSTERING IDEAS – LET&apos;S COLLABORATE
-            </p>
-          </div>
-
-          <Card className="border-[var(--color-gold-500)]/20 bg-[var(--card)]/50 backdrop-blur-sm p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div>
-                <h3 className="font-semibold mb-2 text-[var(--color-gold-500)]">Telepon</h3>
-                <p className="text-sm">+6221 837877 35 / 36</p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2 text-[var(--color-gold-500)]">Email</h3>
-                <p className="text-sm">info@kcifoundation.org</p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2 text-[var(--color-gold-500)]">Alamat</h3>
-                <p className="text-sm">Jl. Tebet Timur Dalam II No.38B, Tebet, Jakarta Selatan 12820</p>
-              </div>
             </div>
           </Card>
         </div>

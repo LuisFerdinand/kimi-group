@@ -228,7 +228,7 @@ export function Sidebar({ user, isCollapsed, onToggle }: SidebarProps) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-gold-500/50 transition-all">
+                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-gold-500/50 transition-all">
                       <span className="text-white font-semibold text-sm">
                         {getInitials(user.name, user.email)}
                       </span>
@@ -244,7 +244,7 @@ export function Sidebar({ user, isCollapsed, onToggle }: SidebarProps) {
               </Tooltip>
             ) : (
               <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-muted">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-full bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center shrink-0">
                   <span className="text-white font-semibold text-sm">
                     {getInitials(user.name, user.email)}
                   </span>

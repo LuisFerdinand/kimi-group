@@ -1,12 +1,13 @@
-import { redirect } from "next/navigation";
-import { getCurrentUser, requireEditor } from "@/lib/auth";
+// app/dashboard/categories/page.tsx
+import {  requireEditor } from "@/lib/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2, Folder } from "lucide-react";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { blogCategories } from "@/lib/db/schema";
 import { formatDistanceToNow } from "date-fns";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 
 export default async function CategoriesPage() {
   const user = await requireEditor();
@@ -18,13 +19,14 @@ export default async function CategoriesPage() {
     .orderBy(blogCategories.name);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="mx-auto">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Categories</h1>
-          <p className="text-muted-foreground">Manage blog post categories</p>
-        </div>
+        <DashboardHeader 
+          title="Categories"
+          description="Manage blog post categories"
+          icon={Folder}
+        />
         <Link href="/dashboard/categories/new">
           <Button className="flex items-center gap-2">
             <Plus className="w-4 h-4" />

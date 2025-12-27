@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // app/(public)/brand/[id]/page.tsx
 "use client";
@@ -77,7 +78,7 @@ export default function DivisionDetailPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative overflow-hidden h-[85vh] min-h-[600px]">
+      <section className="relative overflow-hidden h-[85vh] min-h-150">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${division.backgroundImage})` }}
@@ -86,7 +87,7 @@ export default function DivisionDetailPage() {
           className="absolute inset-0 mix-blend-multiply opacity-50"
           style={{ backgroundColor: division.color || "#3b82f6" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent" />
         
         <div className="relative z-10 h-full flex flex-col container mx-auto px-6 lg:px-12">
           <div className="pt-8">
@@ -128,7 +129,7 @@ export default function DivisionDetailPage() {
               { label: division.stats?.label4 || "", value: division.stats?.value4 || "" },
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <div className={`text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r ${division.theme?.primary || 'from-blue-500 to-blue-600'} bg-clip-text text-transparent mb-3`}>
+                <div className={`text-4xl md:text-5xl lg:text-6xl font-bold bg-linear-to-r ${division.theme?.primary || 'from-blue-500 to-blue-600'} bg-clip-text text-transparent mb-3`}>
                   {stat.value}
                 </div>
                 <div className="text-sm md:text-base text-muted-foreground font-medium uppercase tracking-wide">
@@ -147,7 +148,7 @@ export default function DivisionDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
               <div>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center`}>
+                  <div className={`w-14 h-14 rounded-full bg-linear-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center`}>
                     <MapPin className="h-7 w-7 text-white" />
                   </div>
                   <div>
@@ -163,7 +164,7 @@ export default function DivisionDetailPage() {
               </div>
               <div>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center`}>
+                  <div className={`w-14 h-14 rounded-full bg-linear-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center`}>
                     <Truck className="h-7 w-7 text-white" />
                   </div>
                   <div>
@@ -200,7 +201,7 @@ export default function DivisionDetailPage() {
               {division.services?.map((service, index) => (
                 <div key={index} className="group">
                   <div className="flex items-start gap-6 py-8 border-t border-border/50">
-                    <div className={`w-12 h-12 rounded-full ${division.theme?.bg || 'bg-blue-100'} flex items-center justify-center flex-shrink-0 mt-1`}>
+                    <div className={`w-12 h-12 rounded-full ${division.theme?.bg || 'bg-blue-100'} flex items-center justify-center shrink-0 mt-1`}>
                       <div className={`w-3 h-3 rounded-full ${division.theme?.accent || 'bg-blue-500'}`}></div>
                     </div>
                     <div className="flex-1">
@@ -233,7 +234,7 @@ export default function DivisionDetailPage() {
               <div className="space-y-6">
                 {division.achievements?.map((achievement, index) => (
                   <div key={index} className="flex items-start gap-4 group">
-                    <div className={`w-8 h-8 rounded-full ${division.theme?.bg || 'bg-blue-100'} flex items-center justify-center flex-shrink-0 mt-1`}>
+                    <div className={`w-8 h-8 rounded-full ${division.theme?.bg || 'bg-blue-100'} flex items-center justify-center shrink-0 mt-1`}>
                       <CheckCircle className={`h-4 w-4 ${division.theme?.text || 'text-blue-700'}`} />
                     </div>
                     <p className="text-base md:text-lg leading-relaxed pt-1">{achievement}</p>
@@ -262,7 +263,7 @@ export default function DivisionDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {division.team?.map((member, index) => (
                 <div key={index} className="text-center group">
-                  <div className={`w-32 h-32 rounded-full bg-gradient-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center mx-auto mb-6 shadow-xl`}>
+                  <div className={`w-32 h-32 rounded-full bg-linear-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center mx-auto mb-6 shadow-xl`}>
                     <span className="text-white font-bold text-3xl">
                       {member.name.split(' ').map(n => n[0]).join('')}
                     </span>
@@ -328,7 +329,7 @@ export default function DivisionDetailPage() {
                 </p>
 
                 <Button 
-                  className={`bg-gradient-to-r ${division.theme?.primary || 'from-blue-500 to-blue-600'} text-white px-8 py-6 text-lg border-0 hover:opacity-90 shadow-xl`}
+                  className={`bg-linear-to-r ${division.theme?.primary || 'from-blue-500 to-blue-600'} text-white px-8 py-6 text-lg border-0 hover:opacity-90 shadow-xl`}
                 >
                   Schedule Consultation
                 </Button>
@@ -336,7 +337,7 @@ export default function DivisionDetailPage() {
 
               <div className="space-y-8">
                 <div className="flex items-start gap-4 py-6 border-b border-border/50">
-                  <Mail className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 flex-shrink-0`} />
+                  <Mail className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 shrink-0`} />
                   <div>
                     <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
                       Email
@@ -348,7 +349,7 @@ export default function DivisionDetailPage() {
                 </div>
 
                 <div className="flex items-start gap-4 py-6 border-b border-border/50">
-                  <Phone className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 flex-shrink-0`} />
+                  <Phone className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 shrink-0`} />
                   <div>
                     <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
                       Phone
@@ -358,7 +359,7 @@ export default function DivisionDetailPage() {
                 </div>
 
                 <div className="flex items-start gap-4 py-6 border-b border-border/50">
-                  <MapPinIcon className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 flex-shrink-0`} />
+                  <MapPinIcon className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 shrink-0`} />
                   <div>
                     <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
                       Address

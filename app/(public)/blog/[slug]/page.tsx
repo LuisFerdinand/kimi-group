@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // app/(public)/blog/[slug]/page.tsx
 "use client";
@@ -305,13 +306,13 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
+    <div className="min-h-screen bg-linear-to-b from-background via-background to-muted/20">
       {/* Success Toast */}
       {showSuccess && (
         <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top-5">
           <Card className="border-green-500 bg-green-50 dark:bg-green-950 shadow-lg">
             <CardContent className="flex items-center gap-2 py-3 px-4">
-              <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+              <CheckCircle className="h-5 w-5 text-green-600 shrink-0" />
               <span className="text-sm font-medium text-green-900 dark:text-green-100">
                 {successMessage}
               </span>
@@ -321,7 +322,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
       )}
 
       {/* Hero Section */}
-      <div className="relative h-[60vh] min-h-[500px] overflow-hidden">
+      <div className="relative h-[60vh] min-h-125 overflow-hidden">
         <Image 
           src={blogPost.imageUrl} 
           alt={blogPost.title}
@@ -329,7 +330,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
         
         <div className="absolute inset-0 container mx-auto px-4 flex items-end pb-12">
           <div className="max-w-4xl">
@@ -389,7 +390,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
           {/* Main Content Card */}
           <Card className="border-0 shadow-2xl overflow-hidden mb-8">
             {blogPost.excerpt && (
-              <CardHeader className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 border-b">
+              <CardHeader className="bg-linear-to-r from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 border-b">
                 <p className="text-lg md:text-xl text-muted-foreground italic border-l-4 border-yellow-600 pl-6 py-3 leading-relaxed">
                   {blogPost.excerpt}
                 </p>
@@ -437,7 +438,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
 
               {/* Rich Text Content - Using custom styles matching the rich text editor */}
               <div 
-                className="rich-text-content min-h-[300px] p-4 focus:outline-none max-w-none"
+                className="rich-text-content min-h-75 p-4 focus:outline-none max-w-none"
                 dangerouslySetInnerHTML={{ __html: blogPost.content }} 
               />
 
@@ -603,7 +604,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                   <Card key={comment.id} className="border-0 shadow-md hover:shadow-lg transition-all duration-300">
                     <CardContent className="pt-6">
                       <div className="flex gap-4">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shrink-0 shadow-lg">
+                        <div className="w-12 h-12 rounded-full bg-linear-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shrink-0 shadow-lg">
                           {comment.authorImage ? (
                             <Image 
                               src={comment.authorImage} 
@@ -673,7 +674,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </div>
                       <CardHeader className="pb-3">
                         <Badge className="w-fit bg-yellow-600 hover:bg-yellow-700 mb-3 text-xs">

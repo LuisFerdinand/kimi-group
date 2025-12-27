@@ -26,63 +26,89 @@ interface MenuItem {
   roles: string[];
 }
 
+interface MenuCategory {
+  label: string;
+  items: MenuItem[];
+}
+
 interface MobileSidebarProps {
   user: User;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const menuItems: MenuItem[] = [
-  { 
-    icon: LayoutDashboard, 
-    label: 'Dashboard', 
-    href: '/dashboard', 
-    roles: ['admin', 'editor', 'contributor', 'reader'] 
+const menuCategories: MenuCategory[] = [
+  {
+    label: 'General',
+    items: [
+      { 
+        icon: LayoutDashboard, 
+        label: 'Dashboard', 
+        href: '/dashboard', 
+        roles: ['admin', 'editor', 'contributor', 'reader'] 
+      },
+    ]
   },
-  { 
-    icon: FileText, 
-    label: 'Blog Posts', 
-    href: '/dashboard/posts', 
-    roles: ['admin', 'editor', 'contributor'] 
+  {
+    label: 'Blog Management',
+    items: [
+      { 
+        icon: FileText, 
+        label: 'Blog Posts', 
+        href: '/dashboard/posts', 
+        roles: ['admin', 'editor', 'contributor'] 
+      },
+      { 
+        icon: MessageSquare, 
+        label: 'Comments', 
+        href: '/dashboard/comments', 
+        roles: ['admin', 'editor'] 
+      },
+      { 
+        icon: FolderOpen, 
+        label: 'Categories', 
+        href: '/dashboard/categories', 
+        roles: ['admin', 'editor'] 
+      },
+    ]
   },
-  { 
-    icon: MessageSquare, 
-    label: 'Comments', 
-    href: '/dashboard/comments', 
-    roles: ['admin', 'editor'] 
+  {
+    label: 'Brand Management',
+    items: [
+      { 
+        icon: Building2, 
+        label: 'Brand Divisions', 
+        href: '/dashboard/divisions', 
+        roles: ['admin', 'editor'] 
+      },
+    ]
   },
-  { 
-    icon: Building2, 
-    label: 'Brand Divisions', 
-    href: '/dashboard/divisions', 
-    roles: ['admin', 'editor'] 
-  },
-  { 
-    icon: FolderOpen, 
-    label: 'Categories', 
-    href: '/dashboard/categories', 
-    roles: ['admin', 'editor'] 
-  },
-  { 
-    icon: Users, 
-    label: 'Users', 
-    href: '/dashboard/users', 
-    roles: ['admin'] 
-  },
-  { 
-    icon: Settings, 
-    label: 'Settings', 
-    href: '/dashboard/settings', 
-    roles: ['admin', 'editor', 'contributor', 'reader'] 
+  {
+    label: 'System',
+    items: [
+      { 
+        icon: Users, 
+        label: 'Users', 
+        href: '/dashboard/users', 
+        roles: ['admin'] 
+      },
+      { 
+        icon: Settings, 
+        label: 'Settings', 
+        href: '/dashboard/settings', 
+        roles: ['admin', 'editor', 'contributor', 'reader'] 
+      },
+    ]
   },
 ];
 
 export function MobileSidebar({ user, isOpen, onClose }: MobileSidebarProps) {
   const pathname = usePathname();
   
-  const filteredMenuItems = menuItems.filter(item => 
-    item.roles.includes(user.role)
-  );
+  const filteredCategories = menuCategories.map(category => ({
+    ...category,
+    items: category.items.filter(item => item.roles.includes(user.role))
+  })).filter(category => category.items.length > 0);
 
   const getInitials = (name: string | null, email: string) => {
     if (name) {
@@ -129,31 +155,43 @@ export function MobileSidebar({ user, isOpen, onClose }: MobileSidebarProps) {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-            {filteredMenuItems.map((item) => {
-              const isActive = pathname === item.href || 
-                (item.href !== '/dashboard' && pathname.startsWith(item.href));
-              
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onClose}
-                  className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors group ${
-                    isActive 
-                      ? 'bg-accent text-accent-foreground' 
-                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                  }`}
-                >
-                  <item.icon className={`w-5 h-5 transition-colors ${
-                    isActive 
-                      ? 'text-accent-foreground' 
-                      : 'text-muted-foreground group-hover:text-accent-foreground'
-                  }`} />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
+          <nav className="flex-1 px-4 py-6 space-y-6 overflow-y-auto">
+            {filteredCategories.map((category) => (
+              <div key={category.label}>
+                {/* Category Label */}
+                <h3 className="px-4 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  {category.label}
+                </h3>
+                
+                {/* Category Items */}
+                <div className="space-y-1">
+                  {category.items.map((item) => {
+                    const isActive = pathname === item.href || 
+                      (item.href !== '/dashboard' && pathname.startsWith(item.href));
+                    
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={onClose}
+                        className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors group ${
+                          isActive 
+                            ? 'bg-accent text-accent-foreground' 
+                            : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                        }`}
+                      >
+                        <item.icon className={`w-5 h-5 transition-colors ${
+                          isActive 
+                            ? 'text-accent-foreground' 
+                            : 'text-muted-foreground group-hover:text-accent-foreground'
+                        }`} />
+                        <span>{item.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </nav>
 
           {/* User section */}

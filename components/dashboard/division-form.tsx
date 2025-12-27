@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // components/dashboard/division-form.tsx
 "use client";
 
@@ -831,7 +832,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       </Card>
 
       {/* Form Actions */}
-      <div className="flex justify-end gap-4 sticky bottom-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 p-4 border rounded-lg">
+      <div className="flex justify-end gap-4 sticky bottom-4 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 p-4 border rounded-lg">
         <Button
           type="button"
           variant="outline"

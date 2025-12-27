@@ -5,15 +5,16 @@ import { requireAuth } from "@/lib/auth";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params; // Await the params Promise
+    const divisionId = parseInt(id);
+    if (isNaN(divisionId)) {
       return NextResponse.json({ error: "Invalid division ID" }, { status: 400 });
     }
 
-    const division = await getDivision(id);
+    const division = await getDivision(divisionId);
     if (!division) {
       return NextResponse.json({ error: "Division not found" }, { status: 404 });
     }
@@ -30,12 +31,13 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth();
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params; // Await the params Promise
+    const divisionId = parseInt(id);
+    if (isNaN(divisionId)) {
       return NextResponse.json({ error: "Invalid division ID" }, { status: 400 });
     }
 
@@ -49,7 +51,7 @@ export async function PUT(
       );
     }
     
-    const division = await updateDivision(id, data);
+    const division = await updateDivision(divisionId, data);
     
     if (!division) {
       return NextResponse.json({ error: "Division not found" }, { status: 404 });
@@ -77,16 +79,17 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth();
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await params; // Await the params Promise
+    const divisionId = parseInt(id);
+    if (isNaN(divisionId)) {
       return NextResponse.json({ error: "Invalid division ID" }, { status: 400 });
     }
 
-    await deleteDivision(id);
+    await deleteDivision(divisionId);
     return NextResponse.json({ success: true, message: "Division deleted successfully" });
   } catch (error) {
     console.error("Error deleting division:", error);
@@ -103,4 +106,3 @@ export async function DELETE(
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

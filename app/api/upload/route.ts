@@ -12,7 +12,7 @@ cloudinary.config({
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     console.log('Upload request received');
     
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     const filename = `${sanitizedName}_${timestamp}`;
 
     // Upload to Cloudinary
-    return new Promise((resolve) => {
+    return new Promise<NextResponse>((resolve) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           resource_type: 'image',
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
 }
 
 // Optional: Add DELETE endpoint to remove uploaded images from Cloudinary
-export async function DELETE(request: NextRequest) {
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(request.url);
     const filename = searchParams.get('filename');
@@ -122,7 +122,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Delete from Cloudinary
-    return new Promise((resolve) => {
+    return new Promise<NextResponse>((resolve) => {
       cloudinary.uploader.destroy(filename, (error, result) => {
         if (error) {
           console.error("Error deleting from Cloudinary:", error);

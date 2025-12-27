@@ -136,6 +136,7 @@ export const brandDivisions = pgTable("brand_divisions", {
   }>>().notNull().default([]),
   // Brand Theme - FIXED DEFAULT VALUE
   theme: jsonb("theme").$type<{
+    [x: string]: string;
     primary: string;
     bg: string;
     bgSolid: string;
