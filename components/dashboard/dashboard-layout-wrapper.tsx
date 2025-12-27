@@ -14,11 +14,16 @@ interface DashboardLayoutWrapperProps {
 
 export function DashboardLayoutWrapper({ user, children }: DashboardLayoutWrapperProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
     <div className="min-h-screen">
       {/* Desktop Sidebar */}
-      <Sidebar user={user} />
+      <Sidebar 
+        user={user} 
+        isCollapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+      />
 
       {/* Mobile Sidebar */}
       <MobileSidebar 
@@ -28,7 +33,9 @@ export function DashboardLayoutWrapper({ user, children }: DashboardLayoutWrappe
       />
 
       {/* Main content area */}
-      <div className="lg:ml-64">
+      <div className={`transition-all duration-300 ${
+        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'
+      }`}>
         {/* Navbar */}
         <Navbar 
           user={user} 
@@ -36,7 +43,7 @@ export function DashboardLayoutWrapper({ user, children }: DashboardLayoutWrappe
         />
 
         {/* Page content */}
-        <main className="p-4 sm:p-6 lg:p-8 mt-12">
+        <main className="mt-12 p-4 sm:p-6 lg:p-8">
           {children}
         </main>
       </div>

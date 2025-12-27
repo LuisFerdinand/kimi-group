@@ -1,4 +1,3 @@
-
 // app/api/divisions/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getDivision, updateDivision, deleteDivision } from "@/lib/api/divisions";
@@ -34,21 +33,45 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const user = await requireAuth();
+    await requireAuth();
     const id = parseInt(params.id);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid division ID" }, { status: 400 });
     }
 
     const data = await request.json();
+    
+    // Validate slug format if provided
+    if (data.slug && !/^[a-z0-9-]+$/.test(data.slug)) {
+      return NextResponse.json(
+        { error: "Slug must contain only lowercase letters, numbers, and hyphens" },
+        { status: 400 }
+      );
+    }
+    
     const division = await updateDivision(id, data);
+    
+    if (!division) {
+      return NextResponse.json({ error: "Division not found" }, { status: 404 });
+    }
+    
     return NextResponse.json(division);
   } catch (error) {
     console.error("Error updating division:", error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to update division" },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : "Failed to update division";
+    
+    // Handle specific error types
+    if (message.includes("Permission denied")) {
+      return NextResponse.json({ error: message }, { status: 403 });
+    }
+    if (message.includes("not found")) {
+      return NextResponse.json({ error: message }, { status: 404 });
+    }
+    if (message.includes("unique")) {
+      return NextResponse.json({ error: "Slug already exists" }, { status: 409 });
+    }
+    
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -57,19 +80,27 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const user = await requireAuth();
+    await requireAuth();
     const id = parseInt(params.id);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid division ID" }, { status: 400 });
     }
 
     await deleteDivision(id);
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, message: "Division deleted successfully" });
   } catch (error) {
     console.error("Error deleting division:", error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to delete division" },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : "Failed to delete division";
+    
+    // Handle specific error types
+    if (message.includes("Permission denied")) {
+      return NextResponse.json({ error: message }, { status: 403 });
+    }
+    if (message.includes("not found")) {
+      return NextResponse.json({ error: message }, { status: 404 });
+    }
+    
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+

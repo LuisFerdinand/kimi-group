@@ -1,278 +1,70 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/(public)/brand/[id]/page.tsx
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Truck, CheckCircle, Globe, Users, ArrowLeft, Star, Award, TrendingUp } from "lucide-react";
+import { MapPin, Truck, CheckCircle, ArrowLeft, Star, Award, TrendingUp, Mail, Phone, MapPinIcon } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { useParams } from "next/navigation";
-
-const divisionsData = {
-  "kiny-cultura": {
-    name: "Kiny Cultura Indonesia",
-    tagline: "Cross-Cultural Understanding",
-    description: "Promoting cross-cultural understanding through folk dance competitions, immersion schools, and leadership programs for children from elementary to junior high school.",
-    fullDescription: "Kiny Cultura Indonesia is dedicated to fostering global citizenship through cultural exchange and education. Our programs provide children with unique opportunities to experience diverse cultures, develop leadership skills, and gain international perspectives that will shape their future.",
-    coverage: "150+ Countries",
-    delivery: "In-Person & Virtual Programs",
-    services: [
-      { name: "School Immersion Program", description: "Cultural exchange programs for students to experience different educational systems" },
-      { name: "Cross Culture Program", description: "Interactive workshops celebrating diversity and global citizenship" },
-      { name: "International Dance Competition", description: "Showcasing traditional and contemporary dance forms from around the world" },
-      { name: "Leadership Program", description: "Developing young leaders with global perspectives and cultural awareness" },
-    ],
-    achievements: [
-      "Certificates recognized in 150 countries from CID UNESCO",
-      "Partnerships with 50+ schools across Indonesia",
-      "Successfully engaged 1500+ students in cultural programs",
-      "Collaborative programs with government and UNESCO",
-    ],
-    stats: [
-      { label: "Countries Recognition", value: "150+" },
-      { label: "Partner Schools", value: "50+" },
-      { label: "Students Engaged", value: "1500+" },
-      { label: "Festivals Worldwide", value: "100+" },
-    ],
-    team: [
-      { name: "Dr. Anisa Rahman", position: "Director of Cultural Programs" },
-      { name: "Budi Santoso", position: "Head of Educational Partnerships" },
-      { name: "Sarah Wijaya", position: "International Relations Coordinator" },
-      { name: "Ahmad Fadli", position: "Program Development Manager" },
-    ],
-    theme: {
-      primary: "from-[var(--color-gold-500)] to-[var(--color-gold-400)]",
-      bg: "bg-[var(--color-navy-900)]/30",
-      bgSolid: "bg-[var(--color-navy-800)]/50",
-      border: "border-[var(--color-gold-500)]/30",
-      text: "text-[var(--color-gold-400)]",
-      accent: "bg-[var(--color-gold-500)]",
-      hover: "hover:bg-[var(--color-gold-500)]/10",
-      gradient: "bg-gradient-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-400)]/20"
-    }
-  },
-  "kiny-education": {
-    name: "Kiny Education & Training",
-    tagline: "Professional Development",
-    description: "Providing development programs for university students and executives in collaboration with leading universities, offering internationally recognized certifications.",
-    fullDescription: "Kiny Education & Training bridges the gap between academic knowledge and industry requirements. Our comprehensive programs are designed in collaboration with top universities worldwide, ensuring that participants gain both theoretical understanding and practical skills that are immediately applicable in their professional careers.",
-    coverage: "Global Network",
-    delivery: "In-Person, Online & Blended Learning",
-    services: [
-      { name: "Professional Development Courses", description: "Specialized courses in administration, finance, policy, and more" },
-      { name: "Workshops and Seminars", description: "Interactive sessions on governance issues and technological advancements" },
-      { name: "Certifications and Diplomas", description: "Accredited programs providing recognized credentials" },
-      { name: "Executive Training", description: "Tailored programs for organizational leadership and management" },
-    ],
-    achievements: [
-      "Partnerships with 30+ leading universities globally",
-      "5000+ professionals trained and certified",
-      "Custom programs for 100+ corporate clients",
-      "98% satisfaction rate from program participants",
-    ],
-    stats: [
-      { label: "University Partners", value: "30+" },
-      { label: "Programs Offered", value: "50+" },
-      { label: "Professionals Trained", value: "5000+" },
-      { label: "Certifications", value: "25+" },
-    ],
-    team: [
-      { name: "Prof. Dr. Siti Nurhaliza", position: "Academic Director" },
-      { name: "Michael Chen", position: "Head of Corporate Training" },
-      { name: "Dr. Rizki Ahmad", position: "Program Development Lead" },
-      { name: "Lisa Permata", position: "International Partnerships Manager" },
-    ],
-    theme: {
-      primary: "from-[var(--color-gold-600)] to-[var(--color-gold-500)]",
-      bg: "bg-[var(--color-navy-900)]/30",
-      bgSolid: "bg-[var(--color-navy-800)]/50",
-      border: "border-[var(--color-gold-600)]/30",
-      text: "text-[var(--color-gold-500)]",
-      accent: "bg-[var(--color-gold-600)]",
-      hover: "hover:bg-[var(--color-gold-600)]/10",
-      gradient: "bg-gradient-to-br from-[var(--color-gold-600)]/20 to-[var(--color-gold-500)]/20"
-    }
-  },
-  "kiny-tours": {
-    name: "Kiny Tours & Travel",
-    tagline: "Personalized Travel Experiences",
-    description: "Offering personalized private tour experiences that enrich travelers' understanding of diverse cultures across 7 continents.",
-    fullDescription: "Kiny Tours & Travel transforms ordinary trips into extraordinary journeys of discovery. Our personalized approach ensures that each travel experience is tailored to the individual's interests, providing not just sightseeing but deep cultural immersion and meaningful connections with local communities.",
-    coverage: "167 Countries",
-    delivery: "Private Tours & Custom Itineraries",
-    services: [
-      { name: "MICE Services", description: "Meetings, Incentives, Conferences, and Exhibitions planning" },
-      { name: "Tailormade Private Tours", description: "Personalized itineraries designed around your interests" },
-      { name: "Hotel & Flight Bookings", description: "Premium accommodation and transportation arrangements" },
-      { name: "Cultural Immersion Experiences", description: "Authentic local experiences guided by certified experts" },
-    ],
-    achievements: [
-      "150+ English-speaking drivers across 167 countries",
-      "Network spanning 7 continents with restaurants, hotels, and venues",
-      "Partnerships with 30+ schools and establishments in Jakarta",
-      "Exclusive cooperation with Conseil International de la Danse",
-    ],
-    stats: [
-      { label: "Countries Covered", value: "167" },
-      { label: "English-Speaking Guides", value: "150+" },
-      { label: "Partner Establishments", value: "30+" },
-      { label: "Continents Served", value: "7" },
-    ],
-    team: [
-      { name: "Andi Pratama", position: "CEO & Founder" },
-      { name: "Diana Kusuma", position: "Head of International Operations" },
-      { name: "Raj Patel", position: "Director of Custom Tours" },
-      { name: "Maria Santos", position: "Client Relations Manager" },
-    ],
-    theme: {
-      primary: "from-[var(--color-gold-700)] to-[var(--color-gold-600)]",
-      bg: "bg-[var(--color-navy-900)]/30",
-      bgSolid: "bg-[var(--color-navy-800)]/50",
-      border: "border-[var(--color-gold-700)]/30",
-      text: "text-[var(--color-gold-600)]",
-      accent: "bg-[var(--color-gold-700)]",
-      hover: "hover:bg-[var(--color-gold-700)]/10",
-      gradient: "bg-gradient-to-br from-[var(--color-gold-700)]/20 to-[var(--color-gold-600)]/20"
-    }
-  },
-  "kinergy-project": {
-    name: "Kinergy Project",
-    tagline: "Dream Beyond Limit",
-    description: "Delivering seamless event planning and management services that celebrate creativity and collaboration with bold execution and cultural resonance.",
-    fullDescription: "Kinergy Project is the creative powerhouse that transforms imagination into action. We specialize in creating high-impact experiences that connect communities, brands, and ideas through bold execution and cultural resonance. From international events to global branding campaigns, we make dreams a reality.",
-    coverage: "Nationwide & International",
-    delivery: "Full-Service Event Management",
-    services: [
-      { name: "MICE Events", description: "Comprehensive management of Meetings, Incentives, Conferences, and Exhibitions" },
-      { name: "International Events", description: "Cross-cultural events that celebrate diversity and global connections" },
-      { name: "Global Branding", description: "Creative campaigns that elevate brand presence across markets" },
-      { name: "Creative Collaborations", description: "Partnerships that bring innovative ideas to life" },
-    ],
-    achievements: [
-      "200+ events organized with environmental sustainability practices",
-      "Successfully managed events with 200+ volunteers per event",
-      "Synergized with 6000+ UMKM (micro, small, and medium enterprises)",
-      "Implemented eco-friendly practices and waste management at all events",
-    ],
-    stats: [
-      { label: "Events Organized", value: "200+" },
-      { label: "Volunteers per Event", value: "200+" },
-      { label: "UMKM Partners", value: "6000+" },
-      { label: "Countries Reached", value: "25+" },
-    ],
-    team: [
-      { name: "Rizky Hakim", position: "Creative Director" },
-      { name: "Nina Widodo", position: "Head of Event Operations" },
-      { name: "David Tanaka", position: "Brand Strategy Lead" },
-      { name: "Siti Aminah", position: "Sustainability Coordinator" },
-    ],
-    theme: {
-      primary: "from-[var(--color-gold-400)] to-[var(--color-gold-300)]",
-      bg: "bg-[var(--color-navy-900)]/30",
-      bgSolid: "bg-[var(--color-navy-800)]/50",
-      border: "border-[var(--color-gold-400)]/30",
-      text: "text-[var(--color-gold-300)]",
-      accent: "bg-[var(--color-gold-400)]",
-      hover: "hover:bg-[var(--color-gold-400)]/10",
-      gradient: "bg-gradient-to-br from-[var(--color-gold-400)]/20 to-[var(--color-gold-300)]/20"
-    }
-  },
-  "kiny-soul": {
-    name: "Kiny & Soul",
-    tagline: "Spiritual Journeys",
-    description: "Providing comfortable, flexible, and private services for Umrah and spiritual journeys with personalized itineraries that honor your spiritual path.",
-    fullDescription: "Kiny & Soul understands that spiritual journeys are deeply personal and should not be constrained by rigid schedules. Our private Umrah services are designed around your spiritual readiness, not fixed tour dates. We believe that 'JADWALNYA ALLAH, BUKAN TRAVEL AGENT' - your journey begins when your heart is called.",
-    coverage: "Sacred Destinations",
-    delivery: "Private Spiritual Journeys",
-    services: [
-      { name: "Private Umrah Trips", description: "Individually tailored journeys not bound by fixed group departures" },
-      { name: "Flexible Departure Dates", description: "Travel when you're spiritually ready, not on a rigid schedule" },
-      { name: "Personalized Itineraries", description: "Custom spiritual journeys that honor your unique path" },
-      { name: "Premium Assistance", description: "Comprehensive support from pre-departure to destination" },
-    ],
-    achievements: [
-      "500+ personalized spiritual journeys completed",
-      "98% client satisfaction rate",
-      "Recognized for exceptional spiritual guidance services",
-      "Pioneered flexible departure model for spiritual travel",
-    ],
-    stats: [
-      { label: "Journeys Completed", value: "500+" },
-      { label: "Sacred Destinations", value: "15+" },
-      { label: "Spiritual Guides", value: "50+" },
-      { label: "Client Satisfaction", value: "98%" },
-    ],
-    team: [
-      { name: "Ustadz Ahmad Yani", position: "Spiritual Director" },
-      { name: "Fatimah Abdullah", position: "Head of Pilgrim Services" },
-      { name: "Ibrahim Hassan", position: "Destination Specialist" },
-      { name: "Aisha Rahman", position: "Client Care Coordinator" },
-    ],
-    theme: {
-      primary: "from-[var(--color-gold-300)] to-[var(--color-gold-200)]",
-      bg: "bg-[var(--color-navy-900)]/30",
-      bgSolid: "bg-[var(--color-navy-800)]/50",
-      border: "border-[var(--color-gold-300)]/30",
-      text: "text-[var(--color-gold-200)]",
-      accent: "bg-[var(--color-gold-300)]",
-      hover: "hover:bg-[var(--color-gold-300)]/10",
-      gradient: "bg-gradient-to-br from-[var(--color-gold-300)]/20 to-[var(--color-gold-200)]/20"
-    }
-  },
-  "kiny-xplore": {
-    name: "Kiny Xplore",
-    tagline: "International Sports Development",
-    description: "A division dedicated to the advancement of sports on an international scale, addressing both international competitions and skill development training programs.",
-    fullDescription: "Kiny Xplore is committed to elevating sports performance and creating opportunities for athletes to compete on the global stage. We facilitate international competitions, provide world-class training programs, and create networking opportunities that connect athletes with coaches, teams, and sports organizations worldwide.",
-    coverage: "International",
-    delivery: "Training & Competition Management",
-    services: [
-      { name: "International Competitions", description: "Facilitating participation in global sports events" },
-      { name: "Skill Enhancement Training", description: "Specialized programs to improve athletic performance" },
-      { name: "Sports Workshops", description: "Interactive sessions with expert coaches and athletes" },
-      { name: "Cross-Cultural Sports Exchange", description: "Programs that connect athletes across borders" },
-    ],
-    achievements: [
-      "Facilitated 50+ international competitions",
-      "Partnerships with 50+ sports clubs worldwide",
-      "Trained 1000+ athletes for international events",
-      "Organized workshops with world-class coaches",
-    ],
-    stats: [
-      { label: "Competitions", value: "50+" },
-      { label: "Partner Clubs", value: "50+" },
-      { label: "Athletes Trained", value: "1000+" },
-      { label: "Countries Reached", value: "30+" },
-    ],
-    team: [
-      { name: "Ricky Subagja", position: "Director of Sports Development" },
-      { name: "Maria Sharapova", position: "Head of International Relations" },
-      { name: "John Smith", position: "Training Program Coordinator" },
-      { name: "Siti Nurjanah", position: "Athlete Development Manager" },
-    ],
-    theme: {
-      primary: "from-[var(--color-gold-200)] to-[var(--color-gold-100)]",
-      bg: "bg-[var(--color-navy-900)]/30",
-      bgSolid: "bg-[var(--color-navy-800)]/50",
-      border: "border-[var(--color-gold-200)]/30",
-      text: "text-[var(--color-gold-100)]",
-      accent: "bg-[var(--color-gold-200)]",
-      hover: "hover:bg-[var(--color-gold-200)]/10",
-      gradient: "bg-gradient-to-br from-[var(--color-gold-200)]/20 to-[var(--color-gold-100)]/20"
-    }
-  }
-};
+import { brandsAPI } from "@/lib/api/client/brands";
+import { BrandDivision } from "@/lib/db/schema";
+import { useState, useEffect } from "react";
 
 export default function DivisionDetailPage() {
   const params = useParams();
-  const division = divisionsData[params.id as keyof typeof divisionsData];
+  const [division, setDivision] = useState<BrandDivision & { images: any[] } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!division) {
+  useEffect(() => {
+    const fetchDivision = async () => {
+      try {
+        setError(null);
+        const idParam = params.id as string;
+        
+        // Try to get by ID first, then by slug if that fails
+        let data;
+        try {
+          // Check if the ID is a number
+          const idNum = parseInt(idParam);
+          if (!isNaN(idNum)) {
+            data = await brandsAPI.getById(idNum);
+          } else {
+            throw new Error("Not a number");
+          }
+        } catch (error) {
+          // If ID lookup fails, try slug lookup
+          data = await brandsAPI.getBySlug(idParam);
+        }
+        setDivision(data);
+      } catch (error) {
+        console.error("Error fetching division:", error);
+        setError(error instanceof Error ? error.message : "Failed to fetch division");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDivision();
+  }, [params.id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+          <p className="mt-4 text-lg">Loading division details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !division) {
     return (
       <div className="container mx-auto px-4 py-12 md:py-24">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">Division Not Found</h1>
-          <p className="text-lg mb-8">The division you&apos;re looking for doesn&apos;t exist.</p>
+          <p className="text-lg mb-8">{error || "The division you're looking for doesn't exist."}</p>
           <Button asChild>
             <Link href="/brand">Back to All Divisions</Link>
           </Button>
@@ -281,247 +73,307 @@ export default function DivisionDetailPage() {
     );
   }
 
+  // Rest of the component remains the same...
   return (
-    <div className={`min-h-screen ${division.theme.bg}`}>
-      {/* Hero Section with Division Colors */}
-      <div className={`relative overflow-hidden ${division.theme.gradient} border-b ${division.theme.border}`}>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.1),transparent)]"></div>
-        </div>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden h-[85vh] min-h-[600px]">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${division.backgroundImage})` }}
+        />
+        <div
+          className="absolute inset-0 mix-blend-multiply opacity-50"
+          style={{ backgroundColor: division.color || "#3b82f6" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
         
-        <div className="container mx-auto px-4 py-16 relative z-10">
-          <Button variant="ghost" asChild className={`mb-8 ${division.theme.hover}`}>
-            <Link href="/brand" className="flex items-center">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to All Divisions
-            </Link>
-          </Button>
+        <div className="relative z-10 h-full flex flex-col container mx-auto px-6 lg:px-12">
+          <div className="pt-8">
+            <Button variant="ghost" asChild className="text-white hover:bg-white/10 backdrop-blur-sm">
+              <Link href="/brand" className="flex items-center">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to All Divisions
+              </Link>
+            </Button>
+          </div>
 
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Left: Logo & Info */}
-              <div>
-                <div className={`relative w-48 h-48 mx-auto lg:mx-0 rounded-2xl ${division.theme.bgSolid} backdrop-blur-sm p-8 mb-8`}>
-                  <Image 
-                    src={`/brandLogo/${params.id}.png`}
-                    alt={division.name}
-                    fill
-                    className="object-contain p-4"
-                  />
-                </div>
-              </div>
-
-              {/* Right: Division Info */}
-              <div>
-                <p className={`text-sm font-semibold ${division.theme.text} mb-2`}>{division.tagline}</p>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6">{division.name}</h1>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  {division.description}
-                </p>
-                <p className="text-base text-muted-foreground leading-relaxed">
-                  {division.fullDescription}
-                </p>
-              </div>
+          <div className="flex-1 flex items-end pb-20">
+            <div className="max-w-5xl">
+              <p className={`text-sm font-bold tracking-[0.3em] uppercase mb-6 ${division.theme?.text || 'text-blue-700'}`}>
+                {division.tagline}
+              </p>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-8 text-white">
+                {division.name}
+              </h1>
+              <p className="text-xl md:text-2xl text-white/95 leading-relaxed mb-6 max-w-3xl font-light">
+                {division.description}
+              </p>
+              <p className="text-base md:text-lg text-white/80 leading-relaxed max-w-3xl">
+                {division.fullDescription}
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Stats Section */}
-      <div className="container mx-auto px-4 -mt-8 relative z-20 mb-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {division.stats.map((stat, index) => (
-              <Card key={index} className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm text-center`}>
-                <CardContent className="pt-6">
-                  <div className={`text-3xl font-bold ${division.theme.text} mb-1`}>{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </CardContent>
-              </Card>
+      {/* Stats Bar */}
+      <section className="border-b border-border/50">
+        <div className="container mx-auto px-6 lg:px-12 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {[
+              { label: division.stats?.label1 || "", value: division.stats?.value1 || "" },
+              { label: division.stats?.label2 || "", value: division.stats?.value2 || "" },
+              { label: division.stats?.label3 || "", value: division.stats?.value3 || "" },
+              { label: division.stats?.label4 || "", value: division.stats?.value4 || "" },
+            ].map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className={`text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r ${division.theme?.primary || 'from-blue-500 to-blue-600'} bg-clip-text text-transparent mb-3`}>
+                  {stat.value}
+                </div>
+                <div className="text-sm md:text-base text-muted-foreground font-medium uppercase tracking-wide">
+                  {stat.label}
+                </div>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 pb-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content - 2 columns */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Coverage & Delivery */}
-              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MapPin className={division.theme.text} />
-                    Service Coverage
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className={`${division.theme.hover} rounded-lg p-4 border ${division.theme.border}`}>
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-10 h-10 rounded-full ${division.theme.bg} flex items-center justify-center`}>
-                          <MapPin className={`h-5 w-5 ${division.theme.text}`} />
-                        </div>
-                        <div>
-                          <p className="text-sm text-muted-foreground">Geographic Coverage</p>
-                          <p className="font-semibold">{division.coverage}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={`${division.theme.hover} rounded-lg p-4 border ${division.theme.border}`}>
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-10 h-10 rounded-full ${division.theme.bg} flex items-center justify-center`}>
-                          <Truck className={`h-5 w-5 ${division.theme.text}`} />
-                        </div>
-                        <div>
-                          <p className="text-sm text-muted-foreground">Service Delivery</p>
-                          <p className="font-semibold">{division.delivery}</p>
-                        </div>
-                      </div>
-                    </div>
+      {/* Coverage & Delivery */}
+      <section className="py-20 border-b border-border/50">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center`}>
+                    <MapPin className="h-7 w-7 text-white" />
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* Services */}
-              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Star className={division.theme.text} />
-                    Our Services
-                  </CardTitle>
-                  <CardDescription>Comprehensive solutions tailored to your needs</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 gap-4">
-                    {division.services.map((service, index) => (
-                      <div 
-                        key={index} 
-                        className={`${division.theme.hover} rounded-lg p-4 border ${division.theme.border} transition-all duration-300`}
-                      >
-                        <h4 className={`font-semibold mb-2 ${division.theme.text}`}>{service.name}</h4>
-                        <p className="text-sm text-muted-foreground">{service.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Achievements */}
-              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Award className={division.theme.text} />
-                    Key Achievements
-                  </CardTitle>
-                  <CardDescription>Milestones that define our excellence</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {division.achievements.map((achievement, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <CheckCircle className={`h-5 w-5 mt-0.5 ${division.theme.text} shrink-0`} />
-                        <p className="text-sm">{achievement}</p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Sidebar - 1 column */}
-            <div className="space-y-8">
-              {/* Leadership Team */}
-              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Users className={division.theme.text} />
-                    Leadership Team
-                  </CardTitle>
-                  <CardDescription>Meet the minds behind our success</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {division.team.map((member, index) => (
-                      <div key={index} className={`flex items-center gap-3 p-3 rounded-lg ${division.theme.hover} border ${division.theme.border}`}>
-                        <div className={`w-12 h-12 rounded-full ${division.theme.bg} flex items-center justify-center shrink-0`}>
-                          <span className={`${division.theme.text} font-bold text-lg`}>
-                            {member.name.split(' ').map(n => n[0]).join('')}
-                          </span>
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-semibold truncate">{member.name}</p>
-                          <p className="text-sm text-muted-foreground truncate">{member.position}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Contact Card */}
-              <Card className={`${division.theme.border} ${division.theme.gradient} backdrop-blur-sm`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Globe className={division.theme.text} />
-                    Get in Touch
-                  </CardTitle>
-                  <CardDescription>Let&apos;s discuss how we can help you</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
                   <div>
-                    <p className="font-medium mb-1 text-sm">Email</p>
-                    <p className="text-sm text-muted-foreground">
-                      info@{division.name.toLowerCase().replace(/\s+/g, '')}.kinygroup.org
+                    <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                      Geographic Coverage
                     </p>
+                    <p className="text-2xl md:text-3xl font-bold">{division.coverage}</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  Our extensive network spans across continents, ensuring we can deliver exceptional service wherever you need us.
+                </p>
+              </div>
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center`}>
+                    <Truck className="h-7 w-7 text-white" />
                   </div>
                   <div>
-                    <p className="font-medium mb-1 text-sm">Phone</p>
-                    <p className="text-sm text-muted-foreground">+62 21 83787735</p>
+                    <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+                      Service Delivery
+                    </p>
+                    <p className="text-2xl md:text-3xl font-bold">{division.delivery}</p>
                   </div>
-                  <div>
-                    <p className="font-medium mb-1 text-sm">Address</p>
-                    <p className="text-sm text-muted-foreground">Jl. Tebet Timur Dalam II No.38B, Tebet, Jakarta Selatan 12820</p>
-                  </div>
-                  <Button className={`w-full bg-linear-to-r ${division.theme.primary} text-white border-0 hover:opacity-90`}>
-                    Schedule Consultation
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Quick Stats */}
-              <Card className={`${division.theme.border} ${division.theme.bgSolid} backdrop-blur-sm`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className={division.theme.text} />
-                    Quick Facts
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className={`flex justify-between items-center p-3 rounded-lg ${division.theme.hover}`}>
-                    <span className="text-sm">Industry Rating</span>
-                    <div className="flex gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`h-4 w-4 ${division.theme.text} fill-current`} />
-                      ))}
-                    </div>
-                  </div>
-                  <div className={`flex justify-between items-center p-3 rounded-lg ${division.theme.hover}`}>
-                    <span className="text-sm">Response Time</span>
-                    <span className={`font-semibold ${division.theme.text}`}>24hrs</span>
-                  </div>
-                  <div className={`flex justify-between items-center p-3 rounded-lg ${division.theme.hover}`}>
-                    <span className="text-sm">Client Retention</span>
-                    <span className={`font-semibold ${division.theme.text}`}>95%+</span>
-                  </div>
-                </CardContent>
-              </Card>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  We offer flexible delivery options tailored to your preferences, combining modern technology with personal touch.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Services */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-16">
+              <p className={`text-sm font-bold tracking-[0.3em] uppercase mb-4 ${division.theme?.text || 'text-blue-700'}`}>
+                What We Offer
+              </p>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Services</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl">
+                Comprehensive solutions designed to meet your unique needs with excellence and precision.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {division.services?.map((service, index) => (
+                <div key={index} className="group">
+                  <div className="flex items-start gap-6 py-8 border-t border-border/50">
+                    <div className={`w-12 h-12 rounded-full ${division.theme?.bg || 'bg-blue-100'} flex items-center justify-center flex-shrink-0 mt-1`}>
+                      <div className={`w-3 h-3 rounded-full ${division.theme?.accent || 'bg-blue-500'}`}></div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl md:text-2xl font-bold mb-3">{service.name}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Achievements */}
+      <section className="py-20 border-b border-border/50">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <p className={`text-sm font-bold tracking-[0.3em] uppercase mb-4 ${division.theme?.text || 'text-blue-700'}`}>
+                  Our Impact
+                </p>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6">Key Achievements</h2>
+                <p className="text-xl text-muted-foreground leading-relaxed">
+                  Milestones that demonstrate our commitment to excellence and innovation in everything we do.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                {division.achievements?.map((achievement, index) => (
+                  <div key={index} className="flex items-start gap-4 group">
+                    <div className={`w-8 h-8 rounded-full ${division.theme?.bg || 'bg-blue-100'} flex items-center justify-center flex-shrink-0 mt-1`}>
+                      <CheckCircle className={`h-4 w-4 ${division.theme?.text || 'text-blue-700'}`} />
+                    </div>
+                    <p className="text-base md:text-lg leading-relaxed pt-1">{achievement}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Team */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-16 text-center">
+              <p className={`text-sm font-bold tracking-[0.3em] uppercase mb-4 ${division.theme?.text || 'text-blue-700'}`}>
+                Meet Our Team
+              </p>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">Leadership</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Experienced professionals dedicated to driving our mission forward with vision and expertise.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {division.team?.map((member, index) => (
+                <div key={index} className="text-center group">
+                  <div className={`w-32 h-32 rounded-full bg-gradient-to-br ${division.theme?.primary || 'from-blue-500 to-blue-600'} flex items-center justify-center mx-auto mb-6 shadow-xl`}>
+                    <span className="text-white font-bold text-3xl">
+                      {member.name.split(' ').map(n => n[0]).join('')}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold mb-2">{member.name}</h3>
+                  <p className="text-sm text-muted-foreground">{member.position}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Facts */}
+      <section className="py-20 border-b border-border/50">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div className="flex items-center justify-between py-6 border-b-2 border-border/50">
+                <div className="flex items-center gap-3">
+                  <Star className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'}`} />
+                  <span className="font-semibold text-lg">Industry Rating</span>
+                </div>
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={`h-5 w-5 ${division.theme?.text || 'text-blue-700'} fill-current`} />
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between py-6 border-b-2 border-border/50">
+                <div className="flex items-center gap-3">
+                  <TrendingUp className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'}`} />
+                  <span className="font-semibold text-lg">Response Time</span>
+                </div>
+                <span className={`font-bold text-2xl ${division.theme?.text || 'text-blue-700'}`}>24hrs</span>
+              </div>
+
+              <div className="flex items-center justify-between py-6 border-b-2 border-border/50">
+                <div className="flex items-center gap-3">
+                  <Award className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'}`} />
+                  <span className="font-semibold text-lg">Client Retention</span>
+                </div>
+                <span className={`font-bold text-2xl ${division.theme?.text || 'text-blue-700'}`}>95%+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <p className={`text-sm font-bold tracking-[0.3em] uppercase mb-4 ${division.theme?.text || 'text-blue-700'}`}>
+                  Let&apos;s Connect
+                </p>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h2>
+                <p className="text-xl text-muted-foreground leading-relaxed mb-12">
+                  Ready to start your journey with us? Our team is here to answer your questions and help you get started.
+                </p>
+
+                <Button 
+                  className={`bg-gradient-to-r ${division.theme?.primary || 'from-blue-500 to-blue-600'} text-white px-8 py-6 text-lg border-0 hover:opacity-90 shadow-xl`}
+                >
+                  Schedule Consultation
+                </Button>
+              </div>
+
+              <div className="space-y-8">
+                <div className="flex items-start gap-4 py-6 border-b border-border/50">
+                  <Mail className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 flex-shrink-0`} />
+                  <div>
+                    <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+                      Email
+                    </p>
+                    <p className="text-lg font-medium">
+                      info@{division.name.toLowerCase().replace(/\s+/g, '')}.kinygroup.org
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 py-6 border-b border-border/50">
+                  <Phone className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 flex-shrink-0`} />
+                  <div>
+                    <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+                      Phone
+                    </p>
+                    <p className="text-lg font-medium">+62 21 83787735</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 py-6 border-b border-border/50">
+                  <MapPinIcon className={`h-6 w-6 ${division.theme?.text || 'text-blue-700'} mt-1 flex-shrink-0`} />
+                  <div>
+                    <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+                      Address
+                    </p>
+                    <p className="text-lg font-medium leading-relaxed">
+                      Jl. Tebet Timur Dalam II No.38B, Tebet,<br />
+                      Jakarta Selatan 12820
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

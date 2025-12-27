@@ -2,9 +2,18 @@
 "use client";
 
 import React from 'react';
-import { Menu, Bell, Search, Moon, Sun } from 'lucide-react';
+import { Menu, Bell, Search, Moon, Sun, Home, LogOut, User as UserIcon } from 'lucide-react';
 import { User } from '@/lib/db/schema';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface NavbarProps {
   user: User;
@@ -32,7 +41,7 @@ export function Navbar({ user, onMenuClick }: NavbarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border-b border-border">
+    <header className="sticky top-0 z-40 bg-card/95 backdrop-blur supports-backdrop-filter:bg-card/60 border-b border-border">
       <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         {/* Mobile menu button */}
         <button
@@ -56,6 +65,15 @@ export function Navbar({ user, onMenuClick }: NavbarProps) {
 
         {/* Right side actions */}
         <div className="flex items-center gap-2">
+          {/* Return to Homepage Button */}
+          <Link
+            href="/"
+            className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-accent transition-colors text-sm font-medium"
+          >
+            <Home className="w-4 h-4" />
+            <span className="hidden md:inline">Homepage</span>
+          </Link>
+
           {/* Dark mode toggle */}
           {mounted && (
             <button
@@ -77,19 +95,52 @@ export function Navbar({ user, onMenuClick }: NavbarProps) {
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-destructive rounded-full" />
           </button>
 
-          {/* User menu - desktop only */}
-          <div className="hidden sm:block ml-2">
-            <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-accent transition-colors">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-semibold text-xs">
-                  {getInitials(user.name, user.email)}
+          {/* User dropdown menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-accent transition-colors">
+                <div className="w-8 h-8 rounded-full bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center shrink-0">
+                  <span className="text-white font-semibold text-xs">
+                    {getInitials(user.name, user.email)}
+                  </span>
+                </div>
+                <span className="text-sm font-medium hidden md:block">
+                  {user.name ? user.name.split(' ')[0] : user.email.split('@')[0]}
                 </span>
-              </div>
-              <span className="text-sm font-medium hidden md:block">
-                {user.name ? user.name.split(' ')[0] : user.email.split('@')[0]}
-              </span>
-            </button>
-          </div>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium">{user.name || user.email}</p>
+                  <p className="text-xs text-muted-foreground">{user.email}</p>
+                  <p className="text-xs text-muted-foreground capitalize">
+                    Role: {user.role}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/settings" className="cursor-pointer">
+                  <UserIcon className="mr-2 h-4 w-4" />
+                  <span>Profile Settings</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="sm:hidden">
+                <Link href="/" className="cursor-pointer">
+                  <Home className="mr-2 h-4 w-4" />
+                  <span>Return to Homepage</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/api/auth/signout" className="cursor-pointer text-destructive">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sign Out</span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

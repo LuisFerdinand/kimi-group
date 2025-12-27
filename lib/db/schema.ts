@@ -89,18 +89,71 @@ export const blogPostViews = pgTable("blog_post_views", {
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 });
 
-// Brand/Division Content Table
+// Brand/Division Content Table - Updated to match Brand interface
 export const brandDivisions = pgTable("brand_divisions", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   slug: varchar("slug", { length: 255 }).notNull().unique(),
   tagline: varchar("tagline", { length: 255 }),
   description: text("description").notNull(),
+  fullDescription: text("full_description").notNull(),
+  coverage: varchar("coverage", { length: 255 }),
+  delivery: varchar("delivery", { length: 255 }),
   backgroundImage: varchar("background_image", { length: 500 }),
   logo: varchar("logo", { length: 500 }),
   color: varchar("color", { length: 20 }),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  stats: jsonb("stats").$type<Record<string, any>>().notNull().default({}),
+  // Brand Stats - FIXED DEFAULT VALUE
+  stats: jsonb("stats").$type<{
+    label1: string;
+    value1: string;
+    label2: string;
+    value2: string;
+    label3: string;
+    value3: string;
+    label4: string;
+    value4: string;
+  }>().notNull().default({
+    label1: '',
+    value1: '',
+    label2: '',
+    value2: '',
+    label3: '',
+    value3: '',
+    label4: '',
+    value4: '',
+  }),
+  // Brand Services
+  services: jsonb("services").$type<Array<{
+    name: string;
+    description: string;
+  }>>().notNull().default([]),
+  // Brand Achievements
+  achievements: jsonb("achievements").$type<string[]>().notNull().default([]),
+  // Brand Team
+  team: jsonb("team").$type<Array<{
+    name: string;
+    position: string;
+  }>>().notNull().default([]),
+  // Brand Theme - FIXED DEFAULT VALUE
+  theme: jsonb("theme").$type<{
+    primary: string;
+    bg: string;
+    bgSolid: string;
+    border: string;
+    text: string;
+    accent: string;
+    hover: string;
+    gradient: string;
+  }>().notNull().default({
+    primary: '',
+    bg: '',
+    bgSolid: '',
+    border: '',
+    text: '',
+    accent: '',
+    hover: '',
+    gradient: '',
+  }),
   featured: boolean("featured").default(false),
   authorId: integer("author_id")
     .references(() => users.id)

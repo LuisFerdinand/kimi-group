@@ -10,7 +10,9 @@ import {
   blogPostCategories,
   blogComments,
   blogPostLikes,
-  blogPostViews
+  blogPostViews,
+  brandDivisions,
+  brandDivisionImages
 } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
@@ -69,54 +71,75 @@ async function seed() {
     
     const [readerUser] = await db.select().from(users).where(eq(users.email, "reader@example.com"));
 
+    // Create or get brand users
+    const kinyCulturaPassword = await bcrypt.hash("kiny123", 10);
+    await db.insert(users).values({
+      name: "Kiny Cultura",
+      email: "kiny.cultura@example.com",
+      password: kinyCulturaPassword,
+      role: userRoles.CONTRIBUTOR,
+    }).onConflictDoNothing();
+    
+    const [kinyCulturaUser] = await db.select().from(users).where(eq(users.email, "kiny.cultura@example.com"));
+
+    const kinyToursPassword = await bcrypt.hash("tours123", 10);
+    await db.insert(users).values({
+      name: "Kiny Tours",
+      email: "kiny.tours@example.com",
+      password: kinyToursPassword,
+      role: userRoles.CONTRIBUTOR,
+    }).onConflictDoNothing();
+    
+    const [kinyToursUser] = await db.select().from(users).where(eq(users.email, "kiny.tours@example.com"));
+
     // Create or get blog categories
     await db.insert(blogCategories).values({
-      name: "Technology",
-      slug: "technology",
-      description: "Posts about technology trends, innovations, and news",
+      name: "Teknologi",
+      slug: "teknologi",
+      description: "Postingan tentang tren teknologi, inovasi, dan berita teknologi terkini",
     }).onConflictDoNothing();
     
-    const [techCategory] = await db.select().from(blogCategories).where(eq(blogCategories.slug, "technology"));
+    const [techCategory] = await db.select().from(blogCategories).where(eq(blogCategories.slug, "teknologi"));
 
     await db.insert(blogCategories).values({
-      name: "Design",
-      slug: "design",
-      description: "Design principles, UI/UX, and visual arts",
+      name: "Desain",
+      slug: "desain",
+      description: "Prinsip desain, UI/UX, dan seni visual",
     }).onConflictDoNothing();
     
-    const [designCategory] = await db.select().from(blogCategories).where(eq(blogCategories.slug, "design"));
+    const [designCategory] = await db.select().from(blogCategories).where(eq(blogCategories.slug, "desain"));
 
     await db.insert(blogCategories).values({
-      name: "Business",
-      slug: "business",
-      description: "Business strategies, entrepreneurship, and market insights",
+      name: "Bisnis",
+      slug: "bisnis",
+      description: "Strategi bisnis, kewirausahaan, dan wawasan pasar",
     }).onConflictDoNothing();
     
-    const [businessCategory] = await db.select().from(blogCategories).where(eq(blogCategories.slug, "business"));
+    const [businessCategory] = await db.select().from(blogCategories).where(eq(blogCategories.slug, "bisnis"));
 
     // Create blog posts
     const posts = [
       {
-        title: "The Future of Web Development",
-        slug: "future-of-web-development",
-        excerpt: "Exploring emerging trends and technologies shaping the future of web development.",
+        title: "Masa Depan Pengembangan Web",
+        slug: "masa-depan-pengembangan-web",
+        excerpt: "Mengeksplorasi tren dan teknologi yang sedang berkembang yang membentuk masa depan pengembangan web.",
         content: `
-          <h2>The Evolving Landscape of Web Development</h2>
-          <p>Web development has come a long way since the early days of static HTML pages. Today's web applications are complex, interactive, and capable of delivering experiences that rival native applications.</p>
+          <h2>Lanskap Pengembangan Web yang Terus Berkembang</h2>
+          <p>Pengembangan web telah berkembang pesat sejak hari-hari awal halaman HTML statis. Aplikasi web saat ini kompleks, interaktif, dan mampu memberikan pengalaman yang setara dengan aplikasi native.</p>
           
-          <h3>Key Trends to Watch</h3>
+          <h3>Tren Kunci yang Perlu Diperhatikan</h3>
           <ul>
-            <li><strong>JAMstack Architecture:</strong> JavaScript, APIs, and Markup are redefining how we build web applications.</li>
-            <li><strong>WebAssembly:</strong> Bringing near-native performance to web applications.</li>
-            <li><strong>AI Integration:</strong> Leveraging machine learning directly in the browser.</li>
-            <li><strong>Edge Computing:</strong> Moving computation closer to the user for faster experiences.</li>
+            <li><strong>Arsitektur JAMstack:</strong> JavaScript, APIs, dan Markup mendefinisikan ulang cara kita membangun aplikasi web.</li>
+            <li><strong>WebAssembly:</strong> Membawa performa mendekati native ke aplikasi web.</li>
+            <li><strong>Integrasi AI:</strong> Memanfaatkan pembelajaran mesin langsung di browser.</li>
+            <li><strong>Edge Computing:</strong> Memindahkan komputasi lebih dekat ke pengguna untuk pengalaman yang lebih cepat.</li>
           </ul>
           
-          <h3>The Rise of Frameworks</h3>
-          <p>Modern frameworks like React, Vue, and Angular continue to evolve, offering developers powerful tools to build complex applications. The ecosystem around these frameworks, including state management solutions and component libraries, has matured significantly.</p>
+          <h3>Kebangkitan Framework</h3>
+          <p>Framework modern seperti React, Vue, dan Angular terus berkembang, menawarkan pengembang alat yang kuat untuk membangun aplikasi kompleks. Ekosistem di sekitar framework ini, termasuk solusi manajemen state dan pustaka komponen, telah matang secara signifikan.</p>
           
-          <h3>Looking Ahead</h3>
-          <p>As we look to the future, we can expect web development to become even more specialized, with clear distinctions between frontend, backend, and full-stack roles. The tools will continue to improve, making development more efficient while enabling increasingly sophisticated applications.</p>
+          <h3>Melihat ke Masa Depan</h3>
+          <p>Saat kita melihat ke masa depan, kita dapat mengharapkan pengembangan web menjadi lebih spesialisasi, dengan perbedaan yang jelas antara peran frontend, backend, dan full-stack. Alat akan terus meningkat, membuat pengembangan lebih efisien sambil memungkinkan aplikasi yang semakin canggih.</p>
         `,
         featuredImage: "https://picsum.photos/seed/webdev/1200/800.jpg",
         featured: true,
@@ -125,33 +148,33 @@ async function seed() {
         publishedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
       },
       {
-        title: "Design Systems: Building Consistent User Experiences",
-        slug: "design-systems-consistency",
-        excerpt: "How design systems help teams create consistent and scalable user interfaces.",
+        title: "Sistem Desain: Membangun Pengalaman Pengguna yang Konsisten",
+        slug: "sistem-desain-konsistensi",
+        excerpt: "Bagaimana sistem desain membantu tim membuat antarmuka pengguna yang konsisten dan dapat diskalakan.",
         content: `
-          <h2>What is a Design System?</h2>
-          <p>A design system is a collection of reusable components, guided by clear standards, that can be assembled together to build any number of applications. It's not just a UI kit or a style guide—it's a complete ecosystem that includes design principles, development guidelines, and documentation.</p>
+          <h2>Apa itu Sistem Desain?</h2>
+          <p>Sistem desain adalah kumpulan komponen yang dapat digunakan kembali, dipandu oleh standar yang jelas, yang dapat dirakit bersama untuk membangun sejumlah aplikasi. Ini bukan hanya kit UI atau panduan gaya—ini adalah ekosistem lengkap yang mencakup prinsip desain, pedoman pengembangan, dan dokumentasi.</p>
           
-          <h3>Benefits of Design Systems</h3>
+          <h3>Manfaat Sistem Desain</h3>
           <ul>
-            <li><strong>Consistency:</strong> Ensures a cohesive experience across all products and platforms</li>
-            <li><strong>Efficiency:</strong> Speeds up both design and development processes</li>
-            <li><strong>Scalability:</strong> Makes it easier to maintain and expand products</li>
-            <li><strong>Collaboration:</strong> Improves communication between designers and developers</li>
+            <li><strong>Konsistensi:</strong> Memastikan pengalaman yang kohesif di semua produk dan platform</li>
+            <li><strong>Effisiensi:</strong> Mempercepat proses desain dan pengembangan</li>
+            <li><strong>Skalabilitas:</strong> Memudahkan pemeliharaan dan perluasan produk</li>
+            <li><strong>Kolaborasi:</strong> Meningkatkan komunikasi antara desainer dan pengembang</li>
           </ul>
           
-          <h3>Key Components</h3>
-          <p>A comprehensive design system typically includes:</p>
+          <h3>Komponen Kunci</h3>
+          <p>Sistem desain yang komprehensif biasanya mencakup:</p>
           <ul>
-            <li>Visual design language (colors, typography, spacing)</li>
-            <li>Component library (buttons, forms, navigation, etc.)</li>
-            <li>Pattern library (common solutions to design problems)</li>
-            <li>Documentation and guidelines</li>
-            <li>Design and development tools</li>
+            <li>Bahasa desain visual (warna, tipografi, spasi)</li>
+            <li>Pustaka komponen (tombol, formulir, navigasi, dll.)</li>
+            <li>Pustaka pola (solusi umum untuk masalah desain)</li>
+            <li>Dokumentasi dan pedoman</li>
+            <li>Alat desain dan pengembangan</li>
           </ul>
           
-          <h3>Getting Started</h3>
-          <p>Building a design system is a significant investment, but the long-term benefits are substantial. Start small, focus on your most common use cases, and gradually expand the system based on your team's needs.</p>
+          <h3>Memulai</h3>
+          <p>Membangun sistem desain adalah investasi yang signifikan, tetapi manfaat jangka panjangnya sangat besar. Mulailah dengan skala kecil, fokus pada kasus penggunaan yang paling umum, dan secara bertahap perluas sistem berdasarkan kebutuhan tim Anda.</p>
         `,
         featuredImage: "https://picsum.photos/seed/design/1200/800.jpg",
         featured: false,
@@ -160,38 +183,38 @@ async function seed() {
         publishedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
       },
       {
-        title: "Remote Work: The New Normal",
-        slug: "remote-work-new-normal",
-        excerpt: "How remote work is reshaping company culture and productivity.",
+        title: "Kerja Jarak Jauh: Normal Baru",
+        slug: "kerja-jarak-jauh-normal-baru",
+        excerpt: "Bagaimana kerja jarak jauh membentuk kembali budaya perusahaan dan produktivitas.",
         content: `
-          <h2>The Shift to Remote Work</h2>
-          <p>The global pandemic accelerated the adoption of remote work, transforming it from a perk to a necessity. Now, as we move forward, remote work has become the new normal for many companies and industries.</p>
+          <h2>Pergeseran ke Kerja Jarak Jauh</h2>
+          <p>Pandemi global mempercepat adopsi kerja jarak jauh, mengubahnya dari fasilitas menjadi kebutuhan. Sekarang, saat kita maju, kerja jarak jauh telah menjadi normal baru bagi banyak perusahaan dan industri.</p>
           
-          <h3>Benefits of Remote Work</h3>
+          <h3>Manfaat Kerja Jarak Jauh</h3>
           <ul>
-            <li><strong>Flexibility:</strong> Employees enjoy better work-life balance</li>
-            <li><strong>Talent Pool:</strong> Companies can hire from anywhere in the world</li>
-            <li><strong>Cost Savings:</strong> Reduced overhead for office space and utilities</li>
-            <li><strong>Productivity:</strong> Many employees report higher productivity when working remotely</li>
+            <li><strong>Fleksibilitas:</strong> Karyawan menikmati keseimbangan kerja-hidup yang lebih baik</li>
+            <li><strong>Pool Talenta:</strong> Perusahaan dapat merekrut dari mana saja di dunia</li>
+            <li><strong>Penghematan Biaya:</strong> Overhead yang berkurang untuk ruang kantor dan utilitas</li>
+            <li><strong>Produktivitas:</strong> Banyak karyawan melaporkan produktivitas yang lebih tinggi saat bekerja dari jarak jauh</li>
           </ul>
           
-          <h3>Challenges to Overcome</h3>
-          <p>While remote work offers many benefits, it's not without challenges:</p>
+          <h3>Tantangan yang Harus Diatasi</h3>
+          <p>Meskipun kerja jarak jauh menawarkan banyak manfaat, ini tidak tanpa tantangan:</p>
           <ul>
-            <li>Maintaining company culture and team cohesion</li>
-            <li>Ensuring effective communication and collaboration</li>
-            <li>Providing adequate technical support and resources</li>
-            <li>Managing performance and accountability</li>
+            <li>Mempertahankan budaya perusahaan dan kohesi tim</li>
+            <li>Memastikan komunikasi dan kolaborasi yang efektif</li>
+            <li>Memberikan dukungan teknis dan sumber daya yang memadai</li>
+            <li>Mengelola kinerja dan akuntabilitas</li>
           </ul>
           
-          <h3>Best Practices for Remote Teams</h3>
-          <p>To succeed with remote work, companies should:</p>
+          <h3>Praktik Terbaik untuk Tim Jarak Jauh</h3>
+          <p>Untuk berhasil dengan kerja jarak jauh, perusahaan harus:</p>
           <ul>
-            <li>Invest in reliable collaboration tools</li>
-            <li>Establish clear communication guidelines</li>
-            <li>Regularly check in with team members</li>
-            <li>Create opportunities for social interaction</li>
-            <li>Trust employees and focus on results</li>
+            <li>Menginvestasikan alat kolaborasi yang andal</li>
+            <li>Membuat pedoman komunikasi yang jelas</li>
+            <li>Secara rutin memeriksa anggota tim</li>
+            <li>Menciptakan peluang untuk interaksi sosial</li>
+            <li>Mempercayai karyawan dan fokus pada hasil</li>
           </ul>
         `,
         featuredImage: "https://picsum.photos/seed/remote/1200/800.jpg",
@@ -201,37 +224,37 @@ async function seed() {
         publishedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
       },
       {
-        title: "AI in Business: Opportunities and Challenges",
-        slug: "ai-business-opportunities-challenges",
-        excerpt: "Exploring how artificial intelligence is transforming business operations and strategy.",
+        title: "AI dalam Bisnis: Peluang dan Tantangan",
+        slug: "ai-bisnis-peluang-tantangan",
+        excerpt: "Mengeksplorasi bagaimana kecerdasan buatan mengubah operasi dan strategi bisnis.",
         content: `
-          <h2>The AI Revolution in Business</h2>
-          <p>Artificial intelligence is no longer just a buzzword—it's a transformative technology that's reshaping how businesses operate, make decisions, and serve customers.</p>
+          <h2>Revolusi AI dalam Bisnis</h2>
+          <p>Kecerdasan buatan tidak lagi sekadar buzzword—ini adalah teknologi transformatif yang membentuk kembali cara bisnis beroperasi, membuat keputusan, dan melayani pelanggan.</p>
           
-          <h3>Key Applications</h3>
+          <h3>Aplikasi Kunci</h3>
           <ul>
-            <li><strong>Customer Service:</strong> AI-powered chatbots and virtual assistants</li>
-            <li><strong>Predictive Analytics:</strong> Forecasting trends and customer behavior</li>
-            <li><strong>Process Automation:</strong> Streamlining repetitive tasks</li>
-            <li><strong>Personalization:</strong> Customizing products and services</li>
+            <li><strong>Layanan Pelanggan:</strong> Chatbot dan asisten virtual bertenaga AI</li>
+            <li><strong>Analitik Prediktif:</strong> Memprediksi tren dan perilaku pelanggan</li>
+            <li><strong>Otomatisasi Proses:</strong> Menyederhanakan tugas-tugas berulang</li>
+            <li><strong>Personalisasi:</strong> Menyesuaikan produk dan layanan</li>
           </ul>
           
-          <h3>Implementation Challenges</h3>
-          <p>Despite the potential benefits, businesses face several challenges when implementing AI:</p>
+          <h3>Tantangan Implementasi</h3>
+          <p>Meskipun manfaat potensialnya, bisnis menghadapi beberapa tantangan saat mengimplementasikan AI:</p>
           <ul>
-            <li>Data quality and availability</li>
-            <li>Talent shortage and skills gap</li>
-            <li>Ethical considerations and bias</li>
-            <li>Integration with existing systems</li>
+            <li>Kualitas dan ketersediaan data</li>
+            <li>Kekurangan talenta dan kesenjangan keterampilan</li>
+            <li>Pertimbangan etika dan bias</li>
+            <li>Integrasi dengan sistem yang ada</li>
           </ul>
           
-          <h3>Success Factors</h3>
-          <p>Successful AI implementation requires:</p>
+          <h3>Faktor Keberhasilan</h3>
+          <p>Implementasi AI yang berhasil memerlukan:</p>
           <ul>
-            <li>Clear business objectives</li>
-            <li>Executive support and investment</li>
-            <li>Phased approach with quick wins</li>
-            <li>Continuous monitoring and improvement</li>
+            <li>Tujuan bisnis yang jelas</li>
+            <li>Dukungan eksekutif dan investasi</li>
+            <li>Pendekatan bertahap dengan kemenangan cepat</li>
+            <li>Pemantauan dan peningkatan berkelanjutan</li>
           </ul>
         `,
         featuredImage: "https://picsum.photos/seed/aibusiness/1200/800.jpg",
@@ -241,37 +264,37 @@ async function seed() {
         publishedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
       },
       {
-        title: "Cybersecurity Best Practices for 2023",
-        slug: "cybersecurity-best-practices-2023",
-        excerpt: "Essential security measures every business should implement to protect against cyber threats.",
+        title: "Praktik Terbaik Keamanan Siber untuk 2023",
+        slug: "keamanan-siber-praktik-terbaik-2023",
+        excerpt: "Langkah-langkah keamanan esensial yang harus diimplementasikan setiap bisnis untuk melindungi dari ancaman siber.",
         content: `
-          <h2>The Growing Importance of Cybersecurity</h2>
-          <p>As businesses increasingly rely on digital infrastructure, cybersecurity has become a critical concern. Cyber attacks are becoming more sophisticated, and the consequences of a breach can be devastating.</p>
+          <h2>Pentingnya Keamanan Siber yang Terus Tumbuh</h2>
+          <p>Saat bisnis semakin mengandalkan infrastruktur digital, keamanan siber telah menjadi perhatian kritis. Serangan siber menjadi lebih canggih, dan konsekuensi dari pelanggaran dapat merusak.</p>
           
-          <h3>Essential Security Measures</h3>
+          <h3>Langkah-langkah Keamanan Esensial</h3>
           <ul>
-            <li><strong>Multi-Factor Authentication:</strong> Add an extra layer of security to all accounts</li>
-            <li><strong>Regular Updates:</strong> Keep all software and systems up to date</li>
-            <li><strong>Employee Training:</strong> Educate staff about security best practices</li>
-            <li><strong>Data Encryption:</strong> Protect sensitive information both in transit and at rest</li>
+            <li><strong>Autentikasi Multi-Faktor:</strong> Tambahkan lapisan keamanan ekstra ke semua akun</li>
+            <li><strong>Pembaruan Reguler:</strong> Pertahankan semua perangkat lunak dan sistem tetap terkini</li>
+            <li><strong>Pelatihan Karyawan:</strong> Edukasi staf tentang praktik keamanan terbaik</li>
+            <li><strong>Enkripsi Data:</strong> Lindungi informasi sensitif baik dalam transit maupun saat diam</li>
           </ul>
           
-          <h3>Incident Response Planning</h3>
-          <p>Every business should have an incident response plan that includes:</p>
+          <h3>Perencanaan Respons Insiden</h3>
+          <p>Setiap bisnis harus memiliki rencana respons insiden yang mencakup:</p>
           <ul>
-            <li>Clear roles and responsibilities</li>
-            <li>Communication protocols</li>
-            <li>Recovery procedures</li>
-            <li>Post-incident analysis</li>
+            <li>Peran dan tanggung jawab yang jelas</li>
+            <li>Protokol komunikasi</li>
+            <li>Prosedur pemulihan</li>
+            <li>Analisis pasca-insiden</li>
           </ul>
           
-          <h3>Staying Ahead of Threats</h3>
-          <p>Cybersecurity is an ongoing process. Stay informed about:</p>
+          <h3>Tetap Selangkah di Depan Ancaman</h3>
+          <p>Keamanan siber adalah proses berkelanjutan. Tetap informasikan tentang:</p>
           <ul>
-            <li>Emerging threats and vulnerabilities</li>
-            <li>New security technologies and solutions</li>
-            <li>Regulatory requirements and compliance</li>
-            <li>Industry best practices</li>
+            <li>Ancaman dan kerentanan yang muncul</li>
+            <li>Teknologi dan solusi keamanan baru</li>
+            <li>Persyaratan dan kepatuhan regulasi</li>
+            <li>Praktik terbaik industri</li>
           </ul>
         `,
         featuredImage: "https://picsum.photos/seed/security/1200/800.jpg",
@@ -291,26 +314,26 @@ async function seed() {
         const [newPost] = await db.insert(blogPosts).values(postData).returning();
         
         // Assign categories to posts
-        if (postData.slug === "future-of-web-development") {
+        if (postData.slug === "masa-depan-pengembangan-web") {
           await db.insert(blogPostCategories).values([
             { postId: newPost.id, categoryId: techCategory.id },
             { postId: newPost.id, categoryId: designCategory.id }
           ]);
-        } else if (postData.slug === "design-systems-consistency") {
+        } else if (postData.slug === "sistem-desain-konsistensi") {
           await db.insert(blogPostCategories).values([
             { postId: newPost.id, categoryId: designCategory.id },
             { postId: newPost.id, categoryId: techCategory.id }
           ]);
-        } else if (postData.slug === "remote-work-new-normal") {
+        } else if (postData.slug === "kerja-jarak-jauh-normal-baru") {
           await db.insert(blogPostCategories).values([
             { postId: newPost.id, categoryId: businessCategory.id }
           ]);
-        } else if (postData.slug === "ai-business-opportunities-challenges") {
+        } else if (postData.slug === "ai-bisnis-peluang-tantangan") {
           await db.insert(blogPostCategories).values([
             { postId: newPost.id, categoryId: businessCategory.id },
             { postId: newPost.id, categoryId: techCategory.id }
           ]);
-        } else if (postData.slug === "cybersecurity-best-practices-2023") {
+        } else if (postData.slug === "keamanan-siber-praktik-terbaik-2023") {
           await db.insert(blogPostCategories).values([
             { postId: newPost.id, categoryId: techCategory.id },
             { postId: newPost.id, categoryId: businessCategory.id }
@@ -332,12 +355,12 @@ async function seed() {
           {
             postId: post.id,
             authorId: readerUser.id,
-            content: "Great article! This was really helpful and informative."
+            content: "Artikel yang sangat bagus! Ini sangat membantu dan informatif."
           },
           {
             postId: post.id,
             authorId: contributorUser.id,
-            content: "Thanks for sharing. I learned something new today."
+            content: "Terima kasih telah berbagi. Saya belajar sesuatu yang baru hari ini."
           }
         ]);
       }
@@ -370,12 +393,159 @@ async function seed() {
       }
     }
 
+    // Create brand divisions
+    const brandDivisionsData = [
+      {
+        name: "Kiny Cultura Indonesia",
+        slug: "kiny-cultura",
+        tagline: "Pemahaman Lintas Budaya",
+        description: "Mempromosikan pemahaman lintas budaya melalui kompetisi tari folk, sekolah imersi, dan program kepemimpinan untuk anak-anak dari SD hingga SMP.",
+        fullDescription: "Kiny Cultura Indonesia didedikasikan untuk memupuk kewarganegaraan global melalui pertukaran budaya dan pendidikan. Program kami memberikan anak-anak kesempatan unik untuk mengalami budaya yang beragam, mengembangkan keterampilan kepemimpinan, dan mendapatkan perspektif internasional yang akan membentuk masa depan mereka.",
+        coverage: "150+ Negara",
+        delivery: "Program Tatap Muka & Virtual",
+        backgroundImage: "https://images.unsplash.com/photo-1515184689810-b8b7187c6975?w=2070&q=80",
+        logo: "/brandLogo/kinyCultura.png",
+        color: "#D4AF37", // Shortened to fit varchar(20)
+        stats: { 
+          label1: 'Negara', 
+          value1: '150+', 
+          label2: 'Sekolah', 
+          value2: '50+', 
+          label3: 'Siswa', 
+          value3: '1500+', 
+          label4: 'Festival', 
+          value4: '100+' 
+        },
+        services: [
+          { name: "Program Imersi Sekolah", description: "Program pertukaran budaya untuk siswa mengalami sistem pendidikan yang berbeda" },
+          { name: "Program Lintas Budaya", description: "Workshop interaktif yang merayakan keragaman dan kewarganegaraan global" },
+          { name: "Kompetisi Tari Internasional", description: "Menampilkan bentuk tari tradisional dan kontemporer dari seluruh dunia" },
+          { name: "Program Kepemimpinan", description: "Mengembangkan pemimpin muda dengan perspektif global dan kesadaran budaya" },
+        ],
+        achievements: [
+          "Sertifikat yang diakui di 150 negara dari CID UNESCO",
+          "Kemitraan dengan 50+ sekolah di seluruh Indonesia",
+          "Berhasil melibatkan 1500+ siswa dalam program budaya",
+          "Program kolaboratif dengan pemerintah dan UNESCO",
+        ],
+        team: [
+          { name: "Dr. Anisa Rahman", position: "Direktur Program Budaya" },
+          { name: "Budi Santoso", position: "Kepala Kemitraan Pendidikan" },
+          { name: "Sarah Wijaya", position: "Koordinator Hubungan Internasional" },
+          { name: "Ahmad Fadli", position: "Manajer Pengembangan Program" },
+        ],
+        theme: {
+          primary: "from-amber-600 to-amber-500", // Shortened to fit
+          bg: "bg-amber-600/10",
+          bgSolid: "bg-navy-800/50",
+          border: "border-amber-600/30",
+          text: "text-amber-600",
+          accent: "bg-amber-600",
+          hover: "hover:bg-amber-600/10",
+          gradient: "bg-gradient-to-br from-amber-600/20 to-amber-500/20"
+        },
+        featured: true,
+        authorId: adminUser.id,
+      },
+      {
+        name: "Kiny Tours & Travel",
+        slug: "kiny-tours",
+        tagline: "Pengalaman Perjalanan Pribadi",
+        description: "Menawarkan pengalaman tur pribadi yang dipersonalisasi yang memperkaya pemahaman wisatawan tentang budaya yang beragam di 7 benua.",
+        fullDescription: "Kiny Tours & Travel mengubah perjalanan biasa menjadi perjalanan penemuan yang luar biasa. Pendekatan personalisasi kami memastikan bahwa setiap pengalaman perjalanan disesuaikan dengan minat individu, memberikan tidak hanya wisata tetapi imersi budaya yang mendalam dan koneksi yang bermakna dengan komunitas lokal.",
+        coverage: "167 Negara",
+        delivery: "Tur Pribadi & Itinerary Kustom",
+        backgroundImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=2070&q=80",
+        logo: "/brandLogo/kinyTours.png",
+        color: "#B8860B", // Shortened to fit varchar(20)
+        stats: { 
+          label1: 'Negara', 
+          value1: '167', 
+          label2: 'Supir', 
+          value2: '150+', 
+          label3: 'Pemandu', 
+          value3: '80+', 
+          label4: 'Mitra', 
+          value4: '30+' 
+        },
+        services: [
+          { name: "Layanan MICE", description: "Perencanaan Meeting, Incentives, Conferences, dan Exhibitions" },
+          { name: "Tur Pribadi Sesuai Permintaan", description: "Itinerary yang dipersonalisasi dirancang sesuai minat Anda" },
+          { name: "Pemesanan Hotel & Penerbangan", description: "Pengaturan akomodasi dan transportasi premium" },
+          { name: "Pengalaman Imersi Budaya", description: "Pengalaman lokal otentik yang dipandu oleh ahli tersertifikasi" },
+        ],
+        achievements: [
+          "150+ supir berbahasa Inggris di 167 negara",
+          "Jaringan yang mencakup 7 benua dengan restoran, hotel, dan venue",
+          "Kemitraan dengan 30+ sekolah dan lembaga di Jakarta",
+          "Kerjasama eksklusif dengan Conseil International de la Danse",
+        ],
+        team: [
+          { name: "Andi Pratama", position: "CEO & Pendiri" },
+          { name: "Diana Kusuma", position: "Kepala Operasi Internasional" },
+          { name: "Raj Patel", position: "Direktur Tur Kustom" },
+          { name: "Maria Santos", position: "Manajer Hubungan Klien" },
+        ],
+        theme: {
+          primary: "from-amber-700 to-amber-600", // Shortened to fit
+          bg: "bg-amber-700/10",
+          bgSolid: "bg-navy-800/50",
+          border: "border-amber-700/30",
+          text: "text-amber-700",
+          accent: "bg-amber-700",
+          hover: "hover:bg-amber-700/10",
+          gradient: "bg-gradient-to-br from-amber-700/20 to-amber-600/20"
+        },
+        featured: true,
+        authorId: adminUser.id,
+      }
+    ];
+
+    // Insert brand divisions
+    for (const brandData of brandDivisionsData) {
+      // Check if brand already exists
+      const existingBrand = await db.select().from(brandDivisions).where(eq(brandDivisions.slug, brandData.slug));
+      
+      if (existingBrand.length === 0) {
+        const [newBrand] = await db.insert(brandDivisions).values(brandData).returning();
+        
+        // Add sample images for each brand
+        const sampleImages = [
+          {
+            brandDivisionId: newBrand.id,
+            imageUrl: `https://picsum.photos/seed/${brandData.slug}-1/800/600.jpg`,
+            caption: "Gambar sampel 1",
+            altText: `Gambar sampel untuk ${brandData.name}`,
+            order: 0
+          },
+          {
+            brandDivisionId: newBrand.id,
+            imageUrl: `https://picsum.photos/seed/${brandData.slug}-2/800/600.jpg`,
+            caption: "Gambar sampel 2",
+            altText: `Gambar sampel untuk ${brandData.name}`,
+            order: 1
+          },
+          {
+            brandDivisionId: newBrand.id,
+            imageUrl: `https://picsum.photos/seed/${brandData.slug}-3/800/600.jpg`,
+            caption: "Gambar sampel 3",
+            altText: `Gambar sampel untuk ${brandData.name}`,
+            order: 2
+          }
+        ];
+        
+        await db.insert(brandDivisionImages).values(sampleImages);
+      }
+    }
+
     console.log("Database seeded successfully!");
     console.log("\nLogin credentials:");
     console.log("Admin: admin@example.com / admin123");
     console.log("Editor: editor@example.com / editor123");
     console.log("Contributor: contributor@example.com / contributor123");
     console.log("Reader: reader@example.com / reader123");
+    console.log("Kiny Cultura: kiny.cultura@example.com / kiny123");
+    console.log("Kiny Tours: kiny.tours@example.com / tours123");
   } catch (error) {
     console.error("Error seeding database:", error);
   }

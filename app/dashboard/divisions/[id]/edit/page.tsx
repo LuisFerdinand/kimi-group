@@ -1,4 +1,3 @@
-// app/dashboard/divisions/[id]/edit/page.tsx
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser, requireEditor } from "@/lib/auth";
 import { DivisionForm } from "@/components/dashboard/division-form";
@@ -6,9 +5,18 @@ import { db } from "@/lib/db";
 import { brandDivisions } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
-export default async function EditDivisionPage({ params }: { params: { id: string } }) {
+// Make the component async and properly type the params
+export default async function EditDivisionPage({ params }: { params: Promise<{ id: string }> }) {
+  // Await the params if using Next.js 13.4+ with App Router
+  const resolvedParams = await params;
   const user = await requireEditor();
-  const divisionId = parseInt(params.id);
+  
+  // Check if id exists before parsing
+  if (!resolvedParams.id) {
+    redirect("/dashboard/divisions");
+  }
+  
+  const divisionId = parseInt(resolvedParams.id);
 
   if (isNaN(divisionId)) {
     redirect("/dashboard/divisions");
@@ -25,7 +33,6 @@ export default async function EditDivisionPage({ params }: { params: { id: strin
   }
 
   // Check if user has permission to edit this division
-  // Editors can only edit their own divisions
   if (
     user.role === "editor" && 
     division.authorId !== user.id

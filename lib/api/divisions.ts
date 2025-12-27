@@ -1,4 +1,4 @@
-// lib/api/divisions.ts
+// lib/api/divisions.ts - Updated getDivisionBySlug
 import { db } from "@/lib/db";
 import { brandDivisions } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -9,13 +9,26 @@ export async function getDivisions() {
 }
 
 export async function getDivision(id: number) {
-  const [division] = await db.select().from(brandDivisions).where(eq(brandDivisions.id, id));
-  return division;
+  const [division] = await db
+    .select()
+    .from(brandDivisions)
+    .where(eq(brandDivisions.id, id))
+    .limit(1);
+  return division || null;
 }
 
 export async function getDivisionBySlug(slug: string) {
-  const [division] = await db.select().from(brandDivisions).where(eq(brandDivisions.slug, slug));
-  return division;
+  try {
+    const [division] = await db
+      .select()
+      .from(brandDivisions)
+      .where(eq(brandDivisions.slug, slug))
+      .limit(1);
+    return division || null;
+  } catch (error) {
+    console.error("Error fetching division by slug:", error);
+    return null;
+  }
 }
 
 export async function createDivision(data: {
@@ -23,10 +36,41 @@ export async function createDivision(data: {
   slug: string;
   tagline?: string;
   description: string;
+  fullDescription: string;
+  coverage?: string;
+  delivery?: string;
   backgroundImage?: string;
   logo?: string;
   color?: string;
-  stats?: Record<string, unknown>;
+  stats?: {
+    label1: string;
+    value1: string;
+    label2: string;
+    value2: string;
+    label3: string;
+    value3: string;
+    label4: string;
+    value4: string;
+  };
+  services?: Array<{
+    name: string;
+    description: string;
+  }>;
+  achievements?: string[];
+  team?: Array<{
+    name: string;
+    position: string;
+  }>;
+  theme?: {
+    primary: string;
+    bg: string;
+    bgSolid: string;
+    border: string;
+    text: string;
+    accent: string;
+    hover: string;
+    gradient: string;
+  };
   featured?: boolean;
 }) {
   const user = await getCurrentUser();
@@ -41,10 +85,35 @@ export async function createDivision(data: {
       slug: data.slug,
       tagline: data.tagline,
       description: data.description,
+      fullDescription: data.fullDescription,
+      coverage: data.coverage,
+      delivery: data.delivery,
       backgroundImage: data.backgroundImage,
       logo: data.logo,
       color: data.color,
-      stats: data.stats || {},
+      stats: data.stats || {
+        label1: '',
+        value1: '',
+        label2: '',
+        value2: '',
+        label3: '',
+        value3: '',
+        label4: '',
+        value4: '',
+      },
+      services: data.services || [],
+      achievements: data.achievements || [],
+      team: data.team || [],
+      theme: data.theme || {
+        primary: '',
+        bg: '',
+        bgSolid: '',
+        border: '',
+        text: '',
+        accent: '',
+        hover: '',
+        gradient: '',
+      },
       featured: data.featured || false,
       authorId: user.id,
     })
@@ -60,10 +129,41 @@ export async function updateDivision(
     slug?: string;
     tagline?: string;
     description?: string;
+    fullDescription?: string;
+    coverage?: string;
+    delivery?: string;
     backgroundImage?: string;
     logo?: string;
     color?: string;
-    stats?: Record<string, unknown>;
+    stats?: {
+      label1: string;
+      value1: string;
+      label2: string;
+      value2: string;
+      label3: string;
+      value3: string;
+      label4: string;
+      value4: string;
+    };
+    services?: Array<{
+      name: string;
+      description: string;
+    }>;
+    achievements?: string[];
+    team?: Array<{
+      name: string;
+      position: string;
+    }>;
+    theme?: {
+      primary: string;
+      bg: string;
+      bgSolid: string;
+      border: string;
+      text: string;
+      accent: string;
+      hover: string;
+      gradient: string;
+    };
     featured?: boolean;
   }
 ) {
@@ -73,7 +173,7 @@ export async function updateDivision(
   }
 
   // Check if user has permission to edit this division
-  const [division] = await db.select().from(brandDivisions).where(eq(brandDivisions.id, id));
+  const division = await getDivision(id);
   if (!division) {
     throw new Error("Division not found");
   }
@@ -112,6 +212,3 @@ export async function deleteDivision(id: number) {
   await db.delete(brandDivisions).where(eq(brandDivisions.id, id));
   return { success: true };
 }
-
-
-

@@ -1,5 +1,5 @@
 {
-  "id": "2ee74416-2d48-4ddf-9ec6-93a1ba21f702",
+  "id": "9a004bd3-8419-417b-b9e7-5b87dd0bde0c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -615,6 +615,24 @@
           "primaryKey": false,
           "notNull": true
         },
+        "full_description": {
+          "name": "full_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "coverage": {
+          "name": "coverage",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "delivery": {
+          "name": "delivery",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "background_image": {
           "name": "background_image",
           "type": "varchar(500)",
@@ -638,7 +656,35 @@
           "type": "jsonb",
           "primaryKey": false,
           "notNull": true,
-          "default": "'{}'::jsonb"
+          "default": "'{\"label1\":\"\",\"value1\":\"\",\"label2\":\"\",\"value2\":\"\",\"label3\":\"\",\"value3\":\"\",\"label4\":\"\",\"value4\":\"\"}'::jsonb"
+        },
+        "services": {
+          "name": "services",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "achievements": {
+          "name": "achievements",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "team": {
+          "name": "team",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "theme": {
+          "name": "theme",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{\"primary\":\"\",\"bg\":\"\",\"bgSolid\":\"\",\"border\":\"\",\"text\":\"\",\"accent\":\"\",\"hover\":\"\",\"gradient\":\"\"}'::jsonb"
         },
         "featured": {
           "name": "featured",
