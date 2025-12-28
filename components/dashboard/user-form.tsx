@@ -128,7 +128,7 @@ export function UserForm({ user, userToEdit }: UserFormProps) {
       </div>
 
       {/* User Information Card */}
-      <Card>
+      <Card className="shadow-sm py-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <UserIcon className="w-5 h-5" />
@@ -206,7 +206,7 @@ export function UserForm({ user, userToEdit }: UserFormProps) {
       </Card>
 
       {/* Role & Permissions Card */}
-      <Card>
+      <Card className="shadow-sm py-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="w-5 h-5" />

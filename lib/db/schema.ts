@@ -199,6 +199,70 @@ export const blogPostCategories = pgTable("blog_post_categories", {
   pk: primaryKey({ columns: [t.postId, t.categoryId] }),
 }));
 
+// Clients Table (NEW)
+export const clients = pgTable("clients", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  logoUrl: varchar("logo_url", { length: 500 }).notNull(),
+  order: integer("order").default(0), // For sorting
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
+// Journey Items Table (NEW)
+export const journeyItems = pgTable("journey_items", {
+  id: serial("id").primaryKey(),
+  year: varchar("year", { length: 10 }).notNull(),
+  title: varchar("title", { length: 500 }).notNull(),
+  description: text("description").notNull(),
+  imageUrl: varchar("image_url", { length: 500 }).notNull(),
+  order: integer("order").default(0), // For sorting
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
+// Achievements Table (NEW)
+export const achievements = pgTable("achievements", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  icon: varchar("icon", { length: 50 }), // Icon name from lucide-react
+  order: integer("order").default(0), // For sorting
+  featured: boolean("featured").default(false), // Highlight important achievements
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
+// Departments Table (NEW)
+export const departments = pgTable("departments", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  head: varchar("head", { length: 255 }),
+  description: text("description"),
+  color: varchar("color", { length: 100 }), // For gradient color
+  order: integer("order").default(0), // For sorting
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
+// Team Members Table (NEW)
+export const teamMembers = pgTable("team_members", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  bio: text("bio"),
+  image: varchar("image", { length: 500 }),
+  role: varchar("role", { length: 50 }).notNull().default("team_member"), // founder, executive, team_member
+  departmentId: integer("department_id")
+    .references(() => departments.id)
+    .notNull(),
+  order: integer("order").default(0), // For sorting
+  icon: varchar("icon", { length: 50 }), // Icon name from lucide-react
+  achievements: jsonb("achievements").$type<string[]>().default([]),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   blogPosts: many(blogPosts),
@@ -287,6 +351,23 @@ export const blogPostCategoriesRelations = relations(blogPostCategories, ({ one 
   }),
 }));
 
+// Relations for new tables
+export const achievementsRelations = relations(achievements, ({ many }) => ({
+  teamMembers: many(teamMembers),
+}));
+
+export const departmentsRelations = relations(departments, ({ many }) => ({
+  teamMembers: many(teamMembers),
+}));
+
+export const teamMembersRelations = relations(teamMembers, ({ one, many }) => ({
+  department: one(departments, {
+    fields: [teamMembers.departmentId],
+    references: [departments.id],
+  }),
+  achievements: many(achievements),
+}));
+
 // Export all tables
 export const tables = {
   users,
@@ -298,6 +379,11 @@ export const tables = {
   brandDivisionImages,
   blogCategories,
   blogPostCategories,
+  clients,
+  journeyItems,
+  achievements, // New
+  departments, // New
+  teamMembers, // New
 };
 
 // Export all schemas
@@ -317,3 +403,13 @@ export type BrandDivisionImage = typeof brandDivisionImages.$inferSelect;
 export type NewBrandDivisionImage = typeof brandDivisionImages.$inferInsert;
 export type BlogCategory = typeof blogCategories.$inferSelect;
 export type NewBlogCategory = typeof blogCategories.$inferInsert;
+export type Client = typeof clients.$inferSelect;
+export type NewClient = typeof clients.$inferInsert;
+export type JourneyItem = typeof journeyItems.$inferSelect;
+export type NewJourneyItem = typeof journeyItems.$inferInsert;
+export type Achievement = typeof achievements.$inferSelect; // New
+export type NewAchievement = typeof achievements.$inferInsert; // New
+export type Department = typeof departments.$inferSelect; // New
+export type NewDepartment = typeof departments.$inferInsert; // New
+export type TeamMember = typeof teamMembers.$inferSelect; // New
+export type NewTeamMember = typeof teamMembers.$inferInsert; // New

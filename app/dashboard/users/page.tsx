@@ -10,7 +10,7 @@ import { users } from "@/lib/db/schema";
 import { formatDistanceToNow } from "date-fns";
 import { DeleteUserButton } from "@/components/dashboard/delete-user-button";
 import { desc } from "drizzle-orm";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardHeader } from "@/components/dashboard/layout/dashboard-header";
 
 export default async function UsersPage() {
   const user = await requireAdmin();
@@ -72,7 +72,7 @@ export default async function UsersPage() {
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-4 mb-8">
-        <Card>
+        <Card >
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
@@ -133,7 +133,7 @@ export default async function UsersPage() {
       </div>
 
       {/* Users Table */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <CardTitle>All Users</CardTitle>
           <CardDescription>View and manage all system users</CardDescription>

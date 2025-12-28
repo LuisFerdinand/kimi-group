@@ -7,7 +7,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { blogCategories } from "@/lib/db/schema";
 import { formatDistanceToNow } from "date-fns";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardHeader } from "@/components/dashboard/layout/dashboard-header";
 
 export default async function CategoriesPage() {
   const user = await requireEditor();
@@ -36,7 +36,7 @@ export default async function CategoriesPage() {
       </div>
 
       {/* Categories Table */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <CardTitle>All Categories</CardTitle>
           <CardDescription>Manage your blog post categories</CardDescription>

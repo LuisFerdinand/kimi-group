@@ -250,7 +250,7 @@ export function PostForm({ user, post }: PostFormProps) {
         </TabsList>
 
         <TabsContent value="content" className="space-y-6 mt-6">
-          <Card>
+          <Card className="py-6">
             <CardHeader>
               <CardTitle>Post Content</CardTitle>
               <CardDescription>Write your blog post content here</CardDescription>
@@ -315,7 +315,7 @@ export function PostForm({ user, post }: PostFormProps) {
         </TabsContent>
 
         <TabsContent value="settings" className="space-y-6 mt-6">
-          <Card>
+          <Card className="py-6">
             <CardHeader>
               <CardTitle>Post Settings</CardTitle>
               <CardDescription>Configure post metadata and options</CardDescription>
@@ -474,7 +474,7 @@ export function PostForm({ user, post }: PostFormProps) {
         </TabsContent>
 
         <TabsContent value="preview" className="space-y-6 mt-6">
-          <Card>
+          <Card className="py-6">
             <CardHeader>
               <CardTitle>Post Preview</CardTitle>
               <CardDescription>See how your post will appear</CardDescription>

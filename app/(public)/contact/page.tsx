@@ -1,8 +1,7 @@
 // app/(public)/contact/page.tsx
 "use client";
 
-import PageHeader from "@/components/pages/PageHeader";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import PageHeader from "@/components/(public)/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +12,6 @@ import {
   Mail, 
   Clock, 
   Send,
-  MessageSquare,
   Instagram,
   Facebook,
   Linkedin,
@@ -46,7 +44,6 @@ export default function ContactPage() {
     setSubmitStatus({ type: null, message: '' });
 
     try {
-      // Replace these with your EmailJS credentials
       const serviceId = 'service_d6ttodn';
       const templateId = 'template_pdvbihx';
       const publicKey = '1Hzn3cIba12k3xxg_';
@@ -73,7 +70,6 @@ export default function ContactPage() {
         message: 'Pesan Anda telah berhasil dikirim! Kami akan segera menghubungi Anda.'
       });
 
-      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -101,25 +97,25 @@ export default function ContactPage() {
 
   const contactInfo = [
     {
-      icon: <MapPin className="h-6 w-6" />,
+      icon: <MapPin className="h-5 w-5" />,
       title: "Alamat Kantor",
       content: "Jl. Example Street No. 123, Jakarta Selatan, DKI Jakarta 12345",
       link: null
     },
     {
-      icon: <Phone className="h-6 w-6" />,
+      icon: <Phone className="h-5 w-5" />,
       title: "Telepon",
       content: "+62 21 1234 5678",
       link: "tel:+622112345678"
     },
     {
-      icon: <Mail className="h-6 w-6" />,
+      icon: <Mail className="h-5 w-5" />,
       title: "Email",
       content: "info@kinygroup.com",
       link: "mailto:info@kinygroup.com"
     },
     {
-      icon: <Clock className="h-6 w-6" />,
+      icon: <Clock className="h-5 w-5" />,
       title: "Jam Operasional",
       content: "Senin - Jumat: 09:00 - 17:00 WIB",
       link: null
@@ -134,260 +130,261 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-12 md:py-24">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-background pt-18">
+      <div className="container max-w-6xl mx-auto px-4 py-8 md:py-12 lg:py-16">
         <PageHeader 
-          title="Hubungi Kami"
-          description="Mari terhubung dengan kami - Kami siap membantu mewujudkan visi Anda"
-          emphasizedWord="terhubung"
+          title="Contact Us"
+          description="Mari terhubung dengan kami. Kami siap membantu mewujudkan visi Anda melalui layanan berkualitas tinggi."
+          emphasizedWord="Us"
         />
 
-        {/* Contact Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {contactInfo.map((info, index) => (
-            <Card 
-              key={index} 
-              className="border-gold-500/20 hover:border-gold-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/10 group"
-            >
-              <CardHeader className="text-center">
-                <div className="mx-auto w-14 h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-primary-foreground mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {info.icon}
-                </div>
-                <CardTitle className="text-lg">{info.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                {info.link ? (
-                  <a 
-                    href={info.link} 
-                    className="text-muted-foreground hover:text-gold-500 transition-colors duration-200"
-                  >
-                    {info.content}
-                  </a>
-                ) : (
-                  <p className="text-muted-foreground">{info.content}</p>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {/* Contact Form */}
-          <Card className="border-gold-500/20">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-primary-foreground">
-                  <MessageSquare className="h-5 w-5" />
-                </div>
-                Kirim Pesan
-              </CardTitle>
-              <CardDescription>
-                Isi formulir di bawah ini dan kami akan segera menghubungi Anda
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Nama Lengkap *</Label>
-                  <Input 
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Masukkan nama lengkap Anda"
-                    required
-                    className="border-gold-500/20 focus:border-gold-500"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
-                  <Input 
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="nama@email.com"
-                    required
-                    className="border-gold-500/20 focus:border-gold-500"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Nomor Telepon</Label>
-                  <Input 
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+62 812 3456 7890"
-                    className="border-gold-500/20 focus:border-gold-500"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subjek *</Label>
-                  <Input 
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="Topik pesan Anda"
-                    required
-                    className="border-gold-500/20 focus:border-gold-500"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="message">Pesan *</Label>
-                  <Textarea 
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tuliskan pesan Anda di sini..."
-                    required
-                    rows={5}
-                    className="border-gold-500/20 focus:border-gold-500 resize-none"
-                  />
-                </div>
-
-                {submitStatus.type && (
-                  <div 
-                    className={`flex items-center gap-3 p-4 rounded-lg border ${
-                      submitStatus.type === 'success' 
-                        ? 'bg-green-500/10 border-green-500/30 text-green-600 dark:text-green-400' 
-                        : 'bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400'
-                    }`}
-                  >
-                    {submitStatus.type === 'success' ? (
-                      <CheckCircle className="h-5 w-5 shrink-0" />
-                    ) : (
-                      <AlertCircle className="h-5 w-5 shrink-0" />
-                    )}
-                    <p className="text-sm">{submitStatus.message}</p>
-                  </div>
-                )}
-
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-primary-foreground"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin mr-2"></div>
-                      Mengirim...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="h-4 w-4 mr-2" />
-                      Kirim Pesan
-                    </>
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {/* Map & Social Media */}
-          <div className="space-y-8">
-            {/* Map Section */}
-            <Card className="border-gold-500/20 overflow-hidden">
-              <CardHeader>
-                <CardTitle>Lokasi Kami</CardTitle>
-                <CardDescription>
-                  Kunjungi kantor kami atau temukan lokasi kami di peta
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="relative w-full h-[300px] lg:h-[400px] bg-muted">
-                  <Image 
-                    src="/images/office-map.png" 
-                    alt="KINY GROUP Office Location Map"
-                    fill
-                    className="object-cover"
-                    onError={(e) => {
-                      // Fallback to a sample map image if custom image fails
-                      e.currentTarget.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=600&fit=crop";
-                    }}
-                  />
-                  {/* Optional: Add a link overlay to open in Google Maps */}
-                  <a 
-                    href="https://maps.google.com/?q=Your+Company+Address"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-300 flex items-center justify-center group"
-                  >
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gold-500 text-primary-foreground px-6 py-3 rounded-full font-semibold shadow-lg">
-                      Buka di Google Maps
+        <div className="max-w-6xl mx-auto">
+          {/* Main Content - Two Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 md:gap-12 lg:gap-16 mb-12 md:mb-16">
+            {/* Left Column - Contact Information */}
+            <div className="lg:col-span-2 space-y-8 md:space-y-12">
+              <div>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-6 md:mb-8 border-b border-gold-500/20 pb-4">
+                  Informasi Kontak
+                </h2>
+                
+                <div className="space-y-6 md:space-y-8">
+                  {contactInfo.map((info, index) => (
+                    <div key={index} className="flex gap-3 md:gap-4 group">
+                      <div className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-gold-400/10 to-gold-600/10 border border-gold-500/20 flex items-center justify-center text-gold-600 group-hover:border-gold-500/40 transition-all duration-300">
+                        {info.icon}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-xs md:text-sm uppercase tracking-wide text-muted-foreground mb-1 md:mb-2">
+                          {info.title}
+                        </h3>
+                        {info.link ? (
+                          <a 
+                            href={info.link} 
+                            className="text-foreground hover:text-gold-600 transition-colors duration-200 text-sm md:text-base"
+                          >
+                            {info.content}
+                          </a>
+                        ) : (
+                          <p className="text-foreground text-sm md:text-base">{info.content}</p>
+                        )}
+                      </div>
                     </div>
-                  </a>
+                  ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Social Media */}
-            <Card className="border-gold-500/20">
-              <CardHeader>
-                <CardTitle>Ikuti Kami</CardTitle>
-                <CardDescription>
-                  Tetap terhubung dengan kami di media sosial
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4">
+              {/* Social Media */}
+              <div>
+                <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6 border-b border-gold-500/20 pb-4">
+                  Ikuti Kami
+                </h3>
+                <div className="flex gap-3 md:gap-4">
                   {socialMedia.map((social, index) => (
                     <a
                       key={index}
                       href={social.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-4 rounded-lg border border-gold-500/20 hover:border-gold-500/50 hover:bg-accent/50 transition-all duration-300 group"
+                      className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-br from-gold-400/10 to-gold-600/10 border border-gold-500/20 hover:border-gold-500/40 flex items-center justify-center text-gold-600 hover:scale-110 transition-all duration-300"
+                      title={social.name}
                     >
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-primary-foreground group-hover:scale-110 transition-transform duration-300">
-                        {social.icon}
-                      </div>
-                      <span className="font-medium text-sm group-hover:text-gold-500 transition-colors">
-                        {social.name}
-                      </span>
+                      {social.icon}
                     </a>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+
+              {/* Map */}
+              <div>
+                <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6 border-b border-gold-500/20 pb-4">
+                  Lokasi Kami
+                </h3>
+                <div className="relative w-full h-[250px] md:h-[300px] rounded-lg overflow-hidden border border-gold-500/20 group">
+                  <Image 
+                    src="/images/office-map.png" 
+                    alt="KINY GROUP Office Location Map"
+                    fill
+                    className="object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=600&fit=crop&q=80";
+                    }}
+                  />
+                  <a 
+                    href="https://maps.google.com/?q=Your+Company+Address"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors duration-300 flex items-center justify-center"
+                  >
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gold-500 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg font-semibold shadow-xl text-sm md:text-base">
+                      Buka di Google Maps
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Contact Form */}
+            <div className="lg:col-span-3">
+              <div className="bg-card border border-gold-500/20 rounded-lg p-6 md:p-8 lg:p-10 shadow-xl">
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
+                  Kirim Pesan
+                </h2>
+                <p className="text-muted-foreground mb-6 md:mb-8 text-sm md:text-base">
+                  Isi formulir di bawah ini dan kami akan segera menghubungi Anda.
+                </p>
+
+                <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-sm font-medium">
+                        Nama Lengkap <span className="text-gold-600">*</span>
+                      </Label>
+                      <Input 
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Masukkan nama lengkap"
+                        required
+                        className="border-gold-500/20 focus:border-gold-500 h-10 md:h-12"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-sm font-medium">
+                        Email <span className="text-gold-600">*</span>
+                      </Label>
+                      <Input 
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="nama@email.com"
+                        required
+                        className="border-gold-500/20 focus:border-gold-500 h-10 md:h-12"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="phone" className="text-sm font-medium">
+                        Nomor Telepon
+                      </Label>
+                      <Input 
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="+62 812 3456 7890"
+                        className="border-gold-500/20 focus:border-gold-500 h-10 md:h-12"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="subject" className="text-sm font-medium">
+                        Subjek <span className="text-gold-600">*</span>
+                      </Label>
+                      <Input 
+                        id="subject"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        placeholder="Topik pesan"
+                        required
+                        className="border-gold-500/20 focus:border-gold-500 h-10 md:h-12"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="message" className="text-sm font-medium">
+                      Pesan <span className="text-gold-600">*</span>
+                    </Label>
+                    <Textarea 
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Tuliskan pesan Anda di sini..."
+                      required
+                      rows={5}
+                      className="border-gold-500/20 focus:border-gold-500 resize-none"
+                    />
+                  </div>
+
+                  {submitStatus.type && (
+                    <div 
+                      className={`flex items-start gap-3 p-3 md:p-4 rounded-lg border ${
+                        submitStatus.type === 'success' 
+                          ? 'bg-green-500/10 border-green-500/30 text-green-600 dark:text-green-400' 
+                          : 'bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400'
+                      }`}
+                    >
+                      {submitStatus.type === 'success' ? (
+                        <CheckCircle className="h-4 w-4 md:h-5 md:w-5 shrink-0 mt-0.5" />
+                      ) : (
+                        <AlertCircle className="h-4 w-4 md:h-5 md:w-5 shrink-0 mt-0.5" />
+                      )}
+                      <p className="text-xs md:text-sm leading-relaxed">{submitStatus.message}</p>
+                    </div>
+                  )}
+
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white h-10 md:h-12 text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                        Mengirim...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 mr-2" />
+                        Kirim Pesan
+                      </>
+                    )}
+                  </Button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom CTA Section */}
+          <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-gold-900/20 via-gold-800/10 to-card border border-gold-500/20 p-8 md:p-12 lg:p-16 text-center">
+            <div className="absolute inset-0 bg-grid-white/5"></div>
+            <div className="relative z-10">
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+                Siap Memulai Perjalanan Bersama Kami?
+              </h3>
+              <p className="text-muted-foreground mb-6 md:mb-8 max-w-2xl mx-auto text-sm md:text-lg leading-relaxed">
+                Tim kami siap membantu Anda mewujudkan visi melalui program pendidikan, pertukaran budaya, dan layanan berkualitas tinggi kami.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+                <Button 
+                  size="lg"
+                  className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 text-sm md:text-base"
+                  onClick={() => document.getElementById('name')?.focus()}
+                >
+                  Hubungi Kami Sekarang
+                </Button>
+                <Button 
+                  size="lg"
+                  variant="outline"
+                  className="border-gold-500/30 hover:bg-gold-500/10 hover:border-gold-500/50 transition-all duration-300 text-sm md:text-base"
+                  onClick={() => window.location.href = '/about'}
+                >
+                  Pelajari Lebih Lanjut
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* CTA Section */}
-        <Card className="border-gold-500/20 bg-gradient-to-br from-gold-500/5 to-gold-600/5">
-          <CardContent className="p-8 md:p-12 text-center">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Siap Memulai Perjalanan Bersama Kami?
-            </h3>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Tim kami siap membantu Anda mewujudkan visi melalui program pendidikan, pertukaran budaya, dan layanan berkualitas tinggi kami.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-primary-foreground"
-                onClick={() => document.getElementById('name')?.focus()}
-              >
-                Hubungi Kami Sekarang
-              </Button>
-              <Button 
-                variant="outline"
-                className="border-gold-500/30 hover:bg-gold-500/10"
-                onClick={() => window.location.href = '/about'}
-              >
-                Pelajari Lebih Lanjut
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

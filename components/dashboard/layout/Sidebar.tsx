@@ -14,6 +14,11 @@ import {
   Users, 
   Settings,
   ChevronLeft,
+  Clock,
+  UserCheck,
+  Award,
+  Briefcase,
+  GraduationCap,
   LucideIcon
 } from 'lucide-react';
 import { User } from '@/lib/db/schema';
@@ -84,6 +89,41 @@ const menuCategories: MenuCategory[] = [
         icon: Building2, 
         label: 'Brand Divisions', 
         href: '/dashboard/divisions', 
+        roles: ['admin', 'editor'] 
+      },
+    ]
+  },
+  {
+    label: 'About Page Management',
+    items: [
+      { 
+        icon: Clock, 
+        label: 'Journey', 
+        href: '/dashboard/journey', 
+        roles: ['admin', 'editor'] 
+      },
+      { 
+        icon: UserCheck, 
+        label: 'Clients', 
+        href: '/dashboard/clients', 
+        roles: ['admin', 'editor'] 
+      },
+      { 
+        icon: Award, 
+        label: 'Achievements', 
+        href: '/dashboard/achievements', 
+        roles: ['admin', 'editor'] 
+      },
+      { 
+        icon: Briefcase, 
+        label: 'Departments', 
+        href: '/dashboard/departments', 
+        roles: ['admin', 'editor'] 
+      },
+      { 
+        icon: GraduationCap, 
+        label: 'Team Members', 
+        href: '/dashboard/team-members', 
         roles: ['admin', 'editor'] 
       },
     ]

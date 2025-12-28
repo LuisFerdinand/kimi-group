@@ -24,7 +24,7 @@ import { eq, desc } from "drizzle-orm";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import DeletePostButton from "@/components/dashboard/posts/DeletePostButton";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardHeader } from "@/components/dashboard/layout/dashboard-header";
 
 export default async function PostsPage() {
   const user = await requireContributor();
@@ -163,7 +163,7 @@ export default async function PostsPage() {
       </div>
 
       {/* Posts Table */}
-      <Card className="border-0 shadow-xl">
+      <Card className="border-0 shadow-xl py-6">
         <CardHeader className="border-b border-border">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <CardTitle className="text-xl">All Posts</CardTitle>

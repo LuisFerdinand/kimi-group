@@ -247,7 +247,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Basic Information */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <CardTitle>Basic Information</CardTitle>
           <CardDescription>Enter the basic details for your brand division</CardDescription>
@@ -355,7 +355,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       </Card>
 
       {/* Statistics */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <CardTitle>Statistics</CardTitle>
           <CardDescription>Add key statistics for your division</CardDescription>
@@ -385,7 +385,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       </Card>
 
       {/* Services */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -443,7 +443,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       </Card>
 
       {/* Achievements */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -487,7 +487,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       </Card>
 
       {/* Team */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -546,7 +546,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       </Card>
 
       {/* Visual Assets */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <CardTitle>Visual Assets</CardTitle>
           <CardDescription>Upload images and set colors for your division</CardDescription>
@@ -590,7 +590,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       </Card>
 
       {/* Theme Configuration with Preview */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <CardTitle>Theme Configuration</CardTitle>
           <CardDescription>Configure color theme for this division&apos;s page and preview the result</CardDescription>
@@ -809,7 +809,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       </Card>
 
       {/* Settings */}
-      <Card>
+      <Card className="py-6">
         <CardHeader>
           <CardTitle>Settings</CardTitle>
           <CardDescription>Configure additional settings for your division</CardDescription>
