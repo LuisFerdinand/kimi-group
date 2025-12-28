@@ -55,11 +55,11 @@ export default function BrandPage() {
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(e.touches[0].clientX);
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.target.touches[0].clientX);
+    setTouchEnd(e.touches[0].clientX);
   };
 
   const onTouchEnd = () => {
