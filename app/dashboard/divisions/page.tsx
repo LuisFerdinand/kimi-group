@@ -11,7 +11,7 @@ import { eq, desc } from "drizzle-orm";
 import { formatDistanceToNow } from "date-fns";
 import { DeleteDivisionButton } from "@/components/dashboard/delete-division-button";
 import Image from "next/image";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardHeader } from "@/components/dashboard/layout/dashboard-header";
 
 export default async function DivisionsPage() {
   const user = await requireEditor();
@@ -129,7 +129,7 @@ export default async function DivisionsPage() {
           {divisions.map((division) => (
             <Card
               key={division.id}
-              className="group hover:shadow-lg transition-all duration-200 border-2 hover:border-primary/50"
+              className="group hover:shadow-lg transition-all duration-200 border-2 hover:border-primary/50 py-6"
             >
               <CardHeader className="space-y-3">
                 {/* Logo and Featured Badge */}

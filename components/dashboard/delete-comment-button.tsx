@@ -72,12 +72,14 @@ export function DeleteCommentButton({ commentId, commentPreview }: DeleteComment
             </div>
             <AlertDialogTitle>Delete Comment</AlertDialogTitle>
           </div>
-          <AlertDialogDescription className="text-left space-y-3">
-            <p>Are you sure you want to delete this comment? This action cannot be undone.</p>
-            <div className="p-3 bg-muted rounded-lg border border-border">
-              <p className="text-sm text-foreground italic line-clamp-3">
-                &quot;{commentPreview}&quot;
-              </p>
+          <AlertDialogDescription asChild>
+            <div className="text-left space-y-3">
+              <p>Are you sure you want to delete this comment? This action cannot be undone.</p>
+              <div className="p-3 bg-muted rounded-lg border border-border">
+                <p className="text-sm text-foreground italic line-clamp-3">
+                  &quot;{commentPreview}&quot;
+                </p>
+              </div>
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>

@@ -385,12 +385,12 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
         </div>
       </div>
 
-      <div className="container mx-auto px-4 -mt-12 relative z-10">
+      <div className="container mx-auto px-4 pb-10 -mt-12 relative z-10">
         <div className="max-w-4xl mx-auto">
           {/* Main Content Card */}
           <Card className="border-0 shadow-2xl overflow-hidden mb-8">
             {blogPost.excerpt && (
-              <CardHeader className="bg-linear-to-r from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 border-b">
+              <CardHeader className="bg-linear-to-r from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 border-b py-6">
                 <p className="text-lg md:text-xl text-muted-foreground italic border-l-4 border-yellow-600 pl-6 py-3 leading-relaxed">
                   {blogPost.excerpt}
                 </p>
@@ -552,7 +552,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
             </h3>
             
             {/* Comment Form */}
-            <Card className="mb-8 border-0 shadow-lg">
+            <Card className="mb-8 border-0 shadow-lg pt-6">
               <CardHeader>
                 <h4 className="font-semibold text-lg flex items-center gap-2">
                   <MessageCircle className="h-5 w-5 text-yellow-600" />

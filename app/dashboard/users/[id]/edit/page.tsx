@@ -1,14 +1,19 @@
 // app/dashboard/users/[id]/edit/page.tsx
 import { notFound, redirect } from "next/navigation";
-import { getCurrentUser, requireAdmin } from "@/lib/auth";
+import { requireAdmin } from "@/lib/auth";
 import { UserForm } from "@/components/dashboard/user-form";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
-export default async function EditUserPage({ params }: { params: { id: string } }) {
+export default async function EditUserPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> // Changed to Promise
+}) {
   const user = await requireAdmin();
-  const userId = parseInt(params.id);
+  const { id } = await params; // Await params
+  const userId = parseInt(id);
 
   if (isNaN(userId)) {
     redirect("/dashboard/users");

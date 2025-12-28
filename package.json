@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "db:seed": "tsx scripts/seed.ts",
+    "db:seed-about": "tsx scripts/seed-about.ts",
+    "db:seed-brands": "tsx scripts/seed-brands.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",

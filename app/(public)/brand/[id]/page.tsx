@@ -90,7 +90,7 @@ export default function DivisionDetailPage() {
         <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent" />
         
         <div className="relative z-10 h-full flex flex-col container mx-auto px-6 lg:px-12">
-          <div className="pt-8">
+          <div className="pt-20">
             <Button variant="ghost" asChild className="text-white hover:bg-white/10 backdrop-blur-sm">
               <Link href="/brand" className="flex items-center">
                 <ArrowLeft className="mr-2 h-4 w-4" />

@@ -166,7 +166,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <Card className="shadow-sm">
+      <Card className="shadow-sm py-6">
         <CardHeader className="pb-4">
           <CardTitle className="text-xl">Category Information</CardTitle>
           <CardDescription>

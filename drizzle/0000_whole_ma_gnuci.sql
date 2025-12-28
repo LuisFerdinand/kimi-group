@@ -1,3 +1,14 @@
+CREATE TABLE "achievements" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"title" varchar(255) NOT NULL,
+	"description" text,
+	"icon" varchar(50),
+	"order" integer DEFAULT 0,
+	"featured" boolean DEFAULT false,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "blog_categories" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(100) NOT NULL,
@@ -97,6 +108,52 @@ CREATE TABLE "brand_divisions" (
 	CONSTRAINT "brand_divisions_slug_unique" UNIQUE("slug")
 );
 --> statement-breakpoint
+CREATE TABLE "clients" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"logo_url" varchar(500) NOT NULL,
+	"order" integer DEFAULT 0,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "departments" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" varchar(100) NOT NULL,
+	"head" varchar(255),
+	"description" text,
+	"color" varchar(100),
+	"order" integer DEFAULT 0,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "journey_items" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"year" varchar(10) NOT NULL,
+	"title" varchar(500) NOT NULL,
+	"description" text NOT NULL,
+	"image_url" varchar(500) NOT NULL,
+	"order" integer DEFAULT 0,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "team_members" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"title" varchar(255) NOT NULL,
+	"bio" text,
+	"image" varchar(500),
+	"role" varchar(50) DEFAULT 'team_member' NOT NULL,
+	"department_id" integer NOT NULL,
+	"order" integer DEFAULT 0,
+	"icon" varchar(50),
+	"achievements" jsonb DEFAULT '[]'::jsonb,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "users" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(255),
@@ -120,4 +177,5 @@ ALTER TABLE "blog_post_views" ADD CONSTRAINT "blog_post_views_post_id_blog_posts
 ALTER TABLE "blog_post_views" ADD CONSTRAINT "blog_post_views_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "blog_posts" ADD CONSTRAINT "blog_posts_author_id_users_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "brand_division_images" ADD CONSTRAINT "brand_division_images_brand_division_id_brand_divisions_id_fk" FOREIGN KEY ("brand_division_id") REFERENCES "public"."brand_divisions"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "brand_divisions" ADD CONSTRAINT "brand_divisions_author_id_users_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
+ALTER TABLE "brand_divisions" ADD CONSTRAINT "brand_divisions_author_id_users_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "team_members" ADD CONSTRAINT "team_members_department_id_departments_id_fk" FOREIGN KEY ("department_id") REFERENCES "public"."departments"("id") ON DELETE no action ON UPDATE no action;

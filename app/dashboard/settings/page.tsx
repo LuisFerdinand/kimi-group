@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { PasswordStrength } from "@/components/ui/password-strength";
 import { Loader2, Lock, CheckCircle, Settings } from "lucide-react";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardHeader } from "@/components/dashboard/layout/dashboard-header";
 
 export default function SettingsPage() {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -77,7 +77,7 @@ export default function SettingsPage() {
           icon={Settings}
         />
       
-      <Card>
+      <Card className="py-6 mx-auto">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Lock className="h-5 w-5" />
