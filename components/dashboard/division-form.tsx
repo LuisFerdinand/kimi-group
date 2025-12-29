@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // components/dashboard/division-form.tsx
 "use client";
 
@@ -11,13 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileUpload } from "@/components/ui/file-upload";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ThemeSelector, generateThemeFromColor, Theme } from "@/components/ui/theme-selector";
 import { User, BrandDivision } from "@/lib/db/schema";
 import { divisionsAPI } from "@/lib/api/client/divisions";
 import { toast } from "sonner";
-import { Plus, Trash2, GripVertical, Loader2, Eye, Palette } from "lucide-react";
+import { Plus, Trash2, GripVertical, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 interface DivisionFormProps {
   user: User;
@@ -37,12 +35,19 @@ interface TeamMember {
 export function DivisionForm({ user, division }: DivisionFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [slugValidation, setSlugValidation] = useState<{ checking: boolean; available: boolean; message: string }>({
     checking: false,
     available: true,
     message: "",
   });
+
+  // Initialize theme with proper defaults
+  const getInitialTheme = () => {
+    if (division?.theme && Object.keys(division.theme).length > 0) {
+      return division.theme;
+    }
+    return generateThemeFromColor(division?.color || "#3b82f6");
+  };
 
   const [formData, setFormData] = useState({
     name: division?.name || "",
@@ -69,16 +74,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
     services: division?.services || [],
     achievements: division?.achievements || [],
     team: division?.team || [],
-    theme: division?.theme || {
-      primary: "#3b82f6",
-      bg: "rgba(59, 130, 246, 0.1)",
-      bgSolid: "#eff6ff",
-      border: "rgba(59, 130, 246, 0.2)",
-      text: "#1e40af",
-      accent: "#2563eb",
-      hover: "#1d4ed8",
-      gradient: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
-    },
+    theme: getInitialTheme(),
   });
 
   // Validate slug when it changes
@@ -118,10 +114,17 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
     }));
   };
 
-  const handleThemeChange = (field: string, value: string) => {
+  const handleColorChange = (color: string) => {
     setFormData(prev => ({
       ...prev,
-      theme: { ...prev.theme, [field]: value },
+      color,
+    }));
+  };
+
+  const handleThemeChange = (theme: Theme) => {
+    setFormData(prev => ({
+      ...prev,
+      theme,
     }));
   };
 
@@ -217,8 +220,25 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
     setIsSubmitting(true);
 
     try {
+      // Ensure theme is properly formatted before submission
+      const dataToSubmit = {
+        ...formData,
+        theme: {
+          ...formData.theme,
+          // Ensure all theme properties exist
+          primary: formData.theme.primary || formData.color,
+          bg: formData.theme.bg || `${formData.color}1A`,
+          bgSolid: formData.theme.bgSolid || `${formData.color}0D`,
+          border: formData.theme.border || `${formData.color}33`,
+          text: formData.theme.text || formData.color,
+          accent: formData.theme.accent || formData.color,
+          hover: formData.theme.hover || formData.color,
+          gradient: formData.theme.gradient || `linear-gradient(135deg, ${formData.color} 0%, ${formData.color}CC 100%)`,
+        }
+      };
+
       if (division) {
-        const result = await divisionsAPI.update(division.id, formData);
+        const result = await divisionsAPI.update(division.id, dataToSubmit);
         if (result.error) {
           toast.error(result.error);
         } else {
@@ -227,7 +247,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
           router.refresh();
         }
       } else {
-        const result = await divisionsAPI.create(formData);
+        const result = await divisionsAPI.create(dataToSubmit);
         if (result.error) {
           toast.error(result.error);
         } else {
@@ -549,7 +569,7 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
       <Card className="py-6">
         <CardHeader>
           <CardTitle>Visual Assets</CardTitle>
-          <CardDescription>Upload images and set colors for your division</CardDescription>
+          <CardDescription>Upload images for your division</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
@@ -566,247 +586,22 @@ export function DivisionForm({ user, division }: DivisionFormProps) {
               label="Background Image"
             />
           </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="color">Brand Color</Label>
-            <div className="flex items-center gap-2">
-              <Input
-                id="color"
-                name="color"
-                type="color"
-                value={formData.color}
-                onChange={handleInputChange}
-                className="w-20 h-10 p-1 border rounded cursor-pointer"
-              />
-              <Input
-                value={formData.color}
-                onChange={(e) => setFormData(prev => ({ ...prev, color: e.target.value }))}
-                placeholder="#3b82f6"
-                className="flex-1"
-              />
-            </div>
-          </div>
         </CardContent>
       </Card>
 
       {/* Theme Configuration with Preview */}
-      <Card className="py-6">
-        <CardHeader>
-          <CardTitle>Theme Configuration</CardTitle>
-          <CardDescription>Configure color theme for this division&apos;s page and preview the result</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="editor" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="editor" className="flex items-center gap-2">
-                <Palette className="w-4 h-4" />
-                Theme Editor
-              </TabsTrigger>
-              <TabsTrigger value="preview" className="flex items-center gap-2">
-                <Eye className="w-4 h-4" />
-                Brand Preview
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="editor" className="space-y-4 mt-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {Object.entries(formData.theme).map(([key, value]) => (
-                  <div key={key} className="space-y-2">
-                    <Label htmlFor={`theme-${key}`} className="capitalize">
-                      {key.replace(/([A-Z])/g, " $1").trim()}
-                    </Label>
-                    <div className="flex items-center gap-2">
-                      {key.includes('gradient') ? (
-                        <div 
-                          className="w-10 h-10 rounded border border-gray-200" 
-                          style={{ background: value }}
-                        />
-                      ) : (
-                        <Input
-                          id={`theme-${key}-color`}
-                          type="color"
-                          value={value.startsWith('#') ? value : '#3b82f6'}
-                          onChange={(e) => handleThemeChange(key, e.target.value)}
-                          className="w-10 h-10 p-1 border rounded cursor-pointer"
-                        />
-                      )}
-                      <Input
-                        id={`theme-${key}`}
-                        value={value}
-                        onChange={(e) => handleThemeChange(key, e.target.value)}
-                        placeholder={`Enter ${key}`}
-                        className="flex-1"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="preview" className="mt-4">
-              <div className="border rounded-lg overflow-hidden">
-                {/* Preview Header */}
-                <div 
-                  className="p-6 text-white"
-                  style={{ background: formData.theme.gradient }}
-                >
-                  <div className="flex items-center gap-4">
-                    {formData.logo && (
-                      <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center">
-                        <Image
-                          src={formData.logo} 
-                          alt={formData.name} 
-                          className="max-w-full max-h-full object-contain"
-                          width={64}
-                          height={64}
-                        />
-                      </div>
-                    )}
-                    <div>
-                      <h1 className="text-2xl font-bold">{formData.name || "Division Name"}</h1>
-                      <p className="text-sm opacity-90">{formData.tagline || "Division tagline goes here"}</p>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Preview Content */}
-                <div className="p-6">
-                  <div className="grid gap-4 md:grid-cols-2 mb-6">
-                    {formData.stats.label1 && (
-                      <div 
-                        className="p-4 rounded-lg border"
-                        style={{ 
-                          backgroundColor: formData.theme.bg,
-                          borderColor: formData.theme.border 
-                        }}
-                      >
-                        <div 
-                          className="text-2xl font-bold"
-                          style={{ color: formData.theme.primary }}
-                        >
-                          {formData.stats.value1 || "0"}
-                        </div>
-                        <div className="text-sm text-gray-600">{formData.stats.label1}</div>
-                      </div>
-                    )}
-                    {formData.stats.label2 && (
-                      <div 
-                        className="p-4 rounded-lg border"
-                        style={{ 
-                          backgroundColor: formData.theme.bg,
-                          borderColor: formData.theme.border 
-                        }}
-                      >
-                        <div 
-                          className="text-2xl font-bold"
-                          style={{ color: formData.theme.primary }}
-                        >
-                          {formData.stats.value2 || "0"}
-                        </div>
-                        <div className="text-sm text-gray-600">{formData.stats.label2}</div>
-                      </div>
-                    )}
-                    {formData.stats.label3 && (
-                      <div 
-                        className="p-4 rounded-lg border"
-                        style={{ 
-                          backgroundColor: formData.theme.bg,
-                          borderColor: formData.theme.border 
-                        }}
-                      >
-                        <div 
-                          className="text-2xl font-bold"
-                          style={{ color: formData.theme.primary }}
-                        >
-                          {formData.stats.value3 || "0"}
-                        </div>
-                        <div className="text-sm text-gray-600">{formData.stats.label3}</div>
-                      </div>
-                    )}
-                    {formData.stats.label4 && (
-                      <div 
-                        className="p-4 rounded-lg border"
-                        style={{ 
-                          backgroundColor: formData.theme.bg,
-                          borderColor: formData.theme.border 
-                        }}
-                      >
-                        <div 
-                          className="text-2xl font-bold"
-                          style={{ color: formData.theme.primary }}
-                        >
-                          {formData.stats.value4 || "0"}
-                        </div>
-                        <div className="text-sm text-gray-600">{formData.stats.label4}</div>
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="mb-6">
-                    <h2 
-                      className="text-xl font-semibold mb-3"
-                      style={{ color: formData.theme.text }}
-                    >
-                      About
-                    </h2>
-                    <p className="text-gray-600">
-                      {formData.description || "This is a preview of your division's description. It will appear on the public page."}
-                    </p>
-                  </div>
-                  
-                  {formData.services.length > 0 && (
-                    <div className="mb-6">
-                      <h2 
-                        className="text-xl font-semibold mb-3"
-                        style={{ color: formData.theme.text }}
-                      >
-                        Services
-                      </h2>
-                      <div className="grid gap-3 md:grid-cols-2">
-                        {formData.services.map((service, index) => (
-                          service.name && (
-                            <div 
-                              key={index} 
-                              className="p-3 rounded-lg border"
-                              style={{ 
-                                backgroundColor: formData.theme.bgSolid,
-                                borderColor: formData.theme.border 
-                              }}
-                            >
-                              <h3 
-                                className="font-medium"
-                                style={{ color: formData.theme.accent }}
-                              >
-                                {service.name}
-                              </h3>
-                              <p className="text-sm text-gray-600 mt-1">
-                                {service.description || "Service description"}
-                              </p>
-                            </div>
-                          )
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className="flex justify-center mt-6">
-                    <button
-                      className="px-6 py-2 rounded-md text-white font-medium transition-colors"
-                      style={{ 
-                        backgroundColor: isButtonHovered ? formData.theme.hover : formData.theme.primary
-                      }}
-                      onMouseEnter={() => setIsButtonHovered(true)}
-                      onMouseLeave={() => setIsButtonHovered(false)}
-                    >
-                      Contact Us
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+      <ThemeSelector
+        brandColor={formData.color}
+        theme={formData.theme}
+        logo={formData.logo}
+        name={formData.name}
+        tagline={formData.tagline}
+        description={formData.description}
+        stats={formData.stats}
+        services={formData.services}
+        onColorChange={handleColorChange}
+        onThemeChange={handleThemeChange}
+      />
 
       {/* Settings */}
       <Card className="py-6">
