@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // app/(public)/blog/page.tsx
 "use client";
 
@@ -176,7 +177,7 @@ export default function BlogPage() {
                     className="object-cover"
                     unoptimized // Add this to prevent Next.js optimization caching
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                  <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4">
                     <Badge className="mb-2 bg-gold-500 hover:bg-gold-600 text-primary-foreground">Unggulan</Badge>
                     <h3 className="text-lg md:text-xl font-bold text-white">{post.title}</h3>
@@ -214,14 +215,6 @@ export default function BlogPage() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Filter className="h-5 w-5 text-muted-foreground" />
-            <Button
-              variant={selectedCategory === "Semua" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedCategory("Semua")}
-              className={selectedCategory === "Semua" ? "bg-gold-500 hover:bg-gold-600 text-primary-foreground" : ""}
-            >
-              Semua
-            </Button>
             {categories.map(category => (
               <Button
                 key={category.slug}
@@ -333,7 +326,7 @@ export default function BlogPage() {
       )}
 
       {/* Newsletter Signup */}
-      <div className="mt-12 md:mt-20 rounded-2xl p-6 md:p-8 lg:p-12 bg-gradient-to-r from-navy-800 to-navy-900 text-primary-foreground">
+      <div className="mt-12 md:mt-20 rounded-2xl p-6 md:p-8 lg:p-12 bg-linear-to-r from-navy-800 to-navy-900 text-primary-foreground">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Tetap Terupdate</h2>
           <p className="text-muted-foreground mb-6 md:mb-8">
