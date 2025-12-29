@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 // app/(public)/brand/page.tsx
 "use client";
 
@@ -9,6 +8,7 @@ import Link from "next/link";
 import PageHeader from "@/components/(public)/layout/page-header";
 import { brandsAPI } from "@/lib/api/client/brands";
 import { BrandDivision } from "@/lib/db/schema";
+import { getThemeColors, createThemeCSSVariables } from "@/lib/theme-utils";
 
 export default function BrandPage() {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -148,6 +148,7 @@ export default function BrandPage() {
   };
 
   const currentBrand = brandsData[activeIndex];
+  const currentTheme = currentBrand ? getThemeColors(currentBrand) : getThemeColors({} as BrandDivision);
 
   if (isLoading) {
     return (
@@ -172,22 +173,25 @@ export default function BrandPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-hidden relative">
+    <div 
+      className="min-h-screen bg-background text-foreground overflow-hidden relative"
+      style={createThemeCSSVariables(currentBrand)}
+    >
       {/* Enhanced background with animated gradients */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/5 to-background" />
       
       {/* Animated decorative orbs */}
       <div 
         className="absolute top-20 left-10 w-96 h-96 rounded-full blur-3xl animate-pulse-slow"
-        style={{ backgroundColor: currentBrand.color || "#3b82f6", opacity: 0.06 }}
+        style={{ backgroundColor: currentTheme.primary, opacity: 0.06 }}
       />
       <div 
         className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse-slow animation-delay-1000"
-        style={{ backgroundColor: currentBrand.color || "#3b82f6", opacity: 0.06 }}
+        style={{ backgroundColor: currentTheme.primary, opacity: 0.06 }}
       />
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl animate-pulse-slower"
-        style={{ backgroundColor: currentBrand.color || "#3b82f6", opacity: 0.04 }}
+        style={{ backgroundColor: currentTheme.primary, opacity: 0.04 }}
       />
 
       <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16 relative z-10">
@@ -210,6 +214,7 @@ export default function BrandPage() {
                 const isActive = index === activeIndex;
                 const isHovered = hoveredIndex === index;
                 const styles = getPositionStyles(index);
+                const theme = getThemeColors(brand);
                 
                 return (
                   <div 
@@ -240,7 +245,7 @@ export default function BrandPage() {
                     <div
                       className="absolute inset-0 mix-blend-multiply transition-opacity duration-700"
                       style={{ 
-                        backgroundColor: brand.color || "#3b82f6",
+                        backgroundColor: theme.primary,
                         opacity: isActive ? 0.35 : 0.45,
                       }}
                     />
@@ -254,8 +259,8 @@ export default function BrandPage() {
                       <div 
                         className="absolute inset-0 rounded-3xl animate-border-glow pointer-events-none"
                         style={{
-                          boxShadow: `0 0 40px ${brand.color || "#3b82f6"}90, inset 0 0 40px ${brand.color || "#3b82f6"}40`,
-                          border: `2px solid ${brand.color || "#3b82f6"}60`,
+                          boxShadow: `0 0 40px ${theme.primary}90, inset 0 0 40px ${theme.primary}40`,
+                          border: `2px solid ${theme.primary}60`,
                         }}
                       />
                     )}
@@ -287,7 +292,8 @@ export default function BrandPage() {
                         {/* CTA Button */}
                         <Link
                           href={`/brand/${brand.id}`}
-                          className={`group inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-full bg-gradient-to-r ${brand.theme?.primary || 'from-blue-500 to-blue-600'} font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105 text-xs sm:text-sm md:text-base text-white shadow-xl`}
+                          className="group inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-full font-bold transition-all duration-300 hover:shadow-2xl hover:scale-105 text-xs sm:text-sm md:text-base text-white shadow-xl"
+                          style={{ backgroundColor: theme.primary }}
                           onClick={(e) => e.stopPropagation()}
                         >
                           Explore Division
@@ -325,26 +331,29 @@ export default function BrandPage() {
                 onClick={handlePrev}
                 disabled={isAnimating}
                 className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-background/80 backdrop-blur-xl border-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center group hover:scale-110 hover:shadow-2xl shadow-lg"
-                style={{ borderColor: `${currentBrand.color || "#3b82f6"}60` }}
+                style={{ borderColor: `${currentTheme.border}` }}
               >
                 <ChevronLeft 
                   className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 transition-transform group-hover:-translate-x-1" 
-                  style={{ color: currentBrand.color || "#3b82f6" }}
+                  style={{ color: currentTheme.primary }}
                 />
               </button>
               
               {/* Enhanced dot indicators */}
-              <div className="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 px-3 sm:px-4 md:px-6 rounded-full bg-background/80 backdrop-blur-xl border-2 shadow-lg" style={{ borderColor: `${currentBrand.color || "#3b82f6"}30` }}>
+              <div className="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 px-3 sm:px-4 md:px-6 rounded-full bg-background/80 backdrop-blur-xl border-2 shadow-lg" style={{ borderColor: `${currentTheme.border}` }}>
                 {brandsData.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => !isAnimating && setActiveIndex(index)}
                     className={`transition-all duration-500 rounded-full ${
                       index === activeIndex
-                        ? `w-6 sm:w-8 md:w-10 h-1.5 sm:h-2 md:h-2.5 bg-gradient-to-r ${currentBrand.theme?.primary || 'from-blue-500 to-blue-600'} shadow-lg`
+                        ? 'w-6 sm:w-8 md:w-10 h-1.5 sm:h-2 md:h-2.5 shadow-lg'
                         : 'w-1.5 sm:w-2 md:w-2.5 h-1.5 sm:h-2 md:h-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60 hover:scale-125'
                     }`}
-                    style={index === activeIndex ? { boxShadow: `0 0 15px ${currentBrand.color || "#3b82f6"}80` } : {}}
+                    style={index === activeIndex ? { 
+                      backgroundColor: currentTheme.primary,
+                      boxShadow: `0 0 15px ${currentTheme.primary}80` 
+                    } : {}}
                   />
                 ))}
               </div>
@@ -353,11 +362,11 @@ export default function BrandPage() {
                 onClick={handleNext}
                 disabled={isAnimating}
                 className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-background/80 backdrop-blur-xl border-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center group hover:scale-110 hover:shadow-2xl shadow-lg"
-                style={{ borderColor: `${currentBrand.color || "#3b82f6"}60` }}
+                style={{ borderColor: `${currentTheme.border}` }}
               >
                 <ChevronRight 
                   className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 transition-transform group-hover:translate-x-1" 
-                  style={{ color: currentBrand.color || "#3b82f6" }}
+                  style={{ color: currentTheme.primary }}
                 />
               </button>
             </div>
@@ -373,20 +382,21 @@ export default function BrandPage() {
             ].map((stat, index) => (
               <div 
                 key={index}
-                className={`group relative p-4 sm:p-6 md:p-8 rounded-2xl bg-gradient-to-br ${currentBrand.theme?.gradient || 'from-blue-500 to-blue-600'} backdrop-blur-xl border transition-all duration-700 hover:scale-105 hover:shadow-2xl overflow-hidden`}
+                className="group relative p-4 sm:p-6 md:p-8 rounded-2xl backdrop-blur-xl border transition-all duration-700 hover:scale-105 hover:shadow-2xl overflow-hidden"
                 style={{ 
-                  borderColor: `${currentBrand.color || "#3b82f6"}20`,
-                  boxShadow: `0 4px 20px ${currentBrand.color || "#3b82f6"}10`,
+                  borderColor: currentTheme.border,
+                  boxShadow: `0 4px 20px ${currentTheme.primary}10`,
+                  backgroundColor: currentTheme.bg,
                 }}
               >
                 {/* Background glow on hover */}
                 <div 
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl"
-                  style={{ backgroundColor: `${currentBrand.color || "#3b82f6"}15` }}
+                  style={{ backgroundColor: `${currentTheme.primary}15` }}
                 />
                 
                 <div className="relative z-10">
-                  <div className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r ${currentBrand.theme?.primary || 'from-blue-500 to-blue-600'} bg-clip-text text-transparent mb-2 sm:mb-3 transition-all duration-700 group-hover:scale-110`}>
+                  <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-2 sm:mb-3 transition-all duration-700 group-hover:scale-110" style={{ color: currentTheme.primary }}>
                     {stat.value}
                   </div>
                   <div className="text-xs sm:text-sm font-bold uppercase tracking-[0.15em] text-muted-foreground transition-all duration-700">

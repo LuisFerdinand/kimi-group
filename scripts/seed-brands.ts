@@ -39,7 +39,7 @@ async function seedBrands() {
         delivery: "In-person Tours & Virtual Consultations",
         backgroundImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=2070&q=80",
         logo: "/brandLogo/kinyTours.png",
-        color: "#3B82F6",
+        color: "#3B82F6", // Blue
         stats: { 
           label1: 'Countries', 
           value1: '167', 
@@ -69,14 +69,14 @@ async function seedBrands() {
           { name: "Maria Santos", position: "Client Relations Manager" },
         ],
         theme: {
-          primary: "from-blue-600 to-blue-500",
-          bg: "bg-blue-600/10",
-          bgSolid: "bg-blue-600/20",
-          border: "border-blue-600/30",
-          text: "text-blue-600",
-          accent: "bg-blue-600",
-          hover: "hover:bg-blue-600/10",
-          gradient: "bg-gradient-to-br from-blue-600/20 to-blue-500/20"
+          primary: "#3B82F6",
+          bg: "#3B82F61A",
+          bgSolid: "#3B82F60D",
+          border: "#3B82F633",
+          text: "#3B82F6",
+          accent: "#3B82F6",
+          hover: "#2563EB",
+          gradient: "linear-gradient(135deg, #3B82F6 0%, #3B82F6CC 100%)"
         },
         featured: true,
         authorId: adminUser.id,
@@ -89,9 +89,9 @@ async function seedBrands() {
         fullDescription: "Kiny Cultura is dedicated to fostering global citizenship through cultural exchange and education. Our programs provide children with unique opportunities to experience diverse cultures, develop leadership skills, and gain international perspectives that will shape their future.",
         coverage: "150+ Countries",
         delivery: "In-person Programs & Virtual Exchanges",
-        backgroundImage: "https://images.unsplash.com/photo-1515184689810-b8b7187c6975?w=2070&q=80",
+        backgroundImage: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=2070&q=80",
         logo: "/brandLogo/kinyCultura.png",
-        color: "#8B5CF6",
+        color: "#EC4899", // Pink/Magenta for colorful light theme
         stats: { 
           label1: 'Countries', 
           value1: '150+', 
@@ -121,14 +121,14 @@ async function seedBrands() {
           { name: "Ahmad Fadli", position: "Program Development Manager" },
         ],
         theme: {
-          primary: "from-purple-600 to-purple-500",
-          bg: "bg-purple-600/10",
-          bgSolid: "bg-purple-600/20",
-          border: "border-purple-600/30",
-          text: "text-purple-600",
-          accent: "bg-purple-600",
-          hover: "hover:bg-purple-600/10",
-          gradient: "bg-gradient-to-br from-purple-600/20 to-purple-500/20"
+          primary: "#EC4899",
+          bg: "#EC48991A",
+          bgSolid: "#EC48990D",
+          border: "#EC489933",
+          text: "#EC4899",
+          accent: "#EC4899",
+          hover: "#DB2777",
+          gradient: "linear-gradient(135deg, #EC4899 0%, #F472B6 50%, #FCA5A5 100%)"
         },
         featured: true,
         authorId: adminUser.id,
@@ -141,9 +141,9 @@ async function seedBrands() {
         fullDescription: "Kiny Xplore is dedicated to advancing athletic development through international exposure and training. We connect athletes with world-class coaches, competitions, and training facilities around the globe, creating opportunities for growth and excellence in sports.",
         coverage: "International",
         delivery: "Training Camps & Competitions",
-        backgroundImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=2070&q=80",
+        backgroundImage: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=2070&q=80",
         logo: "/brandLogo/kinyXplore.png",
-        color: "#10B981",
+        color: "#06B6D4", // Cyan
         stats: { 
           label1: 'Countries', 
           value1: '50+', 
@@ -173,14 +173,14 @@ async function seedBrands() {
           { name: "Sofia Rodriguez", position: "Events Manager" },
         ],
         theme: {
-          primary: "from-emerald-600 to-emerald-500",
-          bg: "bg-emerald-600/10",
-          bgSolid: "bg-emerald-600/20",
-          border: "border-emerald-600/30",
-          text: "text-emerald-600",
-          accent: "bg-emerald-600",
-          hover: "hover:bg-emerald-600/10",
-          gradient: "bg-gradient-to-br from-emerald-600/20 to-emerald-500/20"
+          primary: "#06B6D4",
+          bg: "#06B6D41A",
+          bgSolid: "#06B6D40D",
+          border: "#06B6D433",
+          text: "#06B6D4",
+          accent: "#06B6D4",
+          hover: "#0891B2",
+          gradient: "linear-gradient(135deg, #06B6D4 0%, #06B6D4CC 100%)"
         },
         featured: true,
         authorId: adminUser.id,
@@ -193,9 +193,9 @@ async function seedBrands() {
         fullDescription: "Kinergy Project is the creative powerhouse of Kiny Group, turning imagination into action. Our reach spans nationwide and international coverage, connecting communities, brands, and ideas with bold execution and cultural resonance.",
         coverage: "Global",
         delivery: "Events & Brand Activations",
-        backgroundImage: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=2070&q=80",
+        backgroundImage: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=2070&q=80",
         logo: "/brandLogo/kinergyProject.png",
-        color: "#F59E0B",
+        color: "#F59E0B", // Amber/Orange
         stats: { 
           label1: 'Events', 
           value1: '200+', 
@@ -225,14 +225,14 @@ async function seedBrands() {
           { name: "Priya Sharma", position: "Brand Strategy Director" },
         ],
         theme: {
-          primary: "from-amber-600 to-amber-500",
-          bg: "bg-amber-600/10",
-          bgSolid: "bg-amber-600/20",
-          border: "border-amber-600/30",
-          text: "text-amber-600",
-          accent: "bg-amber-600",
-          hover: "hover:bg-amber-600/10",
-          gradient: "bg-gradient-to-br from-amber-600/20 to-amber-500/20"
+          primary: "#F59E0B",
+          bg: "#F59E0B1A",
+          bgSolid: "#F59E0B0D",
+          border: "#F59E0B33",
+          text: "#F59E0B",
+          accent: "#F59E0B",
+          hover: "#D97706",
+          gradient: "linear-gradient(135deg, #F59E0B 0%, #F59E0BCC 100%)"
         },
         featured: true,
         authorId: adminUser.id,
@@ -245,9 +245,9 @@ async function seedBrands() {
         fullDescription: "Kiny and Soul is a private spiritual travel service that honors your personal journey. Unlike conventional travel services, we don't operate on fixed departure dates. We believe your true journey begins when your heart is called.",
         coverage: "Saudi Arabia & Holy Sites",
         delivery: "Spiritual Journeys",
-        backgroundImage: "https://images.unsplash.com/photo-1599096567412-5273a024a6c3?w=2070&q=80",
+        backgroundImage: "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=2070&q=80",
         logo: "/brandLogo/kinySoul.png",
-        color: "#0EA5E9",
+        color: "#059669", // Islamic Green
         stats: { 
           label1: 'Pilgrims', 
           value1: '500+', 
@@ -277,14 +277,14 @@ async function seedBrands() {
           { name: "Aisha Binti", position: "Customer Experience Lead" },
         ],
         theme: {
-          primary: "from-sky-600 to-sky-500",
-          bg: "bg-sky-600/10",
-          bgSolid: "bg-sky-600/20",
-          border: "border-sky-600/30",
-          text: "text-sky-600",
-          accent: "bg-sky-600",
-          hover: "hover:bg-sky-600/10",
-          gradient: "bg-gradient-to-br from-sky-600/20 to-sky-500/20"
+          primary: "#059669",
+          bg: "#0596691A",
+          bgSolid: "#0596690D",
+          border: "#05966933",
+          text: "#059669",
+          accent: "#059669",
+          hover: "#047857",
+          gradient: "linear-gradient(135deg, #059669 0%, #059669CC 100%)"
         },
         featured: true,
         authorId: adminUser.id,
@@ -297,9 +297,9 @@ async function seedBrands() {
         fullDescription: "Kiny Education & Training offers comprehensive learning solutions designed to enhance professional skills and knowledge. Our programs are tailored to meet the specific needs of organizations and individuals across various sectors.",
         coverage: "Indonesia & International",
         delivery: "In-person, Online & Blended Learning",
-        backgroundImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=2070&q=80",
+        backgroundImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=2070&q=80",
         logo: "/brandLogo/kinyEducation.png",
-        color: "#EF4444",
+        color: "#9333EA", // Purple
         stats: { 
           label1: 'Courses', 
           value1: '100+', 
@@ -329,14 +329,14 @@ async function seedBrands() {
           { name: "Dewi Lestari", position: "Learning Experience Designer" },
         ],
         theme: {
-          primary: "from-red-600 to-red-500",
-          bg: "bg-red-600/10",
-          bgSolid: "bg-red-600/20",
-          border: "border-red-600/30",
-          text: "text-red-600",
-          accent: "bg-red-600",
-          hover: "hover:bg-red-600/10",
-          gradient: "bg-gradient-to-br from-red-600/20 to-red-500/20"
+          primary: "#9333EA",
+          bg: "#9333EA1A",
+          bgSolid: "#9333EA0D",
+          border: "#9333EA33",
+          text: "#9333EA",
+          accent: "#9333EA",
+          hover: "#7E22CE",
+          gradient: "linear-gradient(135deg, #9333EA 0%, #9333EACC 100%)"
         },
         featured: true,
         authorId: adminUser.id,
