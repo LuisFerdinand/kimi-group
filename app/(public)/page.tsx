@@ -41,7 +41,7 @@ export default function Home() {
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" asChild className="h-14 px-8">
+              <Button variant="outline" size="lg" asChild className="h-14 px-8 ">
                 <Link href="/about">Lebih Banyak</Link>
               </Button>
             </div>
@@ -87,7 +87,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Card 1 */}
-            <Card className="group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
+            <Card className="pt-6 group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
               <div className="absolute inset-0 bg-linear-to-br from-[var(--color-gold-500)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <CardHeader className="relative">
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -101,7 +101,7 @@ export default function Home() {
             </Card>
 
             {/* Card 2 */}
-            <Card className="group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
+            <Card className="pt-6 group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
               <div className="absolute inset-0 bg-linear-to-br from-[var(--color-gold-500)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <CardHeader className="relative">
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -115,7 +115,7 @@ export default function Home() {
             </Card>
 
             {/* Card 3 */}
-            <Card className="group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
+            <Card className="pt-6 group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
               <div className="absolute inset-0 bg-linear-to-br from-[var(--color-gold-500)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <CardHeader className="relative">
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -129,7 +129,7 @@ export default function Home() {
             </Card>
 
             {/* Card 4 */}
-            <Card className="group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
+            <Card className="pt-6 group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
               <div className="absolute inset-0 bg-linear-to-br from-[var(--color-gold-500)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <CardHeader className="relative">
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -143,7 +143,7 @@ export default function Home() {
             </Card>
 
             {/* Card 5 */}
-            <Card className="group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
+            <Card className="pt-6 group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
               <div className="absolute inset-0 bg-linear-to-br from-[var(--color-gold-500)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <CardHeader className="relative">
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -157,7 +157,7 @@ export default function Home() {
             </Card>
 
             {/* Card 6 */}
-            <Card className="group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
+            <Card className="pt-6 group relative overflow-hidden border bg-card backdrop-blur-sm hover:border-[var(--color-gold-500)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-gold-500)]/10">
               <div className="absolute inset-0 bg-linear-to-br from-[var(--color-gold-500)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <CardHeader className="relative">
                 <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[var(--color-gold-500)]/20 to-[var(--color-gold-500)]/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -205,7 +205,7 @@ export default function Home() {
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="lg" asChild className="h-14 px-8 border-[var(--color-gold-500)]/30 hover:bg-[var(--color-gold-500)]/10 hover:border-[var(--color-gold-500)]/50">
+                  <Button variant="outline" size="lg" asChild className="h-14 px-8">
                     <Link href="/brand">Lihat Portofolio Kami</Link>
                   </Button>
                 </div>

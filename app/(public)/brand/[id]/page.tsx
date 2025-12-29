@@ -376,7 +376,7 @@ export default function DivisionDetailPage() {
                       Email
                     </p>
                     <p className="text-lg font-medium">
-                      info@{division.name.toLowerCase().replace(/\s+/g, '')}.kinygroup.org
+                      info@kcifoundation.org
                     </p>
                   </div>
                 </div>
