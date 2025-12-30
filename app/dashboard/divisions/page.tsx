@@ -203,7 +203,7 @@ export default async function DivisionsPage() {
 
                 {/* Action Buttons */}
                 <div className="flex items-center gap-2 pt-2 border-t">
-                  <Link href={`/divisions/${division.slug}`} target="_blank" className="flex-1">
+                  <Link href={`/brand/${division.slug}`} target="_blank" className="flex-1">
                     <Button variant="outline" size="sm" className="w-full">
                       <Eye className="w-4 h-4 mr-2" />
                       View

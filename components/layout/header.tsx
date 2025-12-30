@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 // Path: components/layout/header.tsx
@@ -23,14 +24,26 @@ export function Header() {
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
 
+  // Check if current page is brand/[id] or blog/[id]
+  // Fixed: Convert the match result to a boolean using !! (double negation)
+  const isDetailPage = !!(pathname.match(/^\/brand\/[^/]+$/) || pathname.match(/^\/blog\/[^/]+$/));
+
   useEffect(() => {
+    // Set initial scroll state based on whether we're on a detail page
+    setIsScrolled(isDetailPage || window.scrollY > 10);
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      // Always keep scrolled state true for detail pages
+      if (isDetailPage) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(window.scrollY > 10);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isDetailPage]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
