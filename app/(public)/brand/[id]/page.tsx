@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // app/(public)/brand/[id]/page.tsx
 "use client";
@@ -82,8 +83,8 @@ export default function DivisionDetailPage() {
       className="min-h-screen bg-background"
       style={createThemeCSSVariables(division)}
     >
-      {/* Hero Section */}
-      <section className="relative overflow-hidden h-[85vh] min-h-150">
+      {/* Hero Section - Added top padding to account for header */}
+      <section className="relative overflow-hidden h-[85vh] min-h-150 pt-16">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${division.backgroundImage})` }}
@@ -92,24 +93,25 @@ export default function DivisionDetailPage() {
           className="absolute inset-0 mix-blend-multiply opacity-50"
           style={{ backgroundColor: theme.primary }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/60 to-transparent" />
         
         <div className="relative z-10 h-full flex flex-col container mx-auto px-6 lg:px-10">
-          <div className="pt-14 flex justify-between items-start">
-            <Button variant="ghost" asChild className="text-white hover:bg-white/10 backdrop-blur-sm">
+          <div className="pt-12 flex justify-between items-start">
+            <Button variant="ghost" asChild className="text-white hover:bg-white/10 backdrop-blur-sm mb-4">
               <Link href="/brand" className="flex items-center">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to All Divisions
               </Link>
             </Button>
             
-            {/* Logo on top for mobile */}
+            {/* Logo on top for mobile - Added background */}
             <div className="md:hidden">
-              <div className="w-20 h-20 relative">
+              <div className="w-20 h-20 relative bg-navy-800 backdrop-blur-sm rounded-lg p-2 shadow-lg">
                 <Image
                   src={division.logo || "/placeholder-logo.png"}
                   alt={`${division.name} logo`}
-                  fill
+                  width={400}
+                  height={400}
                   className="object-contain"
                 />
               </div>
@@ -133,15 +135,15 @@ export default function DivisionDetailPage() {
                 </p>
               </div>
               
-              {/* Logo on right side for desktop - positioned in middle */}
+              {/* Logo on right side for desktop - Added background and improved styling */}
               <div className="hidden md:flex items-center justify-center">
-                <div className="w-40 h-40 lg:w-48 lg:h-48 relative">
+                <div className="w-40 h-40 lg:w-48 lg:h-48 relative bg-navy-800 backdrop-blur-sm rounded-xl p-10 shadow-2xl">
                   <Image
                     src={division.logo || "/placeholder-logo.png"}
                     alt={`${division.name} logo`}
-                    fill
-                    className="object-contain drop-shadow-2xl"
-                    style={{ filter: "drop-shadow(0 25px 25px rgba(0,0,0,0.5))" }}
+                    width={400}
+                    height={400}
+                    className="object-contain"
                   />
                 </div>
               </div>

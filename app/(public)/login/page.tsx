@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image"; 
 
 // Create a separate component that uses useSearchParams
 function LoginForm() {
@@ -73,11 +74,18 @@ function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 pt-24">
       <div className="w-full max-w-md">
-        <Card className="border-navy-200 dark:border-navy-700 shadow-lg">
+        <Card className="border-navy-200 dark:border-navy-700 shadow-lg py-6">
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-center mb-2">
-              <div className="w-12 h-12 rounded-full bg-linear-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-                <LogIn className="w-6 h-6 text-white" />
+              {/* Replaced the icon with the Kiny logo */}
+              <div className="relative w-24 h-12">
+                <Image
+                  src="/kiny-logo/gold.png"
+                  alt="KINY GROUP Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
             </div>
             <CardTitle className="text-2xl text-center font-bold">Welcome Back</CardTitle>
@@ -144,7 +152,7 @@ function LoginForm() {
               </div>
             </CardContent>
             
-            <CardFooter className="flex flex-col space-y-4">
+            <CardFooter className="flex flex-col space-y-4 mt-4">
               <Button
                 type="submit"
                 className="w-full bg-linear-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white"
@@ -177,7 +185,7 @@ function LoginForm() {
         </Card>
 
         {/* Demo Credentials */}
-        <Card className="mt-4 border-navy-200 dark:border-navy-700">
+        <Card className="mt-4 border-navy-200 dark:border-navy-700 py-6">
           <CardHeader>
             <CardTitle className="text-sm">Demo Credentials</CardTitle>
           </CardHeader>

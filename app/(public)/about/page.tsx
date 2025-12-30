@@ -131,7 +131,7 @@ export default function AboutPage() {
       <div className="max-w-6xl mx-auto pt-18">
         <PageHeader 
           title="About Us"
-          description="Explore, learn, experience - Perjalanan, Visi, dan Komitmen kami dalam memberikan yang terbaik"
+          description="Explore, learn, experience - Our Journey, Vision, and Commitment to delivering the best"
           emphasizedWord="Us"
         />
 
@@ -145,7 +145,7 @@ export default function AboutPage() {
                   <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-primary-foreground shadow-lg">
                     <Eye className="h-6 w-6 md:h-7 md:w-7" />
                   </div>
-                  <CardTitle className="text-xl md:text-2xl">Visi Kami</CardTitle>
+                  <CardTitle className="text-xl md:text-2xl">Our Vision</CardTitle>
                 </div>
                 <CardDescription className="text-sm md:text-base leading-relaxed">
                   To enrich lives through transformative educational programs and cultural initiatives, empowering the next generation of diverse leaders.
@@ -154,7 +154,7 @@ export default function AboutPage() {
               <CardContent className="pt-0">
                 <div className="pt-4 border-t border-border">
                   <p className="text-xs md:text-sm text-muted-foreground italic">
-                    Memperkaya kehidupan melalui program pendidikan transformasional dan inisiatif budaya, memberdayakan generasi pemimpin yang beragam.
+                    Enriching lives through transformative educational programs and cultural initiatives, empowering the next generation of diverse leaders.
                   </p>
                 </div>
               </CardContent>
@@ -167,7 +167,7 @@ export default function AboutPage() {
                   <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-gold-500 to-gold-700 flex items-center justify-center text-primary-foreground shadow-lg">
                     <Compass className="h-6 w-6 md:h-7 md:w-7" />
                   </div>
-                  <CardTitle className="text-xl md:text-2xl">Misi Kami</CardTitle>
+                  <CardTitle className="text-xl md:text-2xl">Our Mission</CardTitle>
                 </div>
                 <CardDescription className="text-sm md:text-base leading-relaxed">
                   Kiny Group is dedicated to enhancing global connections through our multifaceted services in education, cultural exchange, and community development.
@@ -176,7 +176,7 @@ export default function AboutPage() {
               <CardContent className="pt-0">
                 <div className="pt-4 border-t border-border">
                   <p className="text-xs md:text-sm text-muted-foreground italic">
-                    Meningkatkan koneksi global melalui layanan multifaset dalam pendidikan, pertukaran budaya, dan pengembangan komunitas.
+                    Enhancing global connections through our multifaceted services in education, cultural exchange, and community development.
                   </p>
                 </div>
               </CardContent>
@@ -186,25 +186,25 @@ export default function AboutPage() {
           {/* Core Values */}
           <Card className="mt-4 md:mt-6 border-gold-500/20">
             <CardHeader className="text-center pb-4 pt-6">
-              <CardTitle className="text-lg md:text-xl">Nilai-Nilai Inti Kami</CardTitle>
-              <CardDescription className="text-sm md:text-base">Prinsip yang memandu setiap langkah kami</CardDescription>
+              <CardTitle className="text-lg md:text-xl">Our Core Values</CardTitle>
+              <CardDescription className="text-sm md:text-base">Principles that guide every step we take</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
                 <div className="flex flex-col items-center text-center p-3 md:p-4 rounded-lg border border-border hover:border-gold-500/30 transition-colors">
                   <Globe className="h-7 w-7 md:h-8 md:w-8 text-gold-500 mb-2 md:mb-3" />
                   <h4 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">Global Excellence</h4>
-                  <p className="text-xs md:text-sm text-muted-foreground">Standar internasional dalam setiap layanan</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">International standards in every service</p>
                 </div>
                 <div className="flex flex-col items-center text-center p-3 md:p-4 rounded-lg border border-border hover:border-gold-500/30 transition-colors">
                   <Heart className="h-7 w-7 md:h-8 md:w-8 text-gold-500 mb-2 md:mb-3" />
                   <h4 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">Passion & Care</h4>
-                  <p className="text-xs md:text-sm text-muted-foreground">Dedikasi penuh untuk kepuasan klien</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">Full dedication to client satisfaction</p>
                 </div>
                 <div className="flex flex-col items-center text-center p-3 md:p-4 rounded-lg border border-border hover:border-gold-500/30 transition-colors">
                   <Lightbulb className="h-7 w-7 md:h-8 md:w-8 text-gold-500 mb-2 md:mb-3" />
                   <h4 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">Innovation</h4>
-                  <p className="text-xs md:text-sm text-muted-foreground">Terus berinovasi untuk masa depan</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">Continuously innovating for the future</p>
                 </div>
               </div>
             </CardContent>
@@ -215,10 +215,10 @@ export default function AboutPage() {
         <div className="mb-12 md:mb-16">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground">
-              Perjalanan Kami
+              Our Journey
             </h2>
             <p className="text-muted-foreground mt-2 md:mt-4 max-w-2xl mx-auto text-sm md:text-base">
-              Dari tahun 2012 hingga sekarang, terus berkembang dan berinovasi
+              From 2012 to present, continuously growing and innovating
             </p>
           </div>
 
@@ -333,10 +333,10 @@ export default function AboutPage() {
         <div className="mb-12 md:mb-16">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground">
-              Keunggulan & Prestasi Kami
+              Our Strengths & Achievements
             </h2>
             <p className="text-muted-foreground mt-2 md:mt-4 max-w-2xl mx-auto text-sm md:text-base">
-              Pencapaian yang membanggakan dalam perjalanan kami
+              Proud accomplishments in our journey
             </p>
           </div>
 
@@ -372,10 +372,10 @@ export default function AboutPage() {
         <div className="mb-12 md:mb-16">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground">
-              Tim & Organisasi Kami
+              Our Team & Organization
             </h2>
             <p className="text-muted-foreground mt-2 md:mt-4 max-w-2xl mx-auto text-sm md:text-base">
-              Dipimpin oleh para profesional berpengalaman yang berdedikasi untuk kesuksesan Anda
+              Led by experienced professionals dedicated to your success
             </p>
           </div>
 
@@ -437,7 +437,7 @@ export default function AboutPage() {
           {/* Executive Team */}
           {executiveTeam.length > 0 && (
             <div className="mb-8 md:mb-12">
-              <h3 className="text-lg md:text-xl font-bold text-center mb-6 md:mb-8">Tim Eksekutif</h3>
+              <h3 className="text-lg md:text-xl font-bold text-center mb-6 md:mb-8">Executive Team</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                 {executiveTeam.map((exec, index) => {
                   // Get icon component based on icon name
@@ -500,7 +500,7 @@ export default function AboutPage() {
           {/* Departments */}
           {departments.length > 0 && (
             <div>
-              <h3 className="text-lg md:text-xl font-bold text-center mb-6 md:mb-8">Departemen</h3>
+              <h3 className="text-lg md:text-xl font-bold text-center mb-6 md:mb-8">Departments</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 {departments.map((dept, index) => (
                   <Card 
@@ -547,10 +547,10 @@ export default function AboutPage() {
         <div className="mb-12 md:mb-16">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground">
-              Klien & Mitra Kami
+              Our Clients & Partners
             </h2>
             <p className="text-muted-foreground mt-2 md:mt-4 max-w-2xl mx-auto text-sm md:text-base">
-              Kami bangga telah bermitra dengan organisasi-organisasi terkemuka dari berbagai sektor
+              We are proud to have partnered with leading organizations from various sectors
             </p>
           </div>
 

@@ -1,6 +1,7 @@
+// app/dashboard/divisions/[id]/edit/page.tsx
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser, requireEditor } from "@/lib/auth";
-import { DivisionForm } from "@/components/dashboard/division-form";
+import { VisualDivisionForm } from "@/components/dashboard/visual-division-form";
 import { db } from "@/lib/db";
 import { brandDivisions } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -41,13 +42,8 @@ export default async function EditDivisionPage({ params }: { params: Promise<{ i
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground">Edit Division</h1>
-        <p className="text-muted-foreground">Update brand division information</p>
-      </div>
-
-      <DivisionForm user={user} division={division} />
+    <div className="w-full">
+      <VisualDivisionForm user={user} division={division} />
     </div>
   );
 }

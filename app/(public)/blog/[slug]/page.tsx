@@ -161,15 +161,22 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
     fetchBlogPost();
   }, [resolvedParams.slug]);
 
-  // Check if user has liked the post
+  // Check if user has liked the post (using localStorage for non-logged in users)
   useEffect(() => {
     const checkLikeStatus = async () => {
-      if (session?.user && blogPost) {
+      if (blogPost) {
         try {
-          const response = await fetch(`/api/blog/${blogPost.slug}/like`);
-          if (response.ok) {
-            const data = await response.json();
-            setLiked(data.liked);
+          // For logged in users, check from API
+          if (session?.user) {
+            const response = await fetch(`/api/blog/${blogPost.slug}/like`);
+            if (response.ok) {
+              const data = await response.json();
+              setLiked(data.liked);
+            }
+          } else {
+            // For non-logged in users, check from localStorage
+            const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '{}');
+            setLiked(likedPosts[blogPost.id] || false);
           }
         } catch (err) {
           console.error('Error checking like status:', err);
@@ -187,28 +194,41 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
   };
 
   const handleLike = async () => {
-    if (!session) {
-      router.push('/login');
-      return;
-    }
-
     if (!blogPost || likePending) return;
     
     setLikePending(true);
     
     try {
-      const response = await fetch(`/api/blog/${blogPost.slug}/like`, {
-        method: 'POST'
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setLiked(data.liked);
+      // For logged in users, use API
+      if (session?.user) {
+        const response = await fetch(`/api/blog/${blogPost.slug}/like`, {
+          method: 'POST'
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setLiked(data.liked);
+          setBlogPost(prev => prev ? { 
+            ...prev, 
+            likes: data.likes || 0
+          } : null);
+          showSuccessToast(data.liked ? "Artikel disukai!" : "Batal menyukai");
+        }
+      } else {
+        // For non-logged in users, use localStorage
+        const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '{}');
+        const newLikedStatus = !likedPosts[blogPost.id];
+        
+        likedPosts[blogPost.id] = newLikedStatus;
+        localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
+        
+        setLiked(newLikedStatus);
         setBlogPost(prev => prev ? { 
           ...prev, 
-          likes: data.likes || 0
+          likes: prev.likes + (newLikedStatus ? 1 : -1)
         } : null);
-        showSuccessToast(data.liked ? "Artikel disukai!" : "Batal menyukai");
+        
+        showSuccessToast(newLikedStatus ? "Artikel disukai!" : "Batal menyukai");
       }
     } catch (err) {
       console.error('Error liking post:', err);
@@ -281,7 +301,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-yellow-500 mx-auto mb-4" />
+          <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
           <p className="text-muted-foreground">Memuat artikel...</p>
         </div>
       </div>
@@ -292,10 +312,10 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
     return (
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-3xl mx-auto flex flex-col items-center justify-center">
-          <AlertCircle className="h-16 w-16 text-red-500 mb-4" />
+          <AlertCircle className="h-16 w-16 text-destructive mb-4" />
           <h2 className="text-2xl font-bold mb-2">Artikel Tidak Ditemukan</h2>
           <p className="text-muted-foreground mb-6 text-center">{error || 'Artikel yang Anda cari tidak ditemukan.'}</p>
-          <Button asChild className="bg-yellow-600 hover:bg-yellow-700">
+          <Button asChild className="bg-primary hover:bg-primary/90">
             <Link href="/blog">
               <ArrowLeft className="mr-2 h-4 w-4" /> Kembali ke Blog
             </Link>
@@ -322,7 +342,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
       )}
 
       {/* Hero Section */}
-      <div className="relative h-[60vh] min-h-125 overflow-hidden">
+      <div className="relative h-[60vh] min-h-31.25 overflow-hidden">
         <Image 
           src={blogPost.imageUrl} 
           alt={blogPost.title}
@@ -340,11 +360,11 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
               </Link>
             </Button>
             
-            <Badge className="mb-4 bg-yellow-600 hover:bg-yellow-700 text-white border-0 shadow-lg text-sm px-4 py-1">
-              {blogPost.category}
-            </Badge>
             
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-2xl">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-2xl flex flex-col">
+              <Badge className="mb-4 bg-primary hover:bg-primary/90 text-primary-foreground border-0 shadow-lg text-sm px-4 py-1">
+                {blogPost.category}
+              </Badge>
               {blogPost.title}
             </h1>
             
@@ -359,7 +379,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                     className="rounded-full border-2 border-white/50"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-yellow-600 flex items-center justify-center border-2 border-white/50">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center border-2 border-white/50">
                     <User className="h-4 w-4 text-white" />
                   </div>
                 )}
@@ -390,8 +410,8 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
           {/* Main Content Card */}
           <Card className="border-0 shadow-2xl overflow-hidden mb-8">
             {blogPost.excerpt && (
-              <CardHeader className="bg-linear-to-r from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 border-b py-6">
-                <p className="text-lg md:text-xl text-muted-foreground italic border-l-4 border-yellow-600 pl-6 py-3 leading-relaxed">
+              <CardHeader className="bg-linear-to-r from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 border-b py-6">
+                <p className="text-lg md:text-xl text-muted-foreground italic border-l-4 border-primary pl-6 py-3 leading-relaxed">
                   {blogPost.excerpt}
                 </p>
               </CardHeader>
@@ -405,7 +425,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                   variant={liked ? "default" : "outline"}
                   onClick={handleLike}
                   disabled={likePending}
-                  className={`shadow-lg ${liked ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-background'}`}
+                  className={`shadow-lg ${liked ? 'bg-primary hover:bg-primary/90 text-primary-foreground' : 'bg-background'}`}
                   title="Suka"
                 >
                   {likePending ? (
@@ -419,7 +439,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                   size="icon"
                   variant="outline"
                   onClick={handleBookmark}
-                  className={`shadow-lg ${bookmarked ? 'bg-yellow-600 text-white hover:bg-yellow-700' : 'bg-background'}`}
+                  className={`shadow-lg ${bookmarked ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-background'}`}
                   title="Bookmark"
                 >
                   <Bookmark className={`h-4 w-4 ${bookmarked ? 'fill-current' : ''}`} />
@@ -446,7 +466,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
               {blogPost.tags && blogPost.tags.length > 0 && (
                 <div className="pt-8 border-t border-border">
                   <div className="flex items-center gap-2 mb-4">
-                    <Tag className="h-5 w-5 text-yellow-600" />
+                    <Tag className="h-5 w-5 text-primary" />
                     <span className="text-sm font-semibold text-foreground">Tags:</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -454,7 +474,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                       <Badge 
                         key={index} 
                         variant="outline" 
-                        className="bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-950/20 dark:hover:bg-yellow-950/30 border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-400 px-3 py-1 text-sm transition-colors cursor-pointer"
+                        className="bg-primary/10 hover:bg-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30 border-primary/30 dark:border-primary/50 text-primary dark:text-primary/80 px-3 py-1 text-sm transition-colors cursor-pointer"
                       >
                         #{tag}
                       </Badge>
@@ -474,8 +494,8 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                         onClick={handleLike}
                         disabled={likePending}
                         className={`${liked 
-                          ? "bg-yellow-600 hover:bg-yellow-700 text-white shadow-lg" 
-                          : "border-2 border-yellow-200 dark:border-yellow-800 hover:bg-yellow-50 dark:hover:bg-yellow-950/20"}`}
+                          ? "bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg" 
+                          : "border-2 border-primary/30 dark:border-primary/50 hover:bg-primary/10 dark:hover:bg-primary/20"}`}
                       >
                         {likePending ? (
                           <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -534,7 +554,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                       variant="outline" 
                       size="icon"
                       onClick={() => handleShare()}
-                      className="hover:bg-yellow-50 hover:border-yellow-600 dark:hover:bg-yellow-950/20"
+                      className="hover:bg-primary/10 hover:border-primary dark:hover:bg-primary/20"
                     >
                       <Share2 className="h-4 w-4" />
                     </Button>
@@ -547,20 +567,20 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
           {/* Comments Section */}
           <div id="comments" className="scroll-mt-20 mb-12">
             <h3 className="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
-              <MessageCircle className="h-8 w-8 text-yellow-600" />
-              Komentar <span className="text-yellow-600">({blogPost.comments})</span>
+              <MessageCircle className="h-8 w-8 text-primary" />
+              Komentar <span className="text-primary">({blogPost.comments})</span>
             </h3>
             
             {/* Comment Form */}
             <Card className="mb-8 border-0 shadow-lg pt-6">
               <CardHeader>
                 <h4 className="font-semibold text-lg flex items-center gap-2">
-                  <MessageCircle className="h-5 w-5 text-yellow-600" />
+                  <MessageCircle className="h-5 w-5 text-primary" />
                   Tinggalkan Komentar
                 </h4>
                 {!session && (
                   <p className="text-sm text-muted-foreground">
-                    Anda harus <Link href="/login" className="text-yellow-600 hover:underline font-medium">login</Link> untuk berkomentar
+                    Anda harus <Link href="/login" className="text-primary hover:underline font-medium">login</Link> untuk berkomentar
                   </p>
                 )}
               </CardHeader>
@@ -572,12 +592,12 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                     value={commentForm.content}
                     onChange={(e) => setCommentForm({ content: e.target.value })}
                     disabled={!session}
-                    className="resize-none border-2 focus-visible:ring-yellow-600"
+                    className="resize-none border-2 focus-visible:ring-primary"
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="bg-yellow-600 hover:bg-yellow-700 shadow-lg"
+                    className="bg-primary hover:bg-primary/90 shadow-lg"
                     disabled={submittingComment || !session}
                     size="lg"
                   >
@@ -604,7 +624,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                   <Card key={comment.id} className="border-0 shadow-md hover:shadow-lg transition-all duration-300">
                     <CardContent className="pt-6">
                       <div className="flex gap-4">
-                        <div className="w-12 h-12 rounded-full bg-linear-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shrink-0 shadow-lg">
+                        <div className="w-12 h-12 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center shrink-0 shadow-lg">
                           {comment.authorImage ? (
                             <Image 
                               src={comment.authorImage} 
@@ -614,7 +634,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                               className="rounded-full"
                             />
                           ) : (
-                            <span className="text-white font-semibold">
+                            <span className="text-primary-foreground font-semibold">
                               {comment.author.substring(0, 2).toUpperCase()}
                             </span>
                           )}
@@ -660,7 +680,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
           {relatedPosts.length > 0 && (
             <div className="mt-16 mb-12">
               <h3 className="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
-                <TrendingUp className="h-8 w-8 text-yellow-600" />
+                <TrendingUp className="h-8 w-8 text-primary" />
                 Artikel Terkait
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -677,10 +697,10 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                         <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </div>
                       <CardHeader className="pb-3">
-                        <Badge className="w-fit bg-yellow-600 hover:bg-yellow-700 mb-3 text-xs">
+                        <Badge className="w-fit bg-primary hover:bg-primary/90 mb-3 text-xs">
                           {post.category}
                         </Badge>
-                        <CardTitle className="text-lg line-clamp-2 group-hover:text-yellow-600 transition-colors leading-snug">
+                        <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors leading-snug">
                           {post.title}
                         </CardTitle>
                       </CardHeader>
@@ -695,7 +715,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
                             {post.readTime}
                           </div>
                         </div>
-                        <Button className="w-full bg-yellow-600 hover:bg-yellow-700 group-hover:shadow-lg transition-all" size="sm">
+                        <Button className="w-full bg-primary hover:bg-primary/90 group-hover:shadow-lg transition-all" size="sm">
                           Baca Artikel
                         </Button>
                       </CardContent>
@@ -750,7 +770,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
         }
         
         .rich-text-content blockquote {
-          border-left: 4px solid hsl(var(--border));
+          border-left: 4px solid hsl(var(--primary));
           padding-left: 1rem;
           margin: 1rem 0;
           color: hsl(var(--muted-foreground));

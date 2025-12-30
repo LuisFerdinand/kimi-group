@@ -20,7 +20,7 @@ export default function Home() {
         {/* Decorative Elements */}
         <div className="absolute inset-0 bg-[radial-linear(circle_at_center,rgba(184,134,11,0.15),transparent_70%)]" />
         
-        <div className="container relative mx-auto px-4 md:px-6 z-10">
+        <div className="container relative mx-auto px-4 md:px-6 z-10 pt-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
               <span className="text-white/70">Selamat Datang di</span>
