@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // app/(public)/blog/[slug]/page.tsx
@@ -86,6 +87,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [bookmarked, setBookmarked] = useState(false);
+  const [anonymousId, setAnonymousId] = useState<string | null>(null);
 
   // Fetch blog post data
   useEffect(() => {
@@ -166,17 +168,35 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
     const checkLikeStatus = async () => {
       if (blogPost) {
         try {
-          // For logged in users, check from API
-          if (session?.user) {
-            const response = await fetch(`/api/blog/${blogPost.slug}/like`);
-            if (response.ok) {
-              const data = await response.json();
-              setLiked(data.liked);
+          // For non-logged in users, get or create anonymousId from localStorage
+          if (!session?.user) {
+            let storedAnonymousId = localStorage.getItem('anonymousId');
+            if (!storedAnonymousId) {
+              // Generate a unique ID for this browser
+              storedAnonymousId = `anon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+              localStorage.setItem('anonymousId', storedAnonymousId);
             }
-          } else {
-            // For non-logged in users, check from localStorage
-            const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '{}');
-            setLiked(likedPosts[blogPost.id] || false);
+            setAnonymousId(storedAnonymousId);
+          }
+
+          // Get the like status from API
+          const response = await fetch(`/api/blog/${blogPost.slug}/like`);
+          if (response.ok) {
+            const data = await response.json();
+            
+            // Update like count from server
+            setBlogPost(prev => prev ? {
+              ...prev,
+              likes: data.likes
+            } : null);
+            
+            // Set liked status from server
+            setLiked(data.liked);
+            
+            // Store anonymousId if provided by server
+            if (data.anonymousId && !session?.user) {
+              setAnonymousId(data.anonymousId);
+            }
           }
         } catch (err) {
           console.error('Error checking like status:', err);
@@ -185,7 +205,7 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
     };
 
     checkLikeStatus();
-  }, [session, blogPost]);
+  }, [session, blogPost?.slug]);
 
   const showSuccessToast = (message: string) => {
     setSuccessMessage(message);
@@ -199,39 +219,44 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
     setLikePending(true);
     
     try {
-      // For logged in users, use API
-      if (session?.user) {
-        const response = await fetch(`/api/blog/${blogPost.slug}/like`, {
-          method: 'POST'
-        });
+      const response = await fetch(`/api/blog/${blogPost.slug}/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          // Send anonymousId for non-authenticated users
+          anonymousId: !session?.user ? anonymousId : undefined
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
         
-        if (response.ok) {
-          const data = await response.json();
-          setLiked(data.liked);
-          setBlogPost(prev => prev ? { 
-            ...prev, 
-            likes: data.likes || 0
-          } : null);
-          showSuccessToast(data.liked ? "Artikel disukai!" : "Batal menyukai");
-        }
-      } else {
-        // For non-logged in users, use localStorage
-        const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '{}');
-        const newLikedStatus = !likedPosts[blogPost.id];
+        // Update liked status
+        setLiked(data.liked);
         
-        likedPosts[blogPost.id] = newLikedStatus;
-        localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
-        
-        setLiked(newLikedStatus);
+        // Update like count from server
         setBlogPost(prev => prev ? { 
           ...prev, 
-          likes: prev.likes + (newLikedStatus ? 1 : -1)
+          likes: data.likes
         } : null);
         
-        showSuccessToast(newLikedStatus ? "Artikel disukai!" : "Batal menyukai");
+        // Store/update anonymousId if provided
+        if (data.anonymousId && !session?.user) {
+          setAnonymousId(data.anonymousId);
+          localStorage.setItem('anonymousId', data.anonymousId);
+        }
+        
+        showSuccessToast(data.liked ? "Artikel disukai!" : "Batal menyukai");
+      } else {
+        const errorData = await response.json();
+        console.error('Error from server:', errorData);
+        showSuccessToast("Terjadi kesalahan, coba lagi");
       }
     } catch (err) {
       console.error('Error liking post:', err);
+      showSuccessToast("Terjadi kesalahan, coba lagi");
     } finally {
       setLikePending(false);
     }
@@ -243,24 +268,56 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
   };
 
   const handleShare = async (platform?: string) => {
-    const url = window.location.href;
-    const text = blogPost?.title || '';
+  const url = window.location.href;
+  const text = blogPost?.title || '';
 
-    if (platform === 'facebook') {
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
-    } else if (platform === 'twitter') {
-      window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
-    } else if (platform === 'linkedin') {
-      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
-    } else {
-      try {
+  if (platform === 'facebook') {
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+  } else if (platform === 'twitter') {
+    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+  } else if (platform === 'linkedin') {
+    const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+  } else {
+    // Copy link to clipboard
+    try {
+      // Check if the Clipboard API is available
+      if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(url);
         showSuccessToast("Link berhasil disalin!");
-      } catch (err) {
-        console.error('Failed to copy:', err);
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            showSuccessToast("Link berhasil disalin!");
+          } else {
+            throw new Error('Copy command failed');
+          }
+        } catch (err) {
+          showSuccessToast("Gagal menyalin link. Silakan salin secara manual.");
+          console.error('Fallback copy failed:', err);
+        }
+        
+        document.body.removeChild(textArea);
       }
+    } catch (err) {
+      showSuccessToast("Gagal menyalin link. Silakan salin secara manual.");
+      console.error('Error copying link:', err);
     }
-  };
+  }
+};
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

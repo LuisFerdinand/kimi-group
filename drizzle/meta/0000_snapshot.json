@@ -1,5 +1,5 @@
 {
-  "id": "68af1e7d-9a61-41ea-be84-ad20623579ea",
+  "id": "2f62bf79-2086-4106-8add-851358ad801a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -299,7 +299,13 @@
           "name": "user_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "anonymous_id": {
+          "name": "anonymous_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -339,16 +345,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "blog_post_likes_post_id_user_id_unique": {
-          "name": "blog_post_likes_post_id_user_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "post_id",
-            "user_id"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

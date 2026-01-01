@@ -19,7 +19,7 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 255 }).notNull().unique(),
   emailVerified: timestamp("email_verified", { mode: "date" }),
   image: varchar("image", { length: 255 }),
-  password: varchar("password", { length: 255 }),
+  password: varchar("password", { length: 255 }), // Make nullable for OAuth users
   role: varchar("role", { length: 20 }).notNull().default(userRoles.READER),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
@@ -69,12 +69,10 @@ export const blogPostLikes = pgTable("blog_post_likes", {
     .references(() => blogPosts.id, { onDelete: "cascade" })
     .notNull(),
   userId: integer("user_id")
-    .references(() => users.id, { onDelete: "cascade" })
-    .notNull(),
+    .references(() => users.id, { onDelete: "cascade" }), // REMOVED .notNull() - now nullable
+  anonymousId: varchar("anonymous_id", { length: 255 }), // For anonymous users
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-}, (t) => ({
-  unique: unique().on(t.postId, t.userId),
-}));
+});
 
 // Blog Post Views Table (Track individual views)
 export const blogPostViews = pgTable("blog_post_views", {

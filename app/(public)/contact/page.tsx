@@ -202,16 +202,15 @@ export default function ContactPage() {
                 </h3>
                 <div className="relative w-full h-[250px] md:h-[300px] rounded-lg overflow-hidden border border-gold-500/20 group">
                   <Image 
-                    src="/images/office-map.png" 
+                    src="/assets/office-map.png" 
                     alt="KINY GROUP Office Location Map"
                     fill
-                    className="object-cover"
                     onError={(e) => {
                       e.currentTarget.src = "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=600&fit=crop&q=80";
                     }}
                   />
                   <a 
-                    href="https://maps.google.com/?q=Your+Company+Address"
+                    href="https://www.google.com/maps/place/Jl.+Tebet+Timur+Dalam+II+No.38b,+Tebet+Tim.,+Kec.+Tebet,+Kota+Jakarta+Selatan,+Daerah+Khusus+Ibukota+Jakarta+12820/@-6.2092445,106.8396213,13z/data=!4m6!3m5!1s0x2e69f39afffb49cf:0xcab046cfbd5d0b9c!8m2!3d-6.2289787!4d106.8561598!16s%2Fg%2F11tsjrykv3?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors duration-300 flex items-center justify-center"

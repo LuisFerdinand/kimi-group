@@ -2,9 +2,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { blogPosts, blogPostLikes } from "@/lib/db/schema";
-import { eq, and, sql } from "drizzle-orm";
+import { eq, and, sql, or } from "drizzle-orm";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+// Helper function to get a unique identifier for anonymous users
+function getAnonymousId(request: NextRequest): string {
+  // Use IP address and user agent to create a pseudo-unique ID
+  const forwarded = request.headers.get("x-forwarded-for");
+  const ip = forwarded ? forwarded.split(",")[0] : request.headers.get("x-real-ip") || "unknown";
+  const userAgent = request.headers.get("user-agent") || "unknown";
+  
+  // Create a simple hash-like identifier
+  return `anon_${Buffer.from(ip + userAgent).toString('base64').substring(0, 20)}`;
+}
 
 export async function POST(
   request: NextRequest,
@@ -12,16 +23,7 @@ export async function POST(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Authentication required" },
-        { status: 401 }
-      );
-    }
-
     const { slug } = await params;
-    const userId = parseInt(session.user.id);
 
     // Get post by slug
     const posts = await db
@@ -38,31 +40,70 @@ export async function POST(
     }
 
     const postId = posts[0].id;
+    let userId: number | null = null;
+    let anonymousId: string | null = null;
 
-    // Check if user already liked this post
-    const existingLikes = await db
-      .select()
-      .from(blogPostLikes)
-      .where(
-        and(
-          eq(blogPostLikes.postId, postId),
-          eq(blogPostLikes.userId, userId)
-        )
-      )
-      .limit(1);
+    // Determine if user is authenticated or anonymous
+    if (session?.user?.id) {
+      userId = parseInt(session.user.id);
+    } else {
+      // Get anonymous identifier from request body or generate from request
+      const body = await request.json().catch(() => ({}));
+      anonymousId = body.anonymousId || getAnonymousId(request);
+    }
 
-    let newLikeCount: number;
-
-    if (existingLikes.length > 0) {
-      // Unlike: Remove like and decrement count
-      await db
-        .delete(blogPostLikes)
+    // Check if this user/anonymous user already liked this post
+    let existingLikes;
+    
+    if (userId) {
+      // Check for authenticated user
+      existingLikes = await db
+        .select()
+        .from(blogPostLikes)
         .where(
           and(
             eq(blogPostLikes.postId, postId),
             eq(blogPostLikes.userId, userId)
           )
-        );
+        )
+        .limit(1);
+    } else {
+      // Check for anonymous user by anonymousId
+      existingLikes = await db
+        .select()
+        .from(blogPostLikes)
+        .where(
+          and(
+            eq(blogPostLikes.postId, postId),
+            sql`${blogPostLikes.anonymousId} = ${anonymousId}`
+          )
+        )
+        .limit(1);
+    }
+
+    let newLikeCount: number;
+
+    if (existingLikes.length > 0) {
+      // Unlike: Remove like and decrement count
+      if (userId) {
+        await db
+          .delete(blogPostLikes)
+          .where(
+            and(
+              eq(blogPostLikes.postId, postId),
+              eq(blogPostLikes.userId, userId)
+            )
+          );
+      } else {
+        await db
+          .delete(blogPostLikes)
+          .where(
+            and(
+              eq(blogPostLikes.postId, postId),
+              sql`${blogPostLikes.anonymousId} = ${anonymousId}`
+            )
+          );
+      }
 
       const updatedPost = await db
         .update(blogPosts)
@@ -77,14 +118,24 @@ export async function POST(
       return NextResponse.json({ 
         liked: false, 
         likes: newLikeCount,
+        anonymousId: anonymousId,
         message: "Post unliked successfully" 
       });
     } else {
       // Like: Add like and increment count
-      await db.insert(blogPostLikes).values({
-        postId,
-        userId,
-      });
+      if (userId) {
+        await db.insert(blogPostLikes).values({
+          postId,
+          userId,
+          anonymousId: null,
+        });
+      } else {
+        await db.insert(blogPostLikes).values({
+          postId,
+          userId: null,
+          anonymousId: anonymousId,
+        });
+      }
 
       const updatedPost = await db
         .update(blogPosts)
@@ -99,6 +150,7 @@ export async function POST(
       return NextResponse.json({ 
         liked: true, 
         likes: newLikeCount,
+        anonymousId: anonymousId,
         message: "Post liked successfully" 
       });
     }
@@ -118,42 +170,70 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    
-    if (!session?.user?.id) {
-      return NextResponse.json({ liked: false });
-    }
-
     const { slug } = await params;
-    const userId = parseInt(session.user.id);
 
     // Get post by slug
     const posts = await db
-      .select({ id: blogPosts.id })
+      .select({ id: blogPosts.id, likes: blogPosts.likes })
       .from(blogPosts)
       .where(eq(blogPosts.slug, slug))
       .limit(1);
 
     if (posts.length === 0) {
-      return NextResponse.json({ liked: false });
+      return NextResponse.json({ 
+        liked: false,
+        likes: 0 
+      });
     }
 
     const postId = posts[0].id;
+    let userId: number | null = null;
+    let anonymousId: string | null = null;
 
-    // Check if user liked this post
-    const existingLikes = await db
-      .select()
-      .from(blogPostLikes)
-      .where(
-        and(
-          eq(blogPostLikes.postId, postId),
-          eq(blogPostLikes.userId, userId)
+    // Determine if user is authenticated or anonymous
+    if (session?.user?.id) {
+      userId = parseInt(session.user.id);
+    } else {
+      anonymousId = getAnonymousId(request);
+    }
+
+    // Check if user/anonymous user liked this post
+    let existingLikes;
+    
+    if (userId) {
+      existingLikes = await db
+        .select()
+        .from(blogPostLikes)
+        .where(
+          and(
+            eq(blogPostLikes.postId, postId),
+            eq(blogPostLikes.userId, userId)
+          )
         )
-      )
-      .limit(1);
+        .limit(1);
+    } else {
+      existingLikes = await db
+        .select()
+        .from(blogPostLikes)
+        .where(
+          and(
+            eq(blogPostLikes.postId, postId),
+            sql`${blogPostLikes.anonymousId} = ${anonymousId}`
+          )
+        )
+        .limit(1);
+    }
 
-    return NextResponse.json({ liked: existingLikes.length > 0 });
+    return NextResponse.json({ 
+      liked: existingLikes.length > 0,
+      likes: posts[0].likes,
+      anonymousId: anonymousId
+    });
   } catch (error) {
     console.error("Error checking like status:", error);
-    return NextResponse.json({ liked: false });
+    return NextResponse.json({ 
+      liked: false,
+      likes: 0 
+    });
   }
 }
