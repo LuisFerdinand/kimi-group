@@ -8,15 +8,35 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileUpload } from "@/components/ui/file-upload";
 import { ThemeSelector, generateThemeFromColor, Theme } from "@/components/ui/theme-selector";
-import { User, BrandDivision } from "@/lib/db/schema";
+import { User, BrandDivision, BrandActivity } from "@/lib/db/schema"; // Added BrandActivity
 import { divisionsAPI } from "@/lib/api/client/divisions";
 import { toast } from "sonner";
-import { Plus, Trash2, Edit2, Save, X, Check, ArrowLeft, Loader2, MapPin, Truck, Star, Award, TrendingUp, Mail, Phone, MapPinIcon, CheckCircle } from "lucide-react";
+import { Plus, Trash2, Edit2, Save, X, Check, ArrowLeft, Loader2, MapPin, Truck, Star, Award, TrendingUp, Mail, Phone, MapPinIcon, CheckCircle, GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// --- NEW DND IMPORTS ---
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface DivisionFormProps {
   user: User;
@@ -33,6 +53,83 @@ interface TeamMember {
   position: string;
 }
 
+// --- NEW SortableActivityItem Component ---
+interface SortableActivityItemProps {
+  activity: BrandActivity;
+  onUpdate: (id: number, data: Partial<BrandActivity>) => void;
+  onDelete: (id: number) => void;
+}
+
+function SortableActivityItem({ activity, onUpdate, onDelete }: SortableActivityItemProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState(activity);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: activity.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  const handleSave = () => {
+    onUpdate(activity.id, editData);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setEditData(activity);
+    setIsEditing(false);
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className={cn("group flex items-start gap-4 p-4 border rounded-lg bg-card", isDragging && "shadow-lg")}>
+      <div {...attributes} {...listeners} className="cursor-grab active:cursor-grab pt-1">
+        <GripVertical className="w-5 h-5 text-muted-foreground" />
+      </div>
+      <div className="flex-1 space-y-3">
+        {isEditing ? (
+          <>
+            <Input value={editData.title} onChange={(e) => setEditData({ ...editData, title: e.target.value })} />
+            <Textarea value={editData.description} onChange={(e) => setEditData({ ...editData, description: e.target.value })} />
+            <FileUpload
+              value={editData.imageUrl}
+              onChange={(url) => setEditData({ ...editData, imageUrl: url })}
+              folder="divisions/activities"
+              label="Activity Image"
+            />
+            <div className="flex gap-2">
+              <Button onClick={handleSave} size="sm"><Check className="w-4 h-4" /></Button>
+              <Button onClick={handleCancel} variant="outline" size="sm"><X className="w-4 h-4" /></Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <h4 className="font-semibold text-lg">{activity.title}</h4>
+                <p className="text-sm text-muted-foreground mt-1">{activity.description}</p>
+              </div>
+              <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button onClick={() => setIsEditing(true)} variant="ghost" size="sm"><Edit2 className="w-4 h-4" /></Button>
+                <Button onClick={() => onDelete(activity.id)} variant="ghost" size="sm" className="text-destructive"><Trash2 className="w-4 h-4" /></Button>
+              </div>
+            </div>
+            <img src={activity.imageUrl} alt={activity.title} className="mt-3 rounded-md w-full h-40 object-cover border" />
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function VisualDivisionForm({ user, division }: DivisionFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,6 +140,19 @@ export function VisualDivisionForm({ user, division }: DivisionFormProps) {
   });
   const [editMode, setEditMode] = useState<string | null>(null);
   const [previewMode, setPreviewMode] = useState(false);
+
+  // --- NEW ACTIVITY STATE ---
+  const [activities, setActivities] = useState<BrandActivity[]>([]);
+  const [newActivity, setNewActivity] = useState({ title: '', description: '', imageUrl: '' });
+  const [isAddingActivity, setIsAddingActivity] = useState(false);
+
+  // --- NEW DND SENSORS ---
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   // Initialize theme with proper defaults
   const getInitialTheme = () => {
@@ -79,6 +189,76 @@ export function VisualDivisionForm({ user, division }: DivisionFormProps) {
     team: division?.team || [],
     theme: getInitialTheme(),
   });
+
+  // --- NEW ACTIVITY FETCH EFFECT ---
+  useEffect(() => {
+    if (division) {
+      divisionsAPI.getActivities(division.id).then(setActivities).catch(console.error);
+    }
+  }, [division]);
+
+  // --- NEW ACTIVITY HANDLERS ---
+  const handleAddActivity = async () => {
+    if (!division) return;
+    if (!newActivity.title || !newActivity.description || !newActivity.imageUrl) {
+      toast.error("Please fill all activity fields");
+      return;
+    }
+    setIsAddingActivity(true);
+    try {
+      const result = await divisionsAPI.createActivity(division.id, newActivity);
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        setActivities([...activities, result.data]);
+        setNewActivity({ title: '', description: '', imageUrl: '' });
+        toast.success("Activity added successfully");
+      }
+    } catch (error) {
+      toast.error("Failed to add activity");
+    } finally {
+      setIsAddingActivity(false);
+    }
+  };
+
+  const handleUpdateActivity = async (id: number, data: Partial<BrandActivity>) => {
+    try {
+      const result = await divisionsAPI.updateActivity(id, data);
+      if (result.error) {
+        toast.error(result.error);
+      } else if (result.data) {
+        setActivities(activities.map(a => a.id === id ? result.data! : a));
+        toast.success("Activity updated");
+      }
+    } catch (error) {
+      toast.error("Failed to update activity");
+    }
+  };
+
+  const handleDeleteActivity = async (id: number) => {
+    try {
+      await divisionsAPI.deleteActivity(id);
+      setActivities(activities.filter(a => a.id !== id));
+      toast.success("Activity deleted");
+    } catch (error) {
+      toast.error("Failed to delete activity");
+    }
+  };
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id && division) {
+      const oldIndex = activities.findIndex((item) => item.id === active.id);
+      const newIndex = activities.findIndex((item) => item.id === over?.id);
+
+      const newActivities = arrayMove(activities, oldIndex, newIndex);
+      setActivities(newActivities);
+
+      const newOrder = newActivities.map(a => a.id);
+      await divisionsAPI.reorderActivities(division.id, newOrder);
+    }
+  };
 
   // Validate slug when it changes
   useEffect(() => {
@@ -473,6 +653,43 @@ export function VisualDivisionForm({ user, division }: DivisionFormProps) {
             </div>
           </section>
 
+          {/* Activities - NEW SECTION FOR PREVIEW MODE */}
+          <section className="py-20 border-b border-border/50">
+            <div className="container mx-auto px-6 lg:px-12">
+              <div className="max-w-6xl mx-auto">
+                <div className="mb-16">
+                  <p className="text-sm font-bold tracking-[0.3em] uppercase mb-4" style={{ color: theme.text }}>
+                    What We Do
+                  </p>
+                  <h2 className="text-4xl md:text-5xl font-bold mb-6">Activities</h2>
+                  <p className="text-xl text-muted-foreground max-w-3xl">
+                    Showcase the key activities and operations of this division.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {activities.map((activity) => (
+                    <div key={activity.id} className="group">
+                      <div className="overflow-hidden rounded-lg border border-border/50 bg-card">
+                        <div className="aspect-video overflow-hidden">
+                          <img
+                            src={activity.imageUrl}
+                            alt={activity.title}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="p-6">
+                          <h3 className="text-xl font-bold mb-3">{activity.title}</h3>
+                          <p className="text-muted-foreground leading-relaxed">{activity.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Achievements */}
           <section className="py-20 border-b border-border/50">
             <div className="container mx-auto px-6 lg:px-12">
@@ -853,6 +1070,48 @@ export function VisualDivisionForm({ user, division }: DivisionFormProps) {
               </div>
             </div>
           </section>
+
+          {/* --- NEW ACTIVITY SECTION START --- */}
+          <section className="py-20 border-b border-border/50">
+            <div className="container mx-auto px-6 lg:px-12">
+              <div className="max-w-6xl mx-auto">
+                <div className="mb-16">
+                  <p className="text-sm font-bold tracking-[0.3em] uppercase mb-4" style={{ color: theme.text }}>
+                    What We Do
+                  </p>
+                  <h2 className="text-4xl md:text-5xl font-bold mb-6">Activities</h2>
+                  <p className="text-xl text-muted-foreground max-w-3xl">Showcase the key activities and operations of this division.</p>
+                </div>
+
+                {/* Add New Activity Form */}
+                <Card className="mb-8">
+                  <CardHeader><CardTitle>Add New Activity</CardTitle></CardHeader>
+                  <CardContent className="space-y-4">
+                    <div><Label htmlFor="activity-title">Title</Label><Input id="activity-title" value={newActivity.title} onChange={(e) => setNewActivity({ ...newActivity, title: e.target.value })} placeholder="Activity title" /></div>
+                    <div><Label htmlFor="activity-description">Description</Label><Textarea id="activity-description" value={newActivity.description} onChange={(e) => setNewActivity({ ...newActivity, description: e.target.value })} placeholder="Brief description of the activity" /></div>
+                    <div><Label>Image</Label><FileUpload value={newActivity.imageUrl} onChange={(url) => setNewActivity({ ...newActivity, imageUrl: url })} folder="divisions/activities" label="Upload activity image" /></div>
+                    <Button onClick={handleAddActivity} disabled={isAddingActivity} className="w-full">
+                      {isAddingActivity ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}Add Activity
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* List of Existing Activities */}
+                {activities.length > 0 && (
+                  <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                    <SortableContext items={activities.map(a => a.id)} strategy={verticalListSortingStrategy}>
+                      <div className="space-y-4">
+                        {activities.map((activity) => (
+                          <SortableActivityItem key={activity.id} activity={activity} onUpdate={handleUpdateActivity} onDelete={handleDeleteActivity} />
+                        ))}
+                      </div>
+                    </SortableContext>
+                  </DndContext>
+                )}
+              </div>
+            </div>
+          </section>
+          {/* --- NEW ACTIVITY SECTION END --- */}
 
           {/* Achievements */}
           <section className="py-20 border-b border-border/50">

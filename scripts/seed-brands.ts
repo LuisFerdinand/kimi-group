@@ -240,7 +240,7 @@ async function seedBrands() {
       {
         name: "Kiny & Soul",
         slug: "kiny-soul",
-        tagline: "JADWALNYA ALLAH, BUKAN TRAVEL AGENT",
+        tagline: "GOD'S SCHEDULE, NOT A TRAVEL AGENT'S",
         description: "A private spiritual travel service focusing on individually tailored Umrah trips with flexible departure dates based on your readiness, not rigid tour schedules.",
         fullDescription: "Kiny and Soul is a private spiritual travel service that honors your personal journey. Unlike conventional travel services, we don't operate on fixed departure dates. We believe your true journey begins when your heart is called.",
         coverage: "Saudi Arabia & Holy Sites",

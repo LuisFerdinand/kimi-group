@@ -1,7 +1,7 @@
 // app/api/(public)/brand/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { brandDivisions, brandDivisionImages } from "@/lib/db/schema";
+import { brandDivisions, brandDivisionImages, brandActivities } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function GET(
@@ -32,13 +32,20 @@ export async function GET(
       .where(eq(brandDivisionImages.brandDivisionId, idNum))
       .orderBy(brandDivisionImages.order);
 
-    // Combine division with images
-    const divisionWithImages = {
+    // Get the division activities
+    const activities = await db.select()
+      .from(brandActivities)
+      .where(eq(brandActivities.brandDivisionId, idNum))
+      .orderBy(brandActivities.order);
+
+    // Combine division with images and activities
+    const divisionWithData = {
       ...division[0],
-      images: images
+      images: images,
+      activities: activities
     };
 
-    return NextResponse.json(divisionWithImages);
+    return NextResponse.json(divisionWithData);
   } catch (error) {
     console.error("Error fetching brand division:", error);
     return NextResponse.json(
