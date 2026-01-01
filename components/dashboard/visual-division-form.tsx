@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // components/dashboard/visual-division-form.tsx
 "use client";
 
@@ -209,7 +210,7 @@ export function VisualDivisionForm({ user, division }: DivisionFormProps) {
       const result = await divisionsAPI.createActivity(division.id, newActivity);
       if (result.error) {
         toast.error(result.error);
-      } else {
+      } else if (result.data) {  // Add this check
         setActivities([...activities, result.data]);
         setNewActivity({ title: '', description: '', imageUrl: '' });
         toast.success("Activity added successfully");
