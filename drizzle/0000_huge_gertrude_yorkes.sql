@@ -39,9 +39,9 @@ CREATE TABLE "blog_post_categories" (
 CREATE TABLE "blog_post_likes" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"post_id" integer NOT NULL,
-	"user_id" integer NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "blog_post_likes_post_id_user_id_unique" UNIQUE("post_id","user_id")
+	"user_id" integer,
+	"anonymous_id" varchar(255),
+	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "blog_post_views" (

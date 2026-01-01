@@ -5,10 +5,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, LogIn, LogOut, User, Settings, FileText, PenTool } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Navigation links object
 const navLinks = [
@@ -16,6 +26,7 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/brand", label: "Brands" },
   { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Header() {
@@ -23,6 +34,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
 
   // Check if current page is brand/[id] or blog/[id]
   // Fixed: Convert the match result to a boolean using !! (double negation)
@@ -48,6 +60,26 @@ export function Header() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/" });
+  };
+
+  // User initials for avatar fallback
+  const getUserInitials = (name?: string | null) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+  // Check if user is admin
+  const isAdmin = session?.user?.role === "admin";
+  const isEditor = session?.user?.role === "editor";
+  const isContributor = session?.user?.role === "contributor";
 
   return (
     <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${
@@ -124,7 +156,7 @@ export function Header() {
               </Link>
             </div>
             
-            {/* Theme Toggle & Contact Button */}
+            {/* Theme Toggle & Auth Buttons */}
             <nav className="flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -136,13 +168,109 @@ export function Header() {
                 <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-primary" />
                 <span className="sr-only">Toggle theme</span>
               </Button>
-              <Button 
+              
+              
+              {/* <Button 
                 asChild 
                 size="sm" 
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20"
-              >
+                >
                 <Link href="/contact">Contact Us</Link>
-              </Button>
+              </Button> */}
+                {/* Auth Button / Profile Dropdown */}
+                {status === "loading" ? (
+                  <div className="w-9 h-9 rounded-full bg-muted animate-pulse"></div>
+                ) : session ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                        <Avatar className="h-9 w-9">
+                          <AvatarImage 
+                            src={session.user?.image || ""} 
+                            alt={session.user?.name || "User"} 
+                          />
+                          <AvatarFallback className="bg-primary text-primary-foreground">
+                            {getUserInitials(session.user?.name)}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56" align="end" forceMount>
+                      <DropdownMenuLabel className="font-normal">
+                        <div className="flex flex-col space-y-1">
+                          <p className="text-sm font-medium leading-none">
+                            {session.user?.name}
+                          </p>
+                          <p className="text-xs leading-none text-muted-foreground">
+                            {session.user?.email}
+                          </p>
+                          <p className="text-xs leading-none text-primary capitalize">
+                            {session.user?.role}
+                          </p>
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      
+                      {/* Admin and Editor Menu Items */}
+                      {(isAdmin || isEditor) && (
+                        <DropdownMenuItem asChild>
+                          <Link href="/dashboard" className="cursor-pointer flex w-full items-center">
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Dashboard</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      )}
+                      
+                      {/* Admin Only Menu Items */}
+                      {isAdmin && (
+                        <DropdownMenuItem asChild>
+                          <Link href="/dashboard/settings" className="cursor-pointer flex w-full items-center">
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>Profile Settings</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      )}
+                      
+                      {/* Editor and Contributor Menu Items */}
+                      {(isEditor || isContributor) && (
+                        <DropdownMenuItem asChild>
+                          <Link href="/blog/create" className="cursor-pointer flex w-full items-center">
+                            <PenTool className="mr-2 h-4 w-4" />
+                            <span>Create Post</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      )}
+                      
+                      {/* Editor Menu Items */}
+                      {isEditor && (
+                        <DropdownMenuItem asChild>
+                          <Link href="/blog/manage" className="cursor-pointer flex w-full items-center">
+                            <FileText className="mr-2 h-4 w-4" />
+                            <span>Manage Posts</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      )}
+                      
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="cursor-pointer" onClick={handleSignOut}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Sign out</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Button 
+                    asChild 
+                    variant="ghost"
+                    size="sm"
+                    className="text-primary hover:bg-primary/10"
+                  >
+                    <Link href="/login">
+                      <LogIn className="mr-2 h-4 w-4" />
+                      Sign In
+                    </Link>
+                  </Button>
+                )}
             </nav>
           </div>
         </div>
@@ -172,6 +300,115 @@ export function Header() {
                   </div>
                 </Link>
               ))}
+              
+              {/* Mobile Auth Section */}
+              <div className="border-t mt-4 pt-4">
+                {status === "loading" ? (
+                  <div className="px-4 py-2">
+                    <div className="w-full h-10 rounded-md bg-muted animate-pulse"></div>
+                  </div>
+                ) : session ? (
+                  <div className="px-4 py-2 space-y-2">
+                    <div className="flex items-center space-x-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage 
+                          src={session.user?.image || ""} 
+                          alt={session.user?.name || "User"} 
+                        />
+                        <AvatarFallback className="bg-primary text-primary-foreground">
+                          {getUserInitials(session.user?.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col">
+                        <p className="text-sm font-medium">{session.user?.name}</p>
+                        <p className="text-xs text-muted-foreground">{session.user?.email}</p>
+                        <p className="text-xs text-primary capitalize">{session.user?.role}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-1 pt-2">
+                      {/* Admin and Editor Menu Items */}
+                      {(isAdmin || isEditor) && (
+                        <Link
+                          href="/dashboard"
+                          className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                          onClick={toggleMenu}
+                        >
+                          <div className="flex items-center">
+                            <User className="mr-2 h-4 w-4" />
+                            Dashboard
+                          </div>
+                        </Link>
+                      )}
+                      
+                      {/* Admin Only Menu Items */}
+                      {isAdmin && (
+                        <Link
+                          href="/dashboard/settings"
+                          className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                          onClick={toggleMenu}
+                        >
+                          <div className="flex items-center">
+                            <Settings className="mr-2 h-4 w-4" />
+                            Profile Settings
+                          </div>
+                        </Link>
+                      )}
+                      
+                      {/* Editor and Contributor Menu Items */}
+                      {(isEditor || isContributor) && (
+                        <Link
+                          href="/blog/create"
+                          className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                          onClick={toggleMenu}
+                        >
+                          <div className="flex items-center">
+                            <PenTool className="mr-2 h-4 w-4" />
+                            Create Post
+                          </div>
+                        </Link>
+                      )}
+                      
+                      {/* Editor Menu Items */}
+                      {isEditor && (
+                        <Link
+                          href="/blog/manage"
+                          className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                          onClick={toggleMenu}
+                        >
+                          <div className="flex items-center">
+                            <FileText className="mr-2 h-4 w-4" />
+                            Manage Posts
+                          </div>
+                        </Link>
+                      )}
+                      
+                      <button
+                        className="w-full text-left rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                        onClick={() => {
+                          handleSignOut();
+                          toggleMenu();
+                        }}
+                      >
+                        <div className="flex items-center">
+                          <LogOut className="mr-2 h-4 w-4" />
+                          Sign out
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                    onClick={toggleMenu}
+                  >
+                    <div className="flex items-center">
+                      <LogIn className="mr-2 h-4 w-4" />
+                      Sign In
+                    </div>
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         </div>
