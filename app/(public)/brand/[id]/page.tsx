@@ -4,22 +4,23 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { MapPin, Truck, CheckCircle, ArrowLeft, Star, Award, TrendingUp, Mail, Phone, MapPinIcon, Calendar, Eye } from "lucide-react";
+import { MapPin, Truck, CheckCircle, ArrowLeft, Star, Award, TrendingUp, Mail, Phone, MapPinIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { brandsAPI } from "@/lib/api/client/brands";
-import { BrandDivision, BrandActivity } from "@/lib/db/schema";
+import { BrandDivision } from "@/lib/db/schema";
 import { useState, useEffect } from "react";
 import { getThemeColors, createThemeCSSVariables } from "@/lib/theme-utils";
-import { Card, CardContent } from "@/components/ui/card";
+import { ActivitiesSection } from "@/components/(public)/brand/ActivitiesSection";
 
 export default function DivisionDetailPage() {
   const params = useParams();
   const [division, setDivision] = useState<BrandDivision & { 
     images: any[], 
-    activities?: BrandActivity[] // Make it optional with ?
-  } | null>(null);  const [isLoading, setIsLoading] = useState(true);
+    activities?: any[] // Keep activities generic if BrandActivity schema might differ
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -28,18 +29,16 @@ export default function DivisionDetailPage() {
         setError(null);
         const idParam = params.id as string;
         
-        // Try to get by ID first, then by slug if that fails
         let data;
         try {
-          // Check if the ID is a number
           const idNum = parseInt(idParam);
           if (!isNaN(idNum)) {
             data = await brandsAPI.getById(idNum);
           } else {
             throw new Error("Not a number");
           }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-          // If ID lookup fails, try slug lookup
           data = await brandsAPI.getBySlug(idParam);
         }
         setDivision(data);
@@ -253,72 +252,8 @@ export default function DivisionDetailPage() {
         </div>
       </section>
 
-      {/* Activities Section - New */}
-      <section className="py-20 border-b border-border/50">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="mb-16">
-              <p className="text-sm font-bold tracking-[0.3em] uppercase mb-4" style={{ color: theme.text }}>
-                What We Do
-              </p>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Activities</h2>
-              <p className="text-xl text-muted-foreground max-w-3xl">
-                Explore our recent activities and initiatives that showcase our commitment to excellence.
-              </p>
-            </div>
-
-            {division.activities && division.activities.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {division.activities.map((activity, index) => (
-                  <Card key={index} className="group overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                    <div className="aspect-video overflow-hidden">
-                      <Image
-                        src={activity.imageUrl || "https://images.unsplash.com/photo-1603796846097-bee99e4a601f?w=800&q=80"}
-                        alt={activity.title}
-                        width={800}
-                        height={450}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Calendar className="h-4 w-4" style={{ color: theme.text }} />
-                        <span className="text-sm text-muted-foreground">
-                          {new Date(activity.createdAt).toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric' 
-                          })}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-bold mb-3">{activity.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed mb-4">{activity.description}</p>
-                      <Button 
-                        variant="outline" 
-                        className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                        style={{ borderColor: theme.primary }}
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        View Activity
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ backgroundColor: theme.bg }}>
-                  <Calendar className="h-10 w-10" style={{ color: theme.text }} />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">No Activities Yet</h3>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
-                  We&apos;re working on some exciting activities. Check back soon to see what we&apos;ve been up to!
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* UPDATED: Use the new ActivitiesSection component */}
+      <ActivitiesSection division={division} />
 
       {/* Achievements */}
       <section className="py-20 border-b border-border/50">
