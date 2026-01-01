@@ -16,8 +16,10 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function DivisionDetailPage() {
   const params = useParams();
-  const [division, setDivision] = useState<BrandDivision & { images: any[], activities: BrandActivity[] } | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [division, setDivision] = useState<BrandDivision & { 
+    images: any[], 
+    activities?: BrandActivity[] // Make it optional with ?
+  } | null>(null);  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -310,7 +312,7 @@ export default function DivisionDetailPage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">No Activities Yet</h3>
                 <p className="text-muted-foreground max-w-2xl mx-auto">
-                  We&apos;re working on some exciting activities. Check back soon to see what we've been up to!
+                  We&apos;re working on some exciting activities. Check back soon to see what we&apos;ve been up to!
                 </p>
               </div>
             )}
