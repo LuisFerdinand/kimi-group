@@ -1,5 +1,5 @@
 // lib/api/client/divisions.ts
-import { BrandDivision } from "@/lib/db/schema";
+import { BrandDivision, BrandActivity } from "@/lib/db/schema";
 
 export interface CreateDivisionData {
   name: string;
@@ -196,6 +196,101 @@ class DivisionsAPI {
       .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
       .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
   }
+
+  // ACTIVITY MANAGEMENT FUNCTIONS
+  
+  /**
+   * Get all activities for a division
+   */
+  async getActivities(divisionId: number): Promise<BrandActivity[]> {
+    try {
+      const response = await fetch(`${this.baseUrl}/${divisionId}/activities`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to fetch activities");
+      }
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching activities:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new activity for a division
+   */
+  async createActivity(
+    divisionId: number, 
+    data: { title: string; description: string; imageUrl: string }
+  ): Promise<ApiResponse<BrandActivity>> {
+    try {
+      const response = await fetch(`${this.baseUrl}/${divisionId}/activities`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      return this.handleResponse<BrandActivity>(response);
+    } catch (error) {
+      return { error: "Failed to create activity" };
+    }
+  }
+
+  /**
+   * Update an existing activity
+   */
+  async updateActivity(
+    activityId: number, 
+    data: Partial<BrandActivity>
+  ): Promise<ApiResponse<BrandActivity>> {
+    try {
+      const response = await fetch(`/api/activities/${activityId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      return this.handleResponse<BrandActivity>(response);
+    } catch (error) {
+      return { error: "Failed to update activity" };
+    }
+  }
+
+  /**
+   * Delete an activity
+   */
+  async deleteActivity(activityId: number): Promise<void> {
+    try {
+      const response = await fetch(`/api/activities/${activityId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to delete activity");
+      }
+    } catch (error) {
+      console.error("Error deleting activity:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Reorder activities for a division
+   */
+  async reorderActivities(divisionId: number, activityIds: number[]): Promise<void> {
+    try {
+      const response = await fetch(`${this.baseUrl}/${divisionId}/activities`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ activityIds }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to reorder activities");
+      }
+    } catch (error) {
+      console.error("Error reordering activities:", error);
+      throw error;
+    }
+  }
 }
 
 // Export singleton instance
@@ -203,4 +298,3 @@ export const divisionsAPI = new DivisionsAPI();
 
 // React hooks for using the API
 export { useDivisions, useDivision, useCreateDivision, useUpdateDivision, useDeleteDivision } from "./hooks/useDivisions";
-

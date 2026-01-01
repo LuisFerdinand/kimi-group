@@ -175,6 +175,19 @@ export const brandDivisionImages = pgTable("brand_division_images", {
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
 });
 
+export const brandActivities = pgTable("brand_activities", {
+  id: serial("id").primaryKey(),
+  brandDivisionId: integer("brand_division_id")
+    .references(() => brandDivisions.id, { onDelete: "cascade" })
+    .notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  imageUrl: varchar("image_url", { length: 500 }).notNull(),
+  order: integer("order").notNull().default(0), // <-- ADD .notNull() HERE
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
 // Blog Categories Table
 export const blogCategories = pgTable("blog_categories", {
   id: serial("id").primaryKey(),
@@ -325,11 +338,19 @@ export const brandDivisionsRelations = relations(brandDivisions, ({ one, many })
     references: [users.id],
   }),
   images: many(brandDivisionImages),
+  activities: many(brandActivities), // FIXED: Added missing activities relation
 }));
 
 export const brandDivisionImagesRelations = relations(brandDivisionImages, ({ one }) => ({
   brandDivision: one(brandDivisions, {
     fields: [brandDivisionImages.brandDivisionId],
+    references: [brandDivisions.id],
+  }),
+}));
+
+export const brandActivitiesRelations = relations(brandActivities, ({ one }) => ({
+  brandDivision: one(brandDivisions, {
+    fields: [brandActivities.brandDivisionId],
     references: [brandDivisions.id],
   }),
 }));
@@ -375,13 +396,14 @@ export const tables = {
   blogPostViews,
   brandDivisions,
   brandDivisionImages,
+  brandActivities,
   blogCategories,
   blogPostCategories,
   clients,
   journeyItems,
-  achievements, // New
-  departments, // New
-  teamMembers, // New
+  achievements, 
+  departments, 
+  teamMembers, 
 };
 
 // Export all schemas
@@ -397,17 +419,19 @@ export type BlogPostView = typeof blogPostViews.$inferSelect;
 export type NewBlogPostView = typeof blogPostViews.$inferInsert;
 export type BrandDivision = typeof brandDivisions.$inferSelect;
 export type NewBrandDivision = typeof brandDivisions.$inferInsert;
-export type BrandDivisionImage = typeof brandDivisionImages.$inferSelect;
-export type NewBrandDivisionImage = typeof brandDivisionImages.$inferInsert;
+export type BrandDivisionImage = typeof brandDivisionImages.$inferSelect; // NEW
+export type NewBrandDivisionImage = typeof brandDivisionImages.$inferInsert; // NEW
 export type BlogCategory = typeof blogCategories.$inferSelect;
 export type NewBlogCategory = typeof blogCategories.$inferInsert;
 export type Client = typeof clients.$inferSelect;
 export type NewClient = typeof clients.$inferInsert;
 export type JourneyItem = typeof journeyItems.$inferSelect;
 export type NewJourneyItem = typeof journeyItems.$inferInsert;
-export type Achievement = typeof achievements.$inferSelect; // New
-export type NewAchievement = typeof achievements.$inferInsert; // New
-export type Department = typeof departments.$inferSelect; // New
-export type NewDepartment = typeof departments.$inferInsert; // New
-export type TeamMember = typeof teamMembers.$inferSelect; // New
-export type NewTeamMember = typeof teamMembers.$inferInsert; // New
+export type Achievement = typeof achievements.$inferSelect; 
+export type NewAchievement = typeof achievements.$inferInsert; 
+export type Department = typeof departments.$inferSelect; 
+export type NewDepartment = typeof departments.$inferInsert; 
+export type TeamMember = typeof teamMembers.$inferSelect; 
+export type NewTeamMember = typeof teamMembers.$inferInsert; 
+export type BrandActivity = typeof brandActivities.$inferSelect; // NEW
+export type NewBrandActivity = typeof brandActivities.$inferInsert; // NEW
